@@ -1,19 +1,4 @@
----
 
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: d7575014-8187-4e55-bafa-15bc317bf8c8
-title: 'How to: Apply a theme to a presentation (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
 
 # Apply a theme to a presentation (Open XML SDK)
 
@@ -32,13 +17,7 @@ this topic.
     using DocumentFormat.OpenXml.Packaging;
 ```
 
-```vb
-    Imports System
-    Imports System.Collections.Generic
-    Imports System.Linq
-    Imports DocumentFormat.OpenXml.Presentation
-    Imports DocumentFormat.OpenXml.Packaging
-```
+
 
 -----------------------------------------------------------------------------
 ## Getting a PresentationDocument Object
@@ -68,13 +47,7 @@ represents the path for the target presentation document.
     }
 ```
 
-```vb
-    Using themeDocument As PresentationDocument = PresentationDocument.Open(themePresentation, False)
-    Using presentationDocument As PresentationDocument = PresentationDocument.Open(presentationFile, True)
-        ' Insert other code here.
-    End Using
-    End Using
-```
+
 
 The **using** statement provides a recommended
 alternative to the typical .Open, .Save, .Close sequence. It ensures
@@ -119,9 +92,7 @@ specification introduces the overall form of a **PresentationML** package.
 > parts. For example, all comments in a document are stored in one
 > comment part while each slide has its own part.
 > 
-> © ISO/IEC29500: 2008.
-
-The following XML code segment represents a presentation that contains
+> The following XML code segment represents a presentation that contains
 two slides denoted by the ID 267 and 256.
 
 ```xml
@@ -183,9 +154,7 @@ be useful when working with this element.
 > backgrounds, fills, and effects for different objects in a
 > presentation. *end example*]
 > 
-> © ISO/IEC29500: 2008.
-
-The following table lists the possible child types of the Theme class.
+> The following table lists the possible child types of the Theme class.
 
 | PresentationML Element | Open XML SDK 2.5 Class | Description |
 |---|---|---|
@@ -240,16 +209,7 @@ second overloaded method as parameters.
     }
 ```
 
-```vb
-    ' Apply a new theme to the presentation. 
-    Public Shared Sub ApplyThemeToPresentation(ByVal presentationFile As String, ByVal themePresentation As String)
-        Using themeDocument As PresentationDocument = PresentationDocument.Open(themePresentation, False)
-        Using presentationDocument As PresentationDocument = PresentationDocument.Open(presentationFile, True)
-            ApplyThemeToPresentation(presentationDocument, themeDocument)
-        End Using
-        End Using
-    End Sub
-```
+
 
 In the second overloaded method, the code starts by checking whether any
 of the presentation files is empty, in which case it throws an
@@ -284,26 +244,7 @@ target presentation.
         SlideMasterPart newSlideMasterPart = themeDocument.PresentationPart.SlideMasterParts.ElementAt(0);
 ```
 
-```vb
-    Apply a new theme to the presentation. 
-    Public Shared Sub ApplyThemeToPresentation(ByVal presentationDocument As PresentationDocument, ByVal themeDocument As PresentationDocument)
-        If presentationDocument Is Nothing Then
-            Throw New ArgumentNullException("presentationDocument")
-        End If
-        If themeDocument Is Nothing Then
-            Throw New ArgumentNullException("themeDocument")
-        End If
 
-        ' Get the presentation part of the presentation document.
-        Dim presentationPart As PresentationPart = presentationDocument.PresentationPart
-
-        ' Get the existing slide master part.
-        Dim slideMasterPart As SlideMasterPart = presentationPart.SlideMasterParts.ElementAt(0)
-        Dim relationshipId As String = presentationPart.GetIdOfPart(slideMasterPart)
-
-        ' Get the new slide master part.
-        Dim newSlideMasterPart As SlideMasterPart = themeDocument.PresentationPart.SlideMasterParts.ElementAt(0)
-```
 
 The code then removes the existing theme part and the slide master part
 from the target presentation. By reusing the old relationship ID, it
@@ -325,19 +266,7 @@ presentation.
     presentationPart.AddPart(newSlideMasterPart.ThemePart);
 ```
 
-```vb
-    ' Remove the existing theme part.
-    presentationPart.DeletePart(presentationPart.ThemePart)
 
-    ' Remove the old slide master part.
-    presentationPart.DeletePart(slideMasterPart)
-
-    ' Import the new slide master part, and reuse the old relationship ID.
-    newSlideMasterPart = presentationPart.AddPart(newSlideMasterPart, relationshipId)
-
-    ' Change to the new theme part.
-    presentationPart.AddPart(newSlideMasterPart.ThemePart)
-```
 
 The code iterates through all the slide layout parts in the slide master
 part and adds them to the list of new slide layouts. It specifies the
@@ -359,19 +288,7 @@ type is "Title and Content".
     string defaultLayoutType = "Title and Content";
 ```
 
-```vb
-    Dim newSlideLayouts As New Dictionary(Of String, SlideLayoutPart)()
 
-    For Each slideLayoutPart In newSlideMasterPart.SlideLayoutParts
-        newSlideLayouts.Add(GetSlideLayoutType(slideLayoutPart), slideLayoutPart)
-    Next slideLayoutPart
-
-    Dim layoutType As String = Nothing
-    Dim newLayoutPart As SlideLayoutPart = Nothing
-
-    ' Insert the code for the layout for this example.
-    Dim defaultLayoutType As String = "Title and Content"
-```
 
 The code iterates through all the slide parts in the target presentation
 and removes the slide layout relationship on all slides. It uses the
@@ -411,56 +328,9 @@ adds a new slide layout part of the default type.
     }
 ```
 
-```vb
-    ' Remove the slide layout relationship on all slides. 
-    For Each slidePart In presentationPart.SlideParts
-        layoutType = Nothing
 
-        If slidePart.SlideLayoutPart IsNot Nothing Then
-            ' Determine the slide layout type for each slide.
-            layoutType = GetSlideLayoutType(slidePart.SlideLayoutPart)
 
-            ' Delete the old layout part.
-            slidePart.DeletePart(slidePart.SlideLayoutPart)
-        End If
 
-        If layoutType IsNot Nothing AndAlso newSlideLayouts.TryGetValue(layoutType, newLayoutPart) Then
-            ' Apply the new layout part.
-            slidePart.AddPart(newLayoutPart)
-        Else
-            newLayoutPart = newSlideLayouts(defaultLayoutType)
-
-            ' Apply the new default layout part.
-            slidePart.AddPart(newLayoutPart)
-        End If
-    Next slidePart
-``
-
-To get the type of the slide layout, the code uses the **GetSlideLayoutType** method that takes the slide
-layout part as a parameter, and returns to the second overloaded **ApplyThemeToPresentation** method a string that
-represents the name of the slide layout type
-
-``csharp
-    // Get the slide layout type.
-    public static string GetSlideLayoutType(SlideLayoutPart slideLayoutPart)
-    {
-        CommonSlideData slideData = slideLayoutPart.SlideLayout.CommonSlideData;
-
-        // Remarks: If this is used in production code, check for a null reference.
-
-        return slideData.Name;}
-```
-
-```vb
-    ' Get the slide layout type.
-    Public Shared Function GetSlideLayoutType(ByVal slideLayoutPart As SlideLayoutPart) As String
-        Dim slideData As CommonSlideData = slideLayoutPart.SlideLayout.CommonSlideData
-
-        ' Remarks: If this is used in production code, check for a null reference.
-
-        Return slideData.Name
-    End Function
-```
 
 -----------------------------------------------------------------------------
 ## Sample Code
@@ -477,11 +347,7 @@ in your program to perform the copying.
     ApplyThemeToPresentation(presentationFile, themePresentation);
 ```
 
-```vb
-    Dim presentationFile As String = "C:\Users\Public\Documents\myppt2.pptx"
-    Dim themePresentation As String = "C:\Users\Public\Documents\myppt2-theme.pptx"
-    ApplyThemeToPresentation(presentationFile, themePresentation)
-```
+
 
 After performing that call you can inspect the file Myppt2.pptx, and you
 would see the same theme of the file Myppt9-theme.pptx.
@@ -584,91 +450,7 @@ would see the same theme of the file Myppt9-theme.pptx.
     }
 ```
 
-```vb
-    ' Apply a new theme to the presentation. 
-    Public Sub ApplyThemeToPresentation(ByVal presentationFile As String, ByVal themePresentation As String)
-        Dim themeDocument As PresentationDocument = PresentationDocument.Open(themePresentation, False)
-        Dim presentationDoc As PresentationDocument = PresentationDocument.Open(presentationFile, True)
-        Using (themeDocument)
-            Using (presentationDoc)
-                ApplyThemeToPresentation(presentationDoc, themeDocument)
-            End Using
-        End Using
 
-    End Sub
-    ' Apply a new theme to the presentation. 
-    Public Sub ApplyThemeToPresentation(ByVal presentationDocument As PresentationDocument, ByVal themeDocument As PresentationDocument)
-        If (presentationDocument Is Nothing) Then
-            Throw New ArgumentNullException("presentationDocument")
-        End If
-        If (themeDocument Is Nothing) Then
-            Throw New ArgumentNullException("themeDocument")
-        End If
-
-        ' Get the presentation part of the presentation document.
-        Dim presentationPart As PresentationPart = presentationDocument.PresentationPart
-
-        ' Get the existing slide master part.
-        Dim slideMasterPart As SlideMasterPart = presentationPart.SlideMasterParts.ElementAt(0)
-
-        Dim relationshipId As String = presentationPart.GetIdOfPart(slideMasterPart)
-
-        ' Get the new slide master part.
-        Dim newSlideMasterPart As SlideMasterPart = themeDocument.PresentationPart.SlideMasterParts.ElementAt(0)
-
-        ' Remove the theme part.
-        presentationPart.DeletePart(presentationPart.ThemePart)
-
-        ' Remove the old slide master part.
-        presentationPart.DeletePart(slideMasterPart)
-
-        ' Import the new slide master part, and reuse the old relationship ID.
-        newSlideMasterPart = presentationPart.AddPart(newSlideMasterPart, relationshipId)
-
-        ' Change to the new theme part.
-        presentationPart.AddPart(newSlideMasterPart.ThemePart)
-        Dim newSlideLayouts As Dictionary(Of String, SlideLayoutPart) = New Dictionary(Of String, SlideLayoutPart)()
-        For Each slideLayoutPart As Object In newSlideMasterPart.SlideLayoutParts
-            newSlideLayouts.Add(GetSlideLayoutType(slideLayoutPart), slideLayoutPart)
-        Next
-        Dim layoutType As String = Nothing
-        Dim newLayoutPart As SlideLayoutPart = Nothing
-
-        ' Insert the code for the layout for this example.
-        Dim defaultLayoutType As String = "Title and Content"
-
-        ' Remove the slide layout relationship on all slides. 
-        For Each slidePart As Object In presentationPart.SlideParts
-            layoutType = Nothing
-            If (Not (slidePart.SlideLayoutPart) Is Nothing) Then
-
-                ' Determine the slide layout type for each slide.
-                layoutType = GetSlideLayoutType(slidePart.SlideLayoutPart)
-
-                ' Delete the old layout part.
-                slidePart.DeletePart(slidePart.SlideLayoutPart)
-            End If
-
-            If ((Not (layoutType) Is Nothing) AndAlso newSlideLayouts.TryGetValue(layoutType, newLayoutPart)) Then
-
-                ' Apply the new layout part.
-                slidePart.AddPart(newLayoutPart)
-            Else
-                newLayoutPart = newSlideLayouts(defaultLayoutType)
-
-                ' Apply the new default layout part.
-                slidePart.AddPart(newLayoutPart)
-            End If
-        Next
-    End Sub
-    ' Get the type of the slide layout.
-    Public Function GetSlideLayoutType(ByVal slideLayoutPart As SlideLayoutPart) As String
-        Dim slideData As CommonSlideData = slideLayoutPart.SlideLayout.CommonSlideData
-
-        ' Remarks: If this is used in production code, check for a null reference.
-        Return slideData.Name
-    End Function
-```
 
 -----------------------------------------------------------------------------
 ## See also

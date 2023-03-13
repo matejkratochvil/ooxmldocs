@@ -1,20 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 22f973f4-58d1-4dd4-943e-a15ac2571b7c
-title: 'How to: Remove the headers and footers from a word processing document (Open XML SDK)'
-description: 'Learn how to remove the headers and footers from a word processing document using the Open XML SDK.'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/28/2021
-ms.localizationpriority: medium
----
 # Remove the headers and footers from a word processing document (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -40,11 +23,7 @@ the code in this topic.
     using DocumentFormat.OpenXml.Wordprocessing;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Wordprocessing
-```
+
 
 ## RemoveHeadersAndFooters Method
 
@@ -61,9 +40,7 @@ modify.
     public static void RemoveHeadersAndFooters(string filename)
 ```
 
-```vb
-    Public Sub RemoveHeadersAndFooters(ByVal filename As String)
-```
+
 
 The complete code listing for the method can be found in the [Sample Code](#sample-code) section.
 
@@ -77,9 +54,7 @@ in the following code example.
     RemoveHeadersAndFooters(@"C:\Users\Public\Documents\Headers.docx");
 ```
 
-```vb
-    RemoveHeadersAndFooters("C:\Users\Public\Documents\Headers.docx")
-```
+
 
 ## How the Code Works
 
@@ -101,13 +76,7 @@ the main document, storing the reference in a variable named **docPart**.
     }
 ```
 
-```vb
-    ' Given a document name, remove all of the headers and footers
-    ' from the document.
-    Using doc = WordprocessingDocument.Open(filename, True)
-        ' Code removed here...
-    End Using
-```
+
 
 ## Confirm Header/Footer Existence
 
@@ -132,17 +101,7 @@ Be aware that the **HeaderParts** and **FooterParts** properties each return an
     }
 ```
 
-```vb
-    ' Get a reference to the main document part.
-    Dim docPart = doc.MainDocumentPart
 
-    ' Count the header and footer parts and continue if there 
-    ' are any.
-    If (docPart.HeaderParts.Count > 0) Or
-      (docPart.FooterParts.Count > 0) Then
-        ' Code removed here...
-    End If
-```
 
 ## Remove the Header and Footer Parts
 
@@ -160,11 +119,7 @@ write yourself.
     docPart.DeleteParts(docPart.FooterParts);
 ```
 
-```vb
-    ' Remove the header and footer parts.
-    docPart.DeleteParts(docPart.HeaderParts)
-    docPart.DeleteParts(docPart.FooterParts)
-```
+
 
 ## Work with the Document Content
 
@@ -186,14 +141,7 @@ shown in the section that follows the following code example.
     document.Save();
 ```
 
-```vb
-    ' Get a reference to the root element of the main 
-    ' document part.
-    Dim document As Document = docPart.Document
-        ' Code removed here...
-    ' Save the changes.
-    document.Save()
-```
+
 
 ## Delete the Header and Footer References
 
@@ -232,27 +180,7 @@ the operation with the footer elements.
     }
 ```
 
-```vb
-    ' Remove all references to the headers and footers.
-        
-    ' First, create a list of all descendants of type
-    ' HeaderReference. Then, navigate the list and call
-    ' Remove on each item to delete the reference.
-    Dim headers = _
-      document.Descendants(Of HeaderReference).ToList()
-    For Each header In headers
-        header.Remove()
-    Next
 
-    ' First, create a list of all descendants of type
-    ' FooterReference. Then, navigate the list and call
-    ' Remove on each item to delete the reference.
-    Dim footers = _
-      document.Descendants(Of FooterReference).ToList()
-    For Each footer In footers
-        footer.Remove()
-    Next
-```
 
 ## Sample Code
 
@@ -313,56 +241,7 @@ Visual Basic.
     }
 ```
 
-```vb
-    ' To remove all of the headers and footers in a document.
-    Public Sub RemoveHeadersAndFooters(ByVal filename As String)
-        
-        ' Given a document name, remove all of the headers and footers
-        ' from the document.
-        Using doc = WordprocessingDocument.Open(filename, True)
-            
-            ' Get a reference to the main document part.
-            Dim docPart = doc.MainDocumentPart
-            
-            ' Count the header and footer parts and continue if there 
-            ' are any.
-            If (docPart.HeaderParts.Count > 0) Or
-              (docPart.FooterParts.Count > 0) Then
-                
-                ' Remove the header and footer parts.
-                docPart.DeleteParts(docPart.HeaderParts)
-                docPart.DeleteParts(docPart.FooterParts)
 
-                ' Get a reference to the root element of the main 
-                ' document part.
-                Dim document As Document = docPart.Document
-
-                ' Remove all references to the headers and footers.
-                    
-                ' First, create a list of all descendants of type
-                ' HeaderReference. Then, navigate the list and call
-                ' Remove on each item to delete the reference.
-                Dim headers = _
-                  document.Descendants(Of HeaderReference).ToList()
-                For Each header In headers
-                    header.Remove()
-                Next
-
-                ' First, create a list of all descendants of type
-                ' FooterReference. Then, navigate the list and call
-                ' Remove on each item to delete the reference.
-                Dim footers = _
-                  document.Descendants(Of FooterReference).ToList()
-                For Each footer In footers
-                    footer.Remove()
-                Next
-                
-                ' Save the changes.
-                document.Save()
-            End If
-        End Using
-    End Sub
-```
 
 ## See also
 

@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 70839c86-36ef-4b67-a682-abd5114b2bfe
-title: 'How to: Retrieve comments from a word processing document (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
 # Retrieve comments from a word processing document (Open XML SDK)
 
 This topic describes how to use the classes in the Open XML SDK 2.5 for
@@ -29,11 +13,7 @@ this topic.
     using DocumentFormat.OpenXml.Wordprocessing;
 ```
 
-```vb
-    Imports System
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Wordprocessing
-```
+
 
 --------------------------------------------------------------------------------
 ## Open the Existing Document for Read-only Access
@@ -52,11 +32,7 @@ the Boolean parameter to **false**.
     }
 ```
 
-```vb
-    Using wordDoc As WordprocessingDocument = WordprocessingDocument.Open(fileName, False)
-        ' Insert other code here.
-    End Using
-```
+
 The **using** statement provides a recommended
 alternative to the typical .Open, .Save, .Close sequence. It ensures
 that the **Dispose** method (internal method
@@ -92,9 +68,7 @@ introduces the comments element.
     </w:comments>
 ```
 
-> © ISO/IEC29500: 2008.
-
-The following XML schema segment defines the contents of the comments
+> The following XML schema segment defines the contents of the comments
 element.
 
 ```xml
@@ -136,9 +110,7 @@ introduces the comment element.
 > The **comment** element specifies the presence of a single comment
 > within the comments part.
 > 
-> © ISO/IEC29500: 2008.
-
-  
+>   
 The following XML schema segment defines the contents of the comment
 element.
 
@@ -169,12 +141,7 @@ element.
     }
 ```
 
-```vb
-    For Each comment As Comment In _
-        commentsPart.Comments.Elements(Of Comment)()
-        Console.WriteLine(comment.InnerText)
-    Next
-```
+
 
 --------------------------------------------------------------------------------
 ## Sample Code
@@ -188,10 +155,7 @@ example.
     GetCommentsFromDocument(fileName);
 ```
 
-```vb
-    Dim fileName As String = "C:\Users\Public\Documents\Word16.docx"
-    GetCommentsFromDocument(fileName)
-```
+
 
 The following is the complete sample code in both C\# and Visual Basic.
 
@@ -215,24 +179,7 @@ The following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    Public Sub GetCommentsFromDocument(ByVal fileName As String)
-        Using wordDoc As WordprocessingDocument = _
-            WordprocessingDocument.Open(fileName, False)
 
-            Dim commentsPart As WordprocessingCommentsPart = _
-                wordDoc.MainDocumentPart.WordprocessingCommentsPart
-
-            If commentsPart IsNot Nothing AndAlso _
-                commentsPart.Comments IsNot Nothing Then
-                For Each comment As Comment In _
-                    commentsPart.Comments.Elements(Of Comment)()
-                    Console.WriteLine(comment.InnerText)
-                Next
-            End If
-        End Using
-    End Sub
-```
 
 --------------------------------------------------------------------------------
 ## See also

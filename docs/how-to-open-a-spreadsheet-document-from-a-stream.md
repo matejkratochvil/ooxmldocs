@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 7fde676b-81b6-4210-82bf-f74d0d925dec
-title: 'How to: Open a spreadsheet document from a stream (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Open a spreadsheet document from a stream (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -29,12 +13,7 @@ this topic.
     using System.Linq;
 ```
 
-```vb
-    Imports System.IO
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Spreadsheet
-    Imports System.Linq
-```
+
 
 ---------------------------------------------------------------------------------
 ## When to Open From a Stream 
@@ -78,10 +57,7 @@ shown in the following example.
     using (SpreadsheetDocument document = SpreadsheetDocument.Open(docName, true))
 ```
 
-```vb
-    ' Open the document for editing.
-    Using document As SpreadsheetDocument = SpreadsheetDocument.Open(docName, True)
-```
+
 
 After you have opened the spreadsheet document package, you can add a
 row to a sheet in the workbook. Each workbook has a workbook part and at
@@ -93,9 +69,7 @@ code example.
     WorkbookPart wbPart = document.WorkbookPart;
 ```
 
-```vb
-    Dim wbPart As WorkbookPart = document.WorkbookPart
-```
+
 
 The basic document structure of a SpreadsheetML document consists of the
 [Sheets](https://msdn.microsoft.com/library/office/documentformat.openxml.spreadsheet.sheets.aspx) and [Sheet](https://msdn.microsoft.com/library/office/documentformat.openxml.spreadsheet.sheet.aspx) elements, which reference the
@@ -167,12 +141,7 @@ adds the new **WorksheetPart**.
     newWorksheetPart.Worksheet.Save();
 ```
 
-```vb
-    ' Add a new worksheet.
-    Dim newWorksheetPart As WorksheetPart = spreadsheetDocument.WorkbookPart.AddNewPart(Of WorksheetPart)()
-    newWorksheetPart.Worksheet = New Worksheet(New SheetData())
-    newWorksheetPart.Worksheet.Save()
-```
+
 
 --------------------------------------------------------------------------------
 ## Sample Code 
@@ -190,12 +159,7 @@ method that uses a file named Sheet11.xslx.
     stream.Close();
 ```
 
-```vb
-    Dim strDoc As String = "C:\Users\Public\Documents\Sheet11.xlsx"
-    Dim stream As Stream = File.Open(strDoc, FileMode.Open)
-    OpenAndAddToSpreadsheetStream(stream)
-    stream.Close()
-```
+
 
 Notice that the **OpenAddAndAddToSpreadsheetStream** method does not
 close the stream passed to it. The calling code must do that.
@@ -239,42 +203,7 @@ The following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    Public Sub OpenAndAddToSpreadsheetStream(ByVal stream As Stream)
-        ' Open a SpreadsheetDocument based on a stream.
-        Dim mySpreadsheetDocument As SpreadsheetDocument = SpreadsheetDocument.Open(stream, True)
 
-        ' Add a new worksheet.
-        Dim newWorksheetPart As WorksheetPart = mySpreadsheetDocument.WorkbookPart.AddNewPart(Of WorksheetPart)()
-        newWorksheetPart.Worksheet = New Worksheet(New SheetData())
-        newWorksheetPart.Worksheet.Save()
-
-        Dim sheets As Sheets = mySpreadsheetDocument.WorkbookPart.Workbook.GetFirstChild(Of Sheets)()
-        Dim relationshipId As String = mySpreadsheetDocument.WorkbookPart.GetIdOfPart(newWorksheetPart)
-
-        ' Get a unique ID for the new worksheet.
-        Dim sheetId As UInteger = 1
-        If (sheets.Elements(Of Sheet).Count > 0) Then
-            sheetId = sheets.Elements(Of Sheet).Select(Function(s) s.SheetId.Value).Max + 1
-        End If
-
-        ' Give the new worksheet a name.
-        Dim sheetName As String = ("Sheet" + sheetId.ToString())
-
-        ' Append the new worksheet and associate it with the workbook.
-        Dim sheet As Sheet = New Sheet
-        sheet.Id = relationshipId
-        sheet.SheetId = sheetId
-        sheet.Name = sheetName
-        sheets.Append(sheet)
-        mySpreadsheetDocument.WorkbookPart.Workbook.Save()
-
-        'Close the document handle.
-        mySpreadsheetDocument.Close()
-
-        'Caller must close the stream.
-    End Sub
-```
 
 --------------------------------------------------------------------------------
 ## See also 

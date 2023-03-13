@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 36664cc7-30ef-4e9b-b569-846a9e404219
-title: Working with the shared string table (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Working with the shared string table (Open XML SDK)
 
 This topic discusses the Open XML SDK 2.5 [SharedStringTable](https://msdn.microsoft.com/library/office/documentformat.openxml.spreadsheet.sharedstringtable.aspx) class and how it relates
@@ -40,8 +24,6 @@ across many rows or columns. The goal of implementing a single string
 table that is shared across the workbook is to improve performance in
 opening and saving the file by only reading and writing the repetitive
 information once.
-
-© ISO/IEC29500: 2008.
 
 Shared strings optimize space requirements when the spreadsheet contains
 multiple instances of the same string. Spreadsheets that contain
@@ -240,32 +222,7 @@ insert text into a cell, see [How to: Insert text into a cell in a spreadsheet d
     }
 ```
 
-```vb
-    ' Given text and a SharedStringTablePart, creates a SharedStringItem with the specified text 
-    ' and inserts it into the SharedStringTablePart. If the item already exists, returns its index.
-    Private Function InsertSharedStringItem(ByVal text As String, ByVal shareStringPart As SharedStringTablePart) As Integer
-        ' If the part does not contain a SharedStringTable, create one.
-        If (shareStringPart.SharedStringTable Is Nothing) Then
-            shareStringPart.SharedStringTable = New SharedStringTable
-        End If
 
-        Dim i As Integer = 0
-
-        ' Iterate through all the items in the SharedStringTable. If the text already exists, return its index.
-        For Each item As SharedStringItem In shareStringPart.SharedStringTable.Elements(Of SharedStringItem)()
-            If (item.InnerText = text) Then
-                Return i
-            End If
-            i = (i + 1)
-        Next
-
-        ' The text does not exist in the part. Create the SharedStringItem and return its index.
-        shareStringPart.SharedStringTable.AppendChild(New SharedStringItem(New DocumentFormat.OpenXml.Spreadsheet.Text(text)))
-        shareStringPart.SharedStringTable.Save()
-
-        Return i
-    End Function
-```
 ### Generated SpreadsheetML
 
 If you run the Open XML SDK 2.5 in the [How to: Insert text into a cell in a spreadsheet document (Open XML SDK)](how-to-insert-text-into-a-cell-in-a-spreadsheet.md) topic and insert

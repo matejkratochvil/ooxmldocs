@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: ada81388-9ed2-43f4-ab2c-2bb82f711e90
-title: Understanding the Open XML file formats
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Understanding the Open XML file formats
 
 This section provides conceptual topics for understanding and working

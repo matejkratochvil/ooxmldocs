@@ -1,19 +1,4 @@
----
 
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: e3adae2b-c7e8-45f4-b1fc-93d937f4b3b1
-title: 'How to: Change the fill color of a shape in a presentation (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
 
 # Change the fill color of a shape in a presentation (Open XML SDK)
 
@@ -31,12 +16,7 @@ this topic.
     using Drawing = DocumentFormat.OpenXml.Drawing;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml.Presentation
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml
-    Imports Drawing = DocumentFormat.OpenXml.Drawing
-```
+
 
 ## Getting a Presentation Object 
 
@@ -58,11 +38,7 @@ you want to open the document.
     }
 ```
 
-```vb
-    Using ppt As PresentationDocument = PresentationDocument.Open(docName, True)
-        ' Insert other code here.
-    End Using
-```
+
 
 The **using** statement provides a recommended
 alternative to the typical .Open, .Save, .Close sequence. It ensures
@@ -113,9 +89,7 @@ introduces the overall form of a **PresentationML** package.
 > In the above example the shape tree specifies all the shape properties
 > for this slide. *end example*]
 > 
-> © ISO/IEC29500: 2008.
-
-The following table lists the child elements of the Shape Tree along
+> The following table lists the child elements of the Shape Tree along
 with the description of each.
 
 | Element | Description |
@@ -169,17 +143,7 @@ the first slide, and gets the slide part from the relationship ID.
         SlidePart slide = (SlidePart)part.GetPartById(relId);
 ```
 
-```vb
-    Using ppt As PresentationDocument = PresentationDocument.Open(docName, True)
 
-        ' Get the relationship ID of the first slide.
-        Dim part As PresentationPart = ppt.PresentationPart
-        Dim slideIds As OpenXmlElementList = part.Presentation.SlideIdList.ChildElements
-        Dim relId As String = CType(slideIds(0), SlideId).RelationshipId
-
-        ' Get the slide part from the relationship ID.
-        Dim slide As SlidePart = CType(part.GetPartById(relId), SlidePart)
-```
 
 The code then gets the shape tree that contains the shape whose fill
 color is to be changed, and gets the first shape in the shape tree. It
@@ -214,32 +178,7 @@ presentation.
     }
 ```
 
-```vb
-    If (Not (slide) Is Nothing) Then
 
-        ' Get the shape tree that contains the shape to change.
-        Dim tree As ShapeTree = slide.Slide.CommonSlideData.ShapeTree
-
-        ' Get the first shape in the shape tree.
-        Dim shape As Shape = tree.GetFirstChild(Of Shape)()
-
-        If (Not (shape) Is Nothing) Then
-
-            ' Get the style of the shape.
-            Dim style As ShapeStyle = shape.ShapeStyle
-
-            ' Get the fill reference.
-            Dim fillRef As Drawing.FillReference = style.FillReference
-
-            ' Set the fill color to SchemeColor Accent 6;
-            fillRef.SchemeColor = New Drawing.SchemeColor
-            fillRef.SchemeColor.Val = Drawing.SchemeColorValues.Accent6
-
-            ' Save the modified slide.
-            slide.Slide.Save()
-        End If
-    End If
-```
 
 ## Sample Code
 
@@ -253,10 +192,7 @@ fill color in the file "Myppt3.pptx" by using the following call.
     SetPPTShapeColor(docName);
 ```
 
-```vb
-    Dim docName As String = "C:\Users\Public\Documents\Myppt3.pptx"
-    SetPPTShapeColor(docName)
-```
+
 
 After running the program, examine the file "Myppt3.pptx" to see the
 change in the fill color.
@@ -304,44 +240,7 @@ change in the fill color.
     }
 ```
 
-```vb
-    ' Change the fill color of a shape.
-    ' The test file must have a filled shape as the first shape on the first slide.
-    Public Sub SetPPTShapeColor(ByVal docName As String)
-        Using ppt As PresentationDocument = PresentationDocument.Open(docName, True)
-            ' Get the relationship ID of the first slide.
-            Dim part As PresentationPart = ppt.PresentationPart
-            Dim slideIds As OpenXmlElementList = part.Presentation.SlideIdList.ChildElements
-            Dim relId As String = TryCast(slideIds(0), SlideId).RelationshipId
 
-            ' Get the slide part from the relationship ID.
-            Dim slide As SlidePart = DirectCast(part.GetPartById(relId), SlidePart)
-
-            If slide IsNot Nothing Then
-                ' Get the shape tree that contains the shape to change.
-                Dim tree As ShapeTree = slide.Slide.CommonSlideData.ShapeTree
-
-                ' Get the first shape in the shape tree.
-                Dim shape As Shape = tree.GetFirstChild(Of Shape)()
-
-                If shape IsNot Nothing Then
-                    ' Get the style of the shape.
-                    Dim style As ShapeStyle = shape.ShapeStyle
-
-                    ' Get the fill reference.
-                    Dim fillRef As Drawing.FillReference = style.FillReference
-
-                    ' Set the fill color to SchemeColor Accent 6;
-                    fillRef.SchemeColor = New Drawing.SchemeColor()
-                    fillRef.SchemeColor.Val = Drawing.SchemeColorValues.Accent6
-
-                    ' Save the modified slide.
-                    slide.Slide.Save()
-                End If
-            End If
-        End Using
-    End Sub
-```
 
 ## See also
 

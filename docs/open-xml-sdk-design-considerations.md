@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 43c49a6d-96b5-4e87-a5bf-01629d61aad4
-title: Open XML SDK 2.5 for Office design considerations
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Open XML SDK 2.5 for Office design considerations
 
 Before using the Open XML SDK 2.5 for Office, be aware of the following

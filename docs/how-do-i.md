@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: b5cc0e8d-da79-482a-81fa-f18c18d29f6c
-title: How do I... (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # How do I... (Open XML SDK)
 
 This section provides how-to topics for working with the Open XML SDK

@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 03636fa2-be44-4e8d-9c26-7d38415bb459
-title: Structure of a WordprocessingML document (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Structure of a WordprocessingML document (Open XML SDK)
 
 This topic discusses the basic structure of a **WordprocessingML** document and reviews important
@@ -100,8 +84,6 @@ r — A run.
 
 t — A range of text.
 
-© ISO/IEC29500: 2008.
-
 ### Open XML SDK Code Example
 
 The following code uses the Open XML SDK 2.5 to create a simple **WordprocessingML** document that contains the text
@@ -127,23 +109,7 @@ The following code uses the Open XML SDK 2.5 to create a simple **Wordprocessing
     }
 ```
 
-```vb
-    Public Shared Sub CreateWordDoc(filepath As String, msg As String)
-        Using doc As WordprocessingDocument = WordprocessingDocument.Create(filepath, DocumentFormat.OpenXml.WordprocessingDocumentType.Document)
-            ' Add a main document part. 
-            Dim mainPart As MainDocumentPart = doc.AddMainDocumentPart()
 
-            ' Create the document structure and add some text.
-            mainPart.Document = New Document()
-            Dim body As Body = mainPart.Document.AppendChild(New Body())
-            Dim para As Paragraph = body.AppendChild(New Paragraph())
-            Dim run As Run = para.AppendChild(New Run())
-
-            ' String msg contains the text, "Hello, Word!"
-            run.AppendChild(New Text(msg))
-        End Using
-    End Sub
-```
 
 ### Generated WordprocessingML
 

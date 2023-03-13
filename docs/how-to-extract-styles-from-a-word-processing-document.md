@@ -1,20 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 20258c39-9411-41f2-8463-e94a4b0fa326
-title: 'How to: Extract styles from a word processing document (Open XML SDK)'
-description: 'Learn how to extract styles from a word processing document using the Open XML SDK.'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/28/2021
-ms.localizationpriority: medium
----
 # Extract styles from a word processing document (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -44,11 +27,7 @@ the code in this topic.
     using DocumentFormat.OpenXml.Packaging;
 ```
 
-```vb
-    Imports System.IO
-    Imports System.Xml
-    Imports DocumentFormat.OpenXml.Packaging
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -83,11 +62,7 @@ requested does not exist).
       bool getStylesWithEffectsPart = true)
 ```
 
-```vb
-    Public Function ExtractStylesPart(
-      ByVal fileName As String,
-      Optional ByVal getStylesWithEffectsPart As Boolean = True) As XDocument
-```
+
 
 The complete code listing for the method can be found in the [Sample Code](#sample-code) section.
 
@@ -116,18 +91,7 @@ the console.
         Console.WriteLine(styles.ToString());
 ```
 
-```vb
-    Dim filename As String = "C:\Users\Public\Documents\StylesFrom.docx"
 
-    ' Retrieve the stylesWithEffects part. You could pass False
-    ' in the second parameter to retrieve the styles part instead.
-    Dim styles = ExtractStylesPart(filename, True)
-
-    ' If the part was retrieved, send the contents to the console.
-    If styles IsNot Nothing Then
-        Console.WriteLine(styles.ToString())
-    End If
-```
 
 ---------------------------------------------------------------------------------
 
@@ -143,13 +107,7 @@ The code starts by creating a variable named **styles** that the method returns 
     return styles;
 ```
 
-```vb
-    ' Declare a variable to hold the XDocument.
-    Dim styles As XDocument = Nothing
-    ' Code removed here...
-    ' Return the XDocument instance.
-    Return styles
-```
+
 
 The code continues by opening the document by using the [Open](https://msdn.microsoft.com/library/office/documentformat.openxml.packaging.wordprocessingdocument.open.aspx) method and indicating that the
 document should be open for read-only access (the final false
@@ -171,19 +129,7 @@ the main document part, and then prepares a variable named **stylesPart** to hol
     }
 ```
 
-```vb
-    ' Open the document for read access and get a reference.
-    Using document = WordprocessingDocument.Open(fileName, False)
 
-        ' Get a reference to the main document part.
-        Dim docPart = document.MainDocumentPart
-
-        ' Assign a reference to the appropriate part to the 
-        ' stylesPart variable.
-        Dim stylesPart As StylesPart = Nothing
-        ' Code removed here...
-    End Using
-```
 
 ---------------------------------------------------------------------------------
 
@@ -202,13 +148,7 @@ of the **docPart** variable, and stores it in the
         stylesPart = docPart.StyleDefinitionsPart;
 ```
 
-```vb
-    If getStylesWithEffectsPart Then
-        stylesPart = docPart.StylesWithEffectsPart
-    Else
-        stylesPart = docPart.StyleDefinitionsPart
-    End If
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -237,16 +177,7 @@ parameter.
     }
 ```
 
-```vb
-    ' If the part exists, read it into the XDocument.
-    If stylesPart IsNot Nothing Then
-        Using reader = XmlNodeReader.Create(
-          stylesPart.GetStream(FileMode.Open, FileAccess.Read))
-            ' Create the XDocument:  
-            styles = XDocument.Load(reader)
-        End Using
-    End If
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -295,44 +226,7 @@ The following is the complete **ExtractStylesPart** code sample in C\# and Visua
     }
 ```
 
-```vb
-    ' Extract the styles or stylesWithEffects part from a 
-    ' word processing document as an XDocument instance.
-    Public Function ExtractStylesPart(
-      ByVal fileName As String,
-      Optional ByVal getStylesWithEffectsPart As Boolean = True) As XDocument
 
-        ' Declare a variable to hold the XDocument.
-        Dim styles As XDocument = Nothing
-
-        ' Open the document for read access and get a reference.
-        Using document = WordprocessingDocument.Open(fileName, False)
-
-            ' Get a reference to the main document part.
-            Dim docPart = document.MainDocumentPart
-
-            ' Assign a reference to the appropriate part to the 
-            ' stylesPart variable.
-            Dim stylesPart As StylesPart = Nothing
-            If getStylesWithEffectsPart Then
-                stylesPart = docPart.StylesWithEffectsPart
-            Else
-                stylesPart = docPart.StyleDefinitionsPart
-            End If
-
-            ' If the part exists, read it into the XDocument.
-            If stylesPart IsNot Nothing Then
-                Using reader = XmlNodeReader.Create(
-                  stylesPart.GetStream(FileMode.Open, FileAccess.Read))
-                    ' Create the XDocument:  
-                    styles = XDocument.Load(reader)
-                End Using
-            End If
-        End Using
-        ' Return the XDocument instance.
-        Return styles
-    End Function
-```
 
 ---------------------------------------------------------------------------------
 

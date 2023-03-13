@@ -1,19 +1,4 @@
----
 
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 69f7c94e-2b8c-4bec-be8c-31933e2ee042
-title: 'How to: Change text in a table in a word processing document (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 
 # Change text in a table in a word processing document (Open XML SDK)
 
@@ -27,11 +12,7 @@ The following assembly directives are required to compile the code in this topic
     using DocumentFormat.OpenXml.Wordprocessing;
 ```
 
-```vb
-    Imports System.Linq
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Wordprocessing
-```
+
 
 ## Open the Existing Document
 
@@ -45,11 +26,7 @@ To open an existing document, instantiate the **WordprocessingDocument** class a
     }
 ```
 
-```vb
-    Using doc As WordprocessingDocument = WordprocessingDocument.Open(filepath, True)
-       ' Insert other code here. 
-    End Using
-```
+
 
 The **using** statement provides a recommended
 alternative to the typical .Open, .Save, .Close sequence. It ensures
@@ -128,16 +105,7 @@ index is 2, as shown in the following code example.
     TableCell cell = row.Elements<TableCell>().ElementAt(2);
 ```
 
-```vb
-    ' Find the first table in the document.
-    Dim table As Table = doc.MainDocumentPart.Document.Body.Elements(Of Table)().First()
 
-    ' Find the second row in the table.
-    Dim row As TableRow = table.Elements(Of TableRow)().ElementAt(1)
-
-    ' Find the third cell in the row.
-    Dim cell As TableCell = row.Elements(Of TableCell)().ElementAt(2)
-```
 
 After you have located the target cell, you locate the first run in the
 first paragraph of the cell and replace the text with the passed in
@@ -150,12 +118,7 @@ text. The following code example shows these actions.
     t.Text = txt;
 ```
 
-```vb
-    Dim p As Paragraph = cell.Elements(Of Paragraph)().First()
-    Dim r As Run = p.Elements(Of Run)().First()
-    Dim t As Text = r.Elements(Of Text)().First()
-    t.Text = txt
-```
+
 
 ## Change Text in a Cell in a Table
 
@@ -190,10 +153,7 @@ example."
     "The text from the API example");
 ```
 
-```vb
-    ChangeTextInCell("C:\Users\Public\Documents\word4.docx", _
-    "The text from the API example")
-```
+
 
 Following is the complete code example.
 
@@ -229,33 +189,7 @@ Following is the complete code example.
     }
 ```
 
-```vb
-    ' Change the text in a table in a word processing document.
-    Public Sub ChangeTextInCell(ByVal filepath As String, ByVal txt As String)
-        ' Use the file name and path passed in as an argument to 
-        ' Open an existing document. 
-        Using doc As WordprocessingDocument = WordprocessingDocument.Open(filepath, True)
-            ' Find the first table in the document.
-            Dim table As Table = doc.MainDocumentPart.Document.Body.Elements(Of Table)().First()
-            
-            ' Find the second row in the table.
-            Dim row As TableRow = table.Elements(Of TableRow)().ElementAt(1)
-            
-            ' Find the third cell in the row.
-            Dim cell As TableCell = row.Elements(Of TableCell)().ElementAt(2)
-            
-            ' Find the first paragraph in the table cell.
-            Dim p As Paragraph = cell.Elements(Of Paragraph)().First()
-            
-            ' Find the first run in the paragraph.
-            Dim r As Run = p.Elements(Of Run)().First()
-            
-            ' Set the text for the run.
-            Dim t As Text = r.Elements(Of Text)().First()
-            t.Text = txt
-        End Using
-    End Sub
-```
+
 
 ## See also
 

@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: cbb4547e-45fa-48ee-872e-8727beec6dfa
-title: 'How to: Search and replace text in a document part (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Search and replace text in a document part (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -29,11 +13,7 @@ this topic.
     using DocumentFormat.OpenXml.Packaging;
 ```
 
-```vb
-    Imports System.IO
-    Imports System.Text.RegularExpressions
-    Imports DocumentFormat.OpenXml.Packaging
-```
+
 
 --------------------------------------------------------------------------------
 ## Packages and Document Parts 
@@ -67,11 +47,7 @@ to **true** to enable editing the document.
     }
 ```
 
-```vb
-    Using wordDoc As WordprocessingDocument = WordprocessingDocument.Open(document, True)
-        ' Insert other code here.
-    End Using
-```
+
 
 The **using** statement provides a recommended
 alternative to the typical .Open, .Save, .Close sequence. It ensures
@@ -98,13 +74,7 @@ After you have opened the file for editing, you read it by using a **StreamReade
     }
 ```
 
-```vb
-    Dim sr As StreamReader = New StreamReader(wordDoc.MainDocumentPart.GetStream)
 
-        using (sr)
-            docText = sr.ReadToEnd
-        End using
-```
 
 The code then creates a regular expression object that contains the
 string "Hello world!" It then replaces the text value with the text "Hi
@@ -116,10 +86,7 @@ Expressions](https://msdn.microsoft.com/library/hs600312.aspx)
     docText = regexText.Replace(docText, "Hi Everyone!");
 ```
 
-```vb
-    Dim regexText As Regex = New Regex("Hello world!")
-    docText = regexText.Replace(docText, "Hi Everyone!")
-```
+
 
 --------------------------------------------------------------------------------
 ## Sample Code 
@@ -140,9 +107,7 @@ example.
     SearchAndReplace(@"C:\Users\Public\Documents\MyPkg8.docx");
 ```
 
-```vb
-    SearchAndReplace("C:\Users\Public\Documents\MyPkg8.docx")
-```
+
 
 After running the program, you can inspect the file to see the change in
 the text, "Hello world!"
@@ -172,28 +137,7 @@ The following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    ' To search and replace content in a document part. 
-    Public Sub SearchAndReplace(ByVal document As String)
-        Dim wordDoc As WordprocessingDocument = WordprocessingDocument.Open(document, True)
-        using (wordDoc)
-            Dim docText As String = Nothing
-            Dim sr As StreamReader = New StreamReader(wordDoc.MainDocumentPart.GetStream)
 
-            using (sr)
-                docText = sr.ReadToEnd
-            End using
-
-            Dim regexText As Regex = New Regex("Hello world!")
-            docText = regexText.Replace(docText, "Hi Everyone!")
-            Dim sw As StreamWriter = New StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create))
-
-            using (sw)
-                sw.Write(docText)
-            End using
-        End using
-    End Sub
-```
 
 --------------------------------------------------------------------------------
 ## See also 

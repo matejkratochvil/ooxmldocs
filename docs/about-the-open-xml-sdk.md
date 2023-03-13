@@ -1,17 +1,4 @@
----
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 620e86b5-49f2-43dc-85d4-9c7456c09552
-title: About the Open XML SDK 2.5 for Office
-ms.suite: office
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
+
 
 # About the Open XML SDK 2.5 for Office
 

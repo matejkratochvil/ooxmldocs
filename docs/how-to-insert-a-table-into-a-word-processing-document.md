@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 9d390cf8-1654-4a75-b3b8-4aba86ed1476
-title: 'How to: Insert a table into a word processing document (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Insert a table into a word processing document (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -29,11 +13,7 @@ this topic.
     using DocumentFormat.OpenXml.Wordprocessing;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Wordprocessing
-```
+
 
 ## Getting a WordprocessingDocument Object
 
@@ -52,11 +32,7 @@ editing the document.
     }
 ```
 
-```vb
-    Using doc As WordprocessingDocument = WordprocessingDocument.Open(filepath, True)
-        ' Insert other code here. 
-    End Using
-```
+
 
 The **using** statement provides a recommended
 alternative to the typical .Create, .Save, .Close sequence. It ensures
@@ -149,23 +125,7 @@ object to the table.
     table.AppendChild<TableProperties>(tblProp);
 ```
 
-```vb
-    ' Create an empty table.
-    Dim table As New Table()
 
-    ' Create a TableProperties object and specify its border information.
-    Dim tblProp As New TableProperties(
-        New TableBorders(
-            New TopBorder() With {.Val = New EnumValue(Of BorderValues)(BorderValues.Dashed), .Size = 24},
-            New BottomBorder() With {.Val = New EnumValue(Of BorderValues)(BorderValues.Dashed), .Size = 24},
-            New LeftBorder() With {.Val = New EnumValue(Of BorderValues)(BorderValues.Dashed), .Size = 24},
-            New RightBorder() With {.Val = New EnumValue(Of BorderValues)(BorderValues.Dashed), .Size = 24},
-            New InsideHorizontalBorder() With {.Val = New EnumValue(Of BorderValues)(BorderValues.Dashed), .Size = 24},
-            New InsideVerticalBorder() With {.Val = New EnumValue(Of BorderValues)(BorderValues.Dashed), .Size = 24}))
-
-    ' Append the TableProperties object to the empty table.
-    table.AppendChild(Of TableProperties)(tblProp)
-```
 
 The code creates a table row. This section of the code makes extensive
 use of the overloaded [Append\[\])](https://msdn.microsoft.com/library/office/cc801361.aspx) methods, which classes derived
@@ -200,22 +160,7 @@ structure for inserting text into a cell. The **TableCell** is then appended to 
     tr.Append(tc1);
 ```
 
-```vb
-    ' Create a row.
-    Dim tr As New TableRow()
 
-    ' Create a cell.
-    Dim tc1 As New TableCell()
-
-    ' Specify the width property of the table cell.
-    tc1.Append(New TableCellProperties(New TableCellWidth() With {.Type = TableWidthUnitValues.Dxa, .Width = "2400"}))
-
-    ' Specify the table cell content.
-    tc1.Append(New Paragraph(New Run(New Text("Hello, World!"))))
-
-    ' Append the table cell to the table row.
-    tr.Append(tc1)
-```
 
 The code then creates a second table cell. The final section of code
 creates another table cell using the overloaded **TableCell** constructor [TableCell(String)](https://msdn.microsoft.com/library/office/cc803944.aspx) that takes the [OuterXml](https://msdn.microsoft.com/library/office/documentformat.openxml.openxmlelement.outerxml.aspx) property of an existing **TableCell** object as its only argument. After
@@ -239,22 +184,7 @@ to the [Document](https://msdn.microsoft.com/library/office/documentformat.openx
     doc.MainDocumentPart.Document.Save();
 ```
 
-```vb
-    ' Create a second table cell by copying the OuterXml value of the first table cell.
-    Dim tc2 As New TableCell(tc1.OuterXml)
 
-    ' Append the table cell to the table row.
-    tr.Append(tc2)
-
-    ' Append the table row to the table.
-    table.Append(tr)
-
-    ' Append the table to the document.
-    doc.MainDocumentPart.Document.Body.Append(table)
-
-    ' Save changes to the MainDocumentPart.
-    doc.MainDocumentPart.Document.Save()
-```
 
 ## Sample Code
 
@@ -269,10 +199,7 @@ call.
     CreateTable(fileName);
 ```
 
-```vb
-    Dim fileName As String = "C:\Users\Public\Documents\Word10.docx"
-    CreateTable(fileName)
-```
+
 
 After you run the program inspect the file "Word10.docx" to see the
 inserted table.
@@ -344,56 +271,7 @@ Following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    ' Insert a table into a word processing document.
-    Public Sub CreateTable(ByVal fileName As String)
-        ' Use the file name and path passed in as an argument 
-        ' to open an existing Word 2007 document.
 
-        Using doc As WordprocessingDocument = WordprocessingDocument.Open(fileName, True)
-            ' Create an empty table.
-            Dim table As New Table()
-
-            ' Create a TableProperties object and specify its border information.
-            Dim tblProp As New TableProperties(New TableBorders( _
-            New TopBorder() With {.Val = New EnumValue(Of BorderValues)(BorderValues.Dashed), .Size = 24}, _
-            New BottomBorder() With {.Val = New EnumValue(Of BorderValues)(BorderValues.Dashed), .Size = 24}, _
-            New LeftBorder() With {.Val = New EnumValue(Of BorderValues)(BorderValues.Dashed), .Size = 24}, _
-            New RightBorder() With {.Val = New EnumValue(Of BorderValues)(BorderValues.Dashed), .Size = 24}, _
-            New InsideHorizontalBorder() With {.Val = New EnumValue(Of BorderValues)(BorderValues.Dashed), .Size = 24}, _
-            New InsideVerticalBorder() With {.Val = New EnumValue(Of BorderValues)(BorderValues.Dashed), .Size = 24}))
-            ' Append the TableProperties object to the empty table.
-            table.AppendChild(Of TableProperties)(tblProp)
-
-            ' Create a row.
-            Dim tr As New TableRow()
-
-            ' Create a cell.
-            Dim tc1 As New TableCell()
-
-            ' Specify the width property of the table cell.
-            tc1.Append(New TableCellProperties(New TableCellWidth()))
-
-            ' Specify the table cell content.
-            tc1.Append(New Paragraph(New Run(New Text("some text"))))
-
-            ' Append the table cell to the table row.
-            tr.Append(tc1)
-
-            ' Create a second table cell by copying the OuterXml value of the first table cell.
-            Dim tc2 As New TableCell(tc1.OuterXml)
-
-            ' Append the table cell to the table row.
-            tr.Append(tc2)
-
-            ' Append the table row to the table.
-            table.Append(tr)
-
-            ' Append the table to the document.
-            doc.MainDocumentPart.Document.Body.Append(table)
-        End Using
-    End Sub
-```
 
 ## See also
 

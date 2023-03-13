@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: e5e9c6ba-b422-4639-bb8c-6da521307f13
-title: 'How to: Remove hidden text from a word processing document (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
 # Remove hidden text from a word processing document (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -29,11 +13,7 @@ this topic.
     using System.Xml;
 ```
 
-```vb
-    Imports System.IO
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports System.Xml
-```
+
 
 ---------------------------------------------------------------------------------
 ## Getting a WordprocessingDocument Object
@@ -52,12 +32,7 @@ to enable editing the document.
     }
 ```
 
-```vb
-    Using wdDoc As WordprocessingDocument = _
-            WordprocessingDocument.Open(filepath, True)
-        ' Insert other code here.
-    End Using
-```
+
 
 The **using** statement provides a recommended
 alternative to the typical .Create, .Save, .Close sequence. It ensures
@@ -153,9 +128,7 @@ introduces the **vanish** element.
 > of this run, so the contents of this run will be hidden when the
 > document contents are displayed. *end example*]
 > 
-> © ISO/IEC29500: 2008.
-
-The following XML schema segment defines the contents of this element.
+> The following XML schema segment defines the contents of this element.
 
 ```xml
     <complexType name="CT_OnOff">
@@ -181,10 +154,7 @@ named "Word14.docx."
     WDDeleteHiddenText(docName);
 ```
 
-```vb
-    Dim docName As String = "C:\Users\Public\Documents\Word14.docx"
-    WDDeleteHiddenText(docName)
-```
+
 
 > [!NOTE]
 > This example assumes that the file Word14.docx contains some hidden text. In order to hide part of the file text, select it, and click CTRL+D to show the **Font** dialog box. Select the **Hidden** box and click **OK**.
@@ -227,36 +197,7 @@ Following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    Public Sub WDDeleteHiddenText(ByVal docName As String)
-        ' Given a document name, delete all the hidden text.
-        Const wordmlNamespace As String = "https://schemas.openxmlformats.org/wordprocessingml/2006/main"
 
-        Using wdDoc As WordprocessingDocument = WordprocessingDocument.Open(docName, True)
-            ' Manage namespaces to perform XPath queries.
-            Dim nt As New NameTable()
-            Dim nsManager As New XmlNamespaceManager(nt)
-            nsManager.AddNamespace("w", wordmlNamespace)
-
-            ' Get the document part from the package.
-            ' Load the XML in the document part into an XmlDocument instance.
-            Dim xdoc As New XmlDocument(nt)
-            xdoc.Load(wdDoc.MainDocumentPart.GetStream())
-            Dim hiddenNodes As XmlNodeList = xdoc.SelectNodes("//w:vanish", nsManager)
-            For Each hiddenNode As System.Xml.XmlNode In hiddenNodes
-                Dim topNode As XmlNode = hiddenNode.ParentNode.ParentNode
-                Dim topParentNode As XmlNode = topNode.ParentNode
-                topParentNode.RemoveChild(topNode)
-                If Not (topParentNode.HasChildNodes) Then
-                    topParentNode.ParentNode.RemoveChild(topParentNode)
-                End If
-            Next
-
-            ' Save the document XML back to its document part.
-            xdoc.Save(wdDoc.MainDocumentPart.GetStream(FileMode.Create, FileAccess.Write))
-        End Using
-    End Sub 
-```
 
 --------------------------------------------------------------------------------
 ## See also

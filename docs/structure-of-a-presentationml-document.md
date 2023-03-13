@@ -1,17 +1,4 @@
----
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: fe780fcd-ed8f-4ee1-938e-cf3bb358ccae
-title: Structure of a PresentationML document (Open XML SDK)
-ms.suite: office
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 09/16/2021
-ms.localizationpriority: high
----
+
 
 # Structure of a PresentationML document (Open XML SDK)
 
@@ -41,9 +28,7 @@ Using the Open XML SDK 2.5, you can create document structure and content that u
 |        Comments         |              \<cmLst\>               |            [CommentList](/dotnet/api/documentformat.openxml.presentation.commentlist?redirectedfrom=MSDN&view=openxml-2.8.1&preserve-view=true )            |                                                                                      The root element of the Comments part. This element specifies a list of comments for a particular slide. For more information, see [Working with comments (Open XML SDK)](working-with-comments.md).                                                                                      |
 |     Comments Author     |           \<cmAuthorLst\>            |      [CommentAuthorList](/dotnet/api/documentformat.openxml.presentation.commentauthorlist?redirectedfrom=MSDN&view=openxml-2.8.1&preserve-view=true )      |                                                                           The root element of the Comments Author part. This element specifies a list of authors with comments in the current document. For more information, see [Working with comments (Open XML SDK)](working-with-comments.md).                                                                            |
 
-*Descriptions adapted from the [ISO/IEC 29500](https://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=51463) specification, © ISO/IEC29500: 2008.
-
-### Presentation Part
+*Descriptions adapted from the [ISO/IEC 29500](https://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=51463) specification, ### Presentation Part
 
 A PresentationML package's main part starts with a \<presentation\> root element. That element contains a presentation, which, in turn, refers to a slide list, a slide master list, a notes master list, and a handout master list. The slide list refers to all of the slides in the presentation. The slide master list refers to the entire set of slide masters used in the presentation. The notes master contains information about the formatting of notes pages. The handout master describes how a handout looks. (A handout is a printed set of slides that can be handed out to an audience for future reference.)
 
@@ -80,8 +65,6 @@ The root element for a part of this content type shall be presentationPr. Exampl
 A Presentation Properties part shall be located within the package containing the relationships part (expressed syntactically, the TargetMode attribute of the Relationship element shall be Internal).
 
 A Presentation Properties part shall not have implicit or explicit relationships to any other part defined by ISO/IEC 29500.
-
-© ISO/IEC29500: 2008.
 
 ### Slide Master Part
 
@@ -140,8 +123,6 @@ following parts defined by ISO/IEC 29500:
 - Video (§15.2.15)
 
 A Slide Master part shall not have implicit or explicit relationships to any other part defined by ISO/IEC 29500.
-
-© ISO/IEC29500: 2008.
 
 ### Slide Layout Part
 
@@ -206,8 +187,6 @@ A Slide Layout part is permitted to have explicit relationships to the following
 - Video (§15.2.15)
 
 A Slide Layout part shall not have implicit or explicit relationships to any other part defined by ISO/IEC 29500.
-
-© ISO/IEC29500: 2008.
 
 ### Slide Part
 
@@ -285,8 +264,6 @@ A Slide part is permitted to have explicit relationships to the following parts 
 
 A Slide part shall not have implicit or explicit relationships to any other part defined by ISO/IEC 29500.
 
-© ISO/IEC29500: 2008.
-
 ### Theme Part
 
 The root element of the Theme part is the \<officeStyleSheet\> element.
@@ -334,8 +311,6 @@ A Theme part is permitted to contain explicit relationships to the following par
 - Image (§15.2.14)
 
 A Theme part shall not have any implicit or explicit relationships to other parts defined by ISO/IEC 29500.
-
-© ISO/IEC29500: 2008.
 
 ### Notes Master Part
 
@@ -392,8 +367,6 @@ A Notes Master part is permitted to have explicit relationships to the following
 - Video (§15.2.15)
 
 The Notes Master part shall not have implicit or explicit relationships to any other part defined by ISO/IEC 29500.
-
-© ISO/IEC29500: 2008.
 
 ### Notes Slide Part
 
@@ -454,8 +427,6 @@ A Notes Slide part is permitted to have explicit relationships to the following 
 
 The Notes Slide part shall not have implicit or explicit relationships to any other part defined by ISO/IEC 29500.
 
-© ISO/IEC29500: 2008.
-
 ### Handout Master Part
 
 The root element of the Handout Master part is the \<handoutMaster\> element.
@@ -513,8 +484,6 @@ A Handout Master part is permitted to have explicit relationships to the followi
 
 A Handout Master part shall not have implicit or explicit relationships to any other part defined by ISO/IEC 29500.
 
-© ISO/IEC29500: 2008.
-
 ### Comments Part
 
 The root element of the Comments part is the \<cmLst\> element.
@@ -561,8 +530,6 @@ A Comments part shall be located within the package containing the relationships
 
 A Comments part shall not have implicit or explicit relationships to any other part defined by ISO/IEC 29500.
 
-© ISO/IEC29500: 2008.
-
 ### Comments Author Part
 
 The root element of the Comments Author part is the \<cmAuthorLst\>
@@ -599,8 +566,6 @@ clrIdx="1"/>
 A Comment Authors part shall be located within the package containing the relationships part (expressed syntactically, the TargetMode attribute of the Relationship element shall be Internal).
 
 A Comment Authors part shall not have implicit or explicit relationships to any other part defined by ISO/IEC 29500.
-
-© ISO/IEC29500: 2008.
 
 ## The Structure of a Minimum Presentation File
 

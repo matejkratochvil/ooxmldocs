@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 75cff172-b29d-475a-8eb5-d8e90642f015
-title: 'How to: Open a word processing document from a stream (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Open a word processing document from a stream (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -29,11 +13,7 @@ this topic.
     using DocumentFormat.OpenXml.Wordprocessing;
 ```
 
-```vb
-    Imports System.IO
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Wordprocessing
-```
+
 
 ## When to Open a Document from a Stream
 
@@ -78,11 +58,7 @@ method.
         WordprocessingDocument.Open(stream, true);
 ```
 
-```vb
-    ' Open a WordProcessingDocument based on a stream.
-    Dim wordprocessingDocument As WordprocessingDocument = _
-    WordprocessingDocument.Open(stream, True)
-```
+
 
 ## Structure of a WordProcessingML Document
 
@@ -133,10 +109,7 @@ segment.
     Body body = wordprocessingDocument.MainDocumentPart.Document.Body;
 ```
 
-```vb
-    ' Assign a reference to the existing document body.
-    Dim body As Body = wordprocessingDocument.MainDocumentPart.Document.Body
-```
+
 
 When you access to the body of the main document part, add text by
 adding instances of the **Paragraph**, **Run**, and **Text**
@@ -150,12 +123,7 @@ the sample code add the paragraph, run, and text.
     run.AppendChild(new Text(txt));
 ```
 
-```vb
-    ' Add new text.
-    Dim para As Paragraph = body.AppendChild(New Paragraph())
-    Dim run As Run = para.AppendChild(New Run())
-    run.AppendChild(New Text(txt))
-```
+
 
 ## Sample Code
 
@@ -174,13 +142,7 @@ Word13.docx file in the Public Documents folder and adds text to it.
     stream.Close();
 ```
 
-```vb
-    Dim strDoc As String = "C:\Users\Public\Documents\Word13.docx"
-    Dim txt As String = "Append text in body - OpenAndAddToWordprocessingStream"
-    Dim stream As Stream = File.Open(strDoc, FileMode.Open)
-    OpenAndAddToWordprocessingStream(stream, txt)
-    stream.Close()
-```
+
 
 > [!NOTE]
 > Notice that the **OpenAddAddToWordprocessingStream** method does not close the stream passed to it. The calling code must do that.
@@ -209,25 +171,7 @@ Following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    Public Sub OpenAndAddToWordprocessingStream(ByVal stream As Stream, ByVal txt As String)
-        ' Open a WordProcessingDocument based on a stream.
-        Dim wordprocessingDocument As WordprocessingDocument = WordprocessingDocument.Open(stream, true)
 
-        ' Assign a reference to the existing document body.
-        Dim body As Body = wordprocessingDocument.MainDocumentPart.Document.Body
-
-        ' Add new text.
-        Dim para As Paragraph = body.AppendChild(New Paragraph)
-        Dim run As Run = para.AppendChild(New Run)
-        run.AppendChild(New Text(txt))
-
-        ' Close the document handle.
-        wordprocessingDocument.Close
-
-        ' Caller must close the stream.
-    End Sub
-```
 
 ## See also
 

@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: d6daf04e-3e45-4570-a184-8f0449c7ab91
-title: 'How to: Get all the external hyperlinks in a presentation (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
 # Get all the external hyperlinks in a presentation (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -30,12 +14,7 @@ this topic.
     using Drawing = DocumentFormat.OpenXml.Drawing;
 ```
 
-```vb
-    Imports System
-    Imports System.Collections.Generic 
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports Drawing = DocumentFormat.OpenXml.Drawing
-```
+
 
 --------------------------------------------------------------------------------
 ## Getting a PresentationDocument Object
@@ -62,12 +41,7 @@ path for the file from which you want to open the document.
     }
 ```
 
-```vb
-    ' Open the presentation file as read-only.
-    Using document As PresentationDocument = PresentationDocument.Open(fileName, False)
-        ' Insert other code here.
-    End Using
-```
+
 
 The **using** statement provides a recommended
 alternative to the typical .Open, .Save, .Close sequence. It ensures
@@ -113,9 +87,7 @@ specification introduces the overall form of a **PresentationML** package.
 > parts. For example, all comments in a document are stored in one
 > comment part while each slide has its own part.
 > 
-> © ISO/IEC29500: 2008.
-
-The following XML code segment represents a presentation that contains
+> The following XML code segment represents a presentation that contains
 two slides denoted by the ID 267 and 256.
 
 ```xml
@@ -205,9 +177,7 @@ introduces the **id** (Hyperlink Target).
 > The possible values for this attribute are defined by the
 > ST\_RelationshipId simple type(§22.8.2.1).
 > 
-> © ISO/IEC29500: 2008.
-
-
+> 
 --------------------------------------------------------------------------------
 ## How the Sample Code Works
 The sample code in this topic consists of one method that takes as a
@@ -238,22 +208,7 @@ hyperlinks in the presentation.
                 }
 ```
 
-```vb
-    ' Iterate through all the slide parts in the presentation part.
-    For Each slidePart As SlidePart In document.PresentationPart.SlideParts
-        Dim links As IEnumerable(Of Drawing.HyperlinkType) = slidePart.Slide.Descendants(Of Drawing.HyperlinkType)()
 
-        ' Iterate through all the links in the slide part.
-        For Each link As Drawing.HyperlinkType In links
-
-            ' Iterate through all the external relationships in the slide part. 
-            For Each relation As HyperlinkRelationship In slidePart.HyperlinkRelationships
-                ' If the relationship ID matches the link ID…
-                If relation.Id.Equals(link.Id) Then
-                    ' Add the URI of the external relationship to the list of strings.
-                    ret.Add(relation.Uri.AbsoluteUri)
-                End If
-```
 
 --------------------------------------------------------------------------------
 ## Sample Code
@@ -268,13 +223,7 @@ get the list of URIs in your presentation.
         Console.WriteLine(s);
 ```
 
-```vb
-    Dim fileName As String
-    fileName = "C:\Users\Public\Documents\Myppt7.pptx"
-    For Each s As String In GetAllExternalHyperlinksInPresentation(fileName)
-        Console.WriteLine(s)
-    Next
-```
+
 
 ```csharp
     // Returns all the external hyperlinks in the slides of a presentation.
@@ -313,44 +262,7 @@ get the list of URIs in your presentation.
     }
 ```
 
-```vb
-    ' Returns all the external hyperlinks in the slides of a presentation.
-    Public Function GetAllExternalHyperlinksInPresentation(ByVal fileName As String) As IEnumerable
 
-        ' Declare a list of strings.
-        Dim ret As List(Of String) = New List(Of String)
-
-        ' Open the presentation file as read-only.
-        Dim document As PresentationDocument = PresentationDocument.Open(fileName, False)
-
-        Using (document)
-
-            ' Iterate through all the slide parts in the presentation part.
-            For Each slidePart As SlidePart In document.PresentationPart.SlideParts
-                Dim links As IEnumerable = slidePart.Slide.Descendants(Of Drawing.HyperlinkType)()
-
-                ' Iterate through all the links in the slide part.
-                For Each link As Drawing.HyperlinkType In links
-
-                    ' Iterate through all the external relationships in the slide part.
-                    For Each relation As HyperlinkRelationship In slidePart.HyperlinkRelationships
-                        ' If the relationship ID matches the link ID…
-                        If relation.Id.Equals(link.Id) Then
-
-                            ' Add the URI of the external relationship to the list of strings.
-                            ret.Add(relation.Uri.AbsoluteUri)
-                        End If
-                    Next
-                Next
-            Next
-
-
-            ' Return the list of strings.
-            Return ret
-
-        End Using
-    End Function
-```
 
 --------------------------------------------------------------------------------
 ## See also

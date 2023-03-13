@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: ee6c905b-26c5-4aed-a414-9aa826364a23
-title: Working with presentation slides (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Working with presentation slides (Open XML SDK)
 
 This topic discusses the Open XML SDK 2.5 for Office [Slide](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.slide.aspx) class and how it relates to the Open
@@ -51,8 +35,6 @@ Example: Consider the following custom show with an ordering of slides.
 In the above example the order specified to present the slides is slide
 4, then 3, 2, and finally 5.
 
-
-© ISO/IEC29500: 2008.
 
 The \<sld\> element is the root element of the PresentationML Slide
 part. For more information about the overall structure of the parts and
@@ -94,8 +76,6 @@ by the master is used. If the \<overrideClrMapping\> child element is
 present, it defines a new color scheme specific to the parent notes
 slide, presentation slide, or slide layout.
 
-© ISO/IEC29500: 2008.
-
 ### CommonSlideData Class
 
 The **CommonSlideData** class corresponds to
@@ -112,8 +92,6 @@ indicated by the parent element is stored elsewhere.
 The actual data in \<cSld\> describe only the particular parent slide;
 it is only the type of information stored that is common across all
 slides.
-
-© ISO/IEC29500: 2008.
 
 ### ExtensionListWithModification Class
 
@@ -132,8 +110,6 @@ framework.
 [Note: Using this extLst element allows the generating application to
 store whether this extension property has been modified. end note]
 
-© ISO/IEC29500: 2008.
-
 ### Timing Class
 
 The **Timing** class corresponds to the
@@ -147,8 +123,6 @@ More information on the specifics of these time nodes and how they are
 to be defined can be found within the Animation section of the
 PresentationML framework.
 
-© ISO/IEC29500: 2008.
-
 ### Transition Class
 
 The **Transition** class corresponds to the
@@ -159,8 +133,6 @@ This element specifies the kind of slide transition that should be used
 to transition to the current slide from the previous slide. That is, the
 transition information is stored on the slide that appears after the
 transition is complete.
-
-© ISO/IEC29500: 2008.
 
 
 --------------------------------------------------------------------------------
@@ -225,25 +197,7 @@ namespace.
              }
 ```
 
-```vb
-    Private Shared Function CreateSlidePart(ByVal presentationPart As PresentationPart) As SlidePart
-                Dim slidePart1 As SlidePart = presentationPart.AddNewPart(Of SlidePart)("rId2")
-                slidePart1.Slide = New Slide(New CommonSlideData(New ShapeTree(New P.NonVisualGroupShapeProperties(New P.NonVisualDrawingProperties() With { _
-                 .Id = CType(1UI, UInt32Value), _
-                  .Name = "" _
-                }, New P.NonVisualGroupShapeDrawingProperties(), New ApplicationNonVisualDrawingProperties()), New GroupShapeProperties(New TransformGroup()), _
-                   New P.Shape(New P.NonVisualShapeProperties(New P.NonVisualDrawingProperties() With { _
-                  .Id = CType(2UI, UInt32Value), _
-                  .Name = "Title 1" _
-                }, New P.NonVisualShapeDrawingProperties(New ShapeLocks() With { _
-                  .NoGrouping = True _
-                }), New ApplicationNonVisualDrawingProperties(New PlaceholderShape())), New P.ShapeProperties(), New P.TextBody(New BodyProperties(), _
-                   New ListStyle(), New Paragraph(New EndParagraphRunProperties() With { _
-                  .Language = "en-US" _
-                }))))), New ColorMapOverride(New MasterColorMapping()))
-                Return slidePart1
-            End Function
-```
+
 
 To add another shape to the shape tree and, hence, to the slide,
 instantiate a second **Shape** object by
@@ -263,16 +217,7 @@ passing an additional parameter that contains the following code to the
                   new Paragraph(new EndParagraphRunProperties() { Language = "en-US" })))
 ```
 
-```vb
-    New P.Shape(New P.NonVisualShapeProperties(New P.NonVisualDrawingProperties() With { _
-                  .Id = CType(2UI, UInt32Value), _
-                  .Name = "Title 1" _
-                }, New P.NonVisualShapeDrawingProperties(New ShapeLocks() With { _
-                  .NoGrouping = True _
-                }), New ApplicationNonVisualDrawingProperties(New PlaceholderShape())), New P.ShapeProperties(), New P.TextBody(New BodyProperties(), _
-                   New ListStyle(), New Paragraph(New EndParagraphRunProperties() With { _
-                  .Language = "en-US" })))
-```
+
 
 ---------------------------------------------------------------------------------
 ## Generated PresentationML

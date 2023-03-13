@@ -1,18 +1,4 @@
----
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 65c377d2-1763-4bb6-8915-bc6839ccf62d
-title: 'How to: Add tables to word processing documents (Open XML SDK)'
-description: 'Learn how to add tables to word processing documents using the Open XML SDK.'
-ms.suite: office
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/28/2021
-ms.localizationpriority: high
----
+
 
 # Add tables to word processing documents (Open XML SDK)
 
@@ -31,11 +17,7 @@ You must also use the following **using** directives or **Imports** statements t
     using DocumentFormat.OpenXml.Wordprocessing;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Wordprocessing
-```
+
 
 ## AddTable method
 
@@ -50,10 +32,7 @@ You can use the **AddTable** method to add a simple table to a word processing d
     public static void AddTable(string fileName, string[,] data)
 ```
 
-```vb
-    Public Sub AddTable(ByVal fileName As String,
-        ByVal data(,) As String)
-```
+
 
 ## Call the AddTable method
 
@@ -69,14 +48,7 @@ The **AddTable** method modifies the document you specify, adding a table that c
         );
 ```
 
-```vb
-    Const fileName As String = "C:\Users\Public\Documents\AddTable.docx"
-    AddTable(fileName, New String(,) {
-        {"Texas", "TX"},
-        {"California", "CA"},
-        {"New York", "NY"},
-        {"Massachusetts", "MA"}})
-```
+
 
 ## How the code works
 
@@ -90,12 +62,7 @@ The following code starts by opening the document, using the [WordprocessingDocu
     }
 ```
 
-```vb
-    Using document = WordprocessingDocument.Open(fileName, True)
-        Dim doc = document.MainDocumentPart.Document
-        ' Code removed here…
-    End Using
-```
+
 
 ## Create the table object and set its properties
 
@@ -140,31 +107,7 @@ Before you can insert a table into a document, you must create the [Table](/dotn
     table.AppendChild<TableProperties>(props);
 ```
 
-```vb
-    Dim table As New Table()
 
-    Dim props As TableProperties = _
-        New TableProperties(New TableBorders( _
-        New TopBorder With {
-            .Val = New EnumValue(Of BorderValues)(BorderValues.Single),
-            .Size = 12},
-        New BottomBorder With {
-            .Val = New EnumValue(Of BorderValues)(BorderValues.Single),
-            .Size = 12},
-        New LeftBorder With {
-            .Val = New EnumValue(Of BorderValues)(BorderValues.Single),
-            .Size = 12},
-        New RightBorder With {
-            .Val = New EnumValue(Of BorderValues)(BorderValues.Single),
-            .Size = 12}, _
-        New InsideHorizontalBorder With {
-            .Val = New EnumValue(Of BorderValues)(BorderValues.Single),
-            .Size = 12}, _
-        New InsideVerticalBorder With {
-            .Val = New EnumValue(Of BorderValues)(BorderValues.Single),
-            .Size = 12}))
-    table.AppendChild(Of TableProperties)(props)
-```
 
 The constructor for the **TableProperties** class allows you to specify as many child elements as you like (much like the [XElement](/dotnet/api/system.xml.linq.xelement) constructor). In this case, the code creates [TopBorder](/dotnet/api/documentformat.openxml.wordprocessing.topborder), [BottomBorder](/dotnet/api/documentformat.openxml.wordprocessing.bottomborder), [LeftBorder](/dotnet/api/documentformat.openxml.wordprocessing.leftborder), [RightBorder](/dotnet/api/documentformat.openxml.wordprocessing.rightborder), [InsideHorizontalBorder](/dotnet/api/documentformat.openxml.wordprocessing.insidehorizontalborder), and [InsideVerticalBorder](/dotnet/api/documentformat.openxml.wordprocessing.insideverticalborder) child elements, each describing one of the border elements for the table. For each element, the code sets the **Val** and **Size** properties as part of calling the constructor. Setting the size is simple, but setting the **Val** property requires a bit more effort: this property, for this particular object, represents the border style, and you must set it to an enumerated value. To do that, create an instance of the [EnumValue\<T\>](/dotnet/api/documentformat.openxml.enumvalue-1) generic type, passing the specific border type ([Single](/dotnet/api/documentformat.openxml.wordprocessing.bordervalues) as a parameter to the constructor. Once the code has set all the table border value it needs to set, it calls the [AppendChild\<T\>](/dotnet/api/documentformat.openxml.openxmlelement.appendchild) method of the table, indicating that the generic type is [TableProperties](/dotnet/api/ ocumentformat.openxml.wordprocessing.tableproperties)—that is, it is appending an instance of the **TableProperties** class, using the variable **props** as the value.
 
@@ -181,13 +124,7 @@ Given that table and its properties, now it is time to fill the table with data.
     }
 ```
 
-```vb
-    For i = 0 To UBound(data, 1)
-        Dim tr As New TableRow
-        ' Code removed here…
-        table.Append(tr)
-    Next
-```
+
 
 For each row, the code iterates through all the columns in the array of strings you specified. For each column, the code creates a new [TableCell](/dotnet/api/documentformat.openxml.wordprocessing.tablecell) object, fills it with data, and appends it to the row. The following code leaves out the details of filling each cell with data, but it shows how you create and append the column to the table:
 
@@ -200,13 +137,7 @@ For each row, the code iterates through all the columns in the array of strings 
     }
 ```
 
-```vb
-    For j = 0 To UBound(data, 2)
-        Dim tc As New TableCell
-        ' Code removed here…
-        tr.Append(tc)
-    Next
-```
+
 
 Next, the code does the following:
 
@@ -221,9 +152,7 @@ In other words, the following code appends the text to the new **TableCell** obj
     tc.Append(new Paragraph(new Run(new Text(data[i, j]))));
 ```
 
-```vb
-    tc.Append(New Paragraph(New Run(New Text(data(i, j)))))
-```
+
 
 The code then appends a new [TableCellProperties](/dotnet/api/documentformat.openxml.wordprocessing.tablecellproperties) object to the cell. This **TableCellProperties** object, like the **TableProperties** object you already saw, can accept as many objects in its constructor as you care to supply. In this case, the code passes only a new [TableCellWidth](/dotnet/api/documentformat.openxml.wordprocessing.tablecellwidth) object, with its [Type](/dotnet/api/documentformat.openxml.wordprocessing.tablewidthtype.type) property set to [Auto](/dotnet/api/documentformat.openxml.wordprocessing.tablewidthunitvalues) (so that the table automatically sizes the width of each column).
 
@@ -233,11 +162,7 @@ The code then appends a new [TableCellProperties](/dotnet/api/documentformat.ope
         new TableCellWidth { Type = TableWidthUnitValues.Auto }));
 ```
 
-```vb
-    ' Assume you want columns that are automatically sized.
-    tc.Append(New TableCellProperties(
-        New TableCellWidth With {.Type = TableWidthUnitValues.Auto}))
-```
+
 
 ## Finish up
 
@@ -248,10 +173,7 @@ The following code concludes by appending the table to the body of the document,
     doc.Save();
 ```
 
-```vb
-    doc.Body.Append(table)
-    doc.Save()
-```
+
 
 ## Sample Code
 
@@ -326,58 +248,7 @@ The following is the complete **AddTable** code sample in C\# and Visual Basic.
     }
 ```
 
-```vb
-    ' Take the data from a two-dimensional array and build a table at the 
-    ' end of the supplied document.
-    Public Sub AddTable(ByVal fileName As String,
-            ByVal data(,) As String)
-        Using document = WordprocessingDocument.Open(fileName, True)
 
-            Dim doc = document.MainDocumentPart.Document
-
-            Dim table As New Table()
-
-            Dim props As TableProperties = _
-                New TableProperties(New TableBorders( _
-                New TopBorder With {
-                    .Val = New EnumValue(Of BorderValues)(BorderValues.Single),
-                    .Size = 12},
-                New BottomBorder With {
-                    .Val = New EnumValue(Of BorderValues)(BorderValues.Single),
-                    .Size = 12},
-                New LeftBorder With {
-                    .Val = New EnumValue(Of BorderValues)(BorderValues.Single),
-                    .Size = 12},
-                New RightBorder With {
-                    .Val = New EnumValue(Of BorderValues)(BorderValues.Single),
-                    .Size = 12}, _
-                New InsideHorizontalBorder With {
-                    .Val = New EnumValue(Of BorderValues)(BorderValues.Single),
-                    .Size = 12}, _
-                New InsideVerticalBorder With {
-                    .Val = New EnumValue(Of BorderValues)(BorderValues.Single),
-                    .Size = 12}))
-            table.AppendChild(Of TableProperties)(props)
-
-            For i = 0 To UBound(data, 1)
-                Dim tr As New TableRow
-                For j = 0 To UBound(data, 2)
-                    Dim tc As New TableCell
-                    tc.Append(New Paragraph(New Run(New Text(data(i, j)))))
-
-                    ' Assume you want columns that are automatically sized.
-                    tc.Append(New TableCellProperties(
-                        New TableCellWidth With {.Type = TableWidthUnitValues.Auto}))
-
-                    tr.Append(tc)
-                Next
-                table.Append(tr)
-            Next
-            doc.Body.Append(table)
-            doc.Save()
-        End Using
-    End Sub
-```
 
 ## See also
 

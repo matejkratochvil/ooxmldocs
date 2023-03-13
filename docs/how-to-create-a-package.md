@@ -1,19 +1,4 @@
----
 
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: fe261589-7b04-47df-8ee9-26b444e587b0
-title: 'How to: Create a package (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
 
 # Create a package (Open XML SDK)
 
@@ -31,12 +16,7 @@ this topic.
     using DocumentFormat.OpenXml.Packaging;
 ```
 
-```vb
-    Imports System.Text
-    Imports System.IO
-    Imports DocumentFormat.OpenXml
-    Imports DocumentFormat.OpenXml.Packaging
-```
+
 
 ## Packages and Document Parts
 
@@ -83,11 +63,7 @@ template.
     }
 ```
 
-```vb
-    Using wordDoc As WordprocessingDocument = WordprocessingDocument.Create(document, WordprocessingDocumentType.Document)
-       ' Insert other code here. 
-    End Using
-```
+
 
 The **using** statement provides a recommended
 alternative to the typical .Create, .Save, .Close sequence. It ensures
@@ -161,17 +137,7 @@ new package.
     }
 ```
 
-```vb
-    ' To create a new package as a Word document.
-    Public Shared Sub CreateNewWordDocument(ByVal document As String)
-        Using wordDoc As WordprocessingDocument = WordprocessingDocument.Create(document, WordprocessingDocumentType.Document)
-            ' Set the content of the document so that Word can open it.
-            Dim mainPart As MainDocumentPart = wordDoc.AddMainDocumentPart()
 
-            SetMainDocumentContent(mainPart)
-        End Using
-    End Sub
-```
 
 The code then calls the **SetMainDocumentContent** method to populate the new
 main document part.
@@ -200,25 +166,7 @@ main document part.
     }
 ```
 
-```vb
-    ' Set the content of MainDocumentPart.
-    Public Sub SetMainDocumentContent(ByVal part As MainDocumentPart)
-        Const docXml As String = "<?xml version=""1.0"" encoding=""UTF-8"" standalone=""yes""?>" & _
-            "<w:document xmlns:w=""https://schemas.openxmlformats.org/wordprocessingml/2006/main"">" & _
-                "<w:body>" & _
-                    "<w:p>" & _
-                        "<w:r>" & _
-                            "<w:t>Hello world!</w:t>" & _
-                        "</w:r>" & _
-                    "</w:p>" & _
-                "</w:body>" & _
-            "</w:document>"
-            Using stream As Stream = part.GetStream()
-            Dim buf() As Byte = (New UTF8Encoding()).GetBytes(docXml)
-            stream.Write(buf, 0, buf.Length)
-        End Using
-    End Sub
-```
+
 
 ## Sample Code
 
@@ -232,9 +180,7 @@ call:
     CreateNewWordDocument(@"C:\Users\Public\Documents\MyPkg4.docx");
 ```
 
-```vb
-    CreateNewWordDocument("C:\Users\Public\Documents\MyPkg4.docx")
-```
+
 
 After you run the program, open the created file "myPkg4.docx" and
 examine its content; it should be one paragraph that contains the phrase
@@ -278,34 +224,7 @@ Following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    ' To create a new package as a Word document.
-    Public Sub CreateNewWordDocument(ByVal document As String)
-        Dim wordDoc As WordprocessingDocument = WordprocessingDocument.Create(document, WordprocessingDocumentType.Document)
-        Using (wordDoc)
-            ' Set the content of the document so that Word can open it.
-            Dim mainPart As MainDocumentPart = wordDoc.AddMainDocumentPart
-            SetMainDocumentContent(mainPart)
-        End Using
-    End Sub
 
-    Public Sub SetMainDocumentContent(ByVal part As MainDocumentPart)
-        Const docXml As String = "<?xml version=""1.0"" encoding=""UTF-8"" standalone=""yes""?>" & _
-            "<w:document xmlns:w=""https://schemas.openxmlformats.org/wordprocessingml/2006/main"">" & _
-                "<w:body>" & _
-                    "<w:p>" & _
-                        "<w:r>" & _
-                            "<w:t>Hello world!</w:t>" & _
-                        "</w:r>" & _
-                    "</w:p>" & _
-                "</w:body>" & _
-            "</w:document>"
-        Dim stream1 As Stream = part.GetStream
-        Dim utf8encoder1 As UTF8Encoding = New UTF8Encoding()
-        Dim buf() As Byte = utf8encoder1.GetBytes(docXml)
-        stream1.Write(buf, 0, buf.Length)
-    End Sub
-```
 
 ## See also
 

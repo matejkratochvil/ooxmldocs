@@ -1,20 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 0aa2aef3-b329-4ccc-8f25-9660c083e14e
-title: 'How to: Retrieve a dictionary of all named ranges in a spreadsheet document (Open XML SDK)'
-description: 'Learn how to retrieve a dictionary of all named ranges in a spreadsheet document using the Open XML SDK.'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/28/2021
-ms.localizationpriority: medium
----
 # Retrieve a dictionary of all named ranges in a spreadsheet document (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -41,10 +24,7 @@ the code in this topic.
     using DocumentFormat.OpenXml.Spreadsheet;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Spreadsheet
-```
+
 
 ## GetDefinedNames Method
 
@@ -60,10 +40,7 @@ specified workbook, which may be empty if there are no defined names.
         GetDefinedNames(String fileName)
 ```
 
-```vb
-    Public Function GetDefinedNames(
-        ByVal fileName As String) As Dictionary(Of String, String)
-```
+
 
 The method examines the workbook that you specify, looking for the part
 that contains defined names. If it exists, the code iterates through all
@@ -85,12 +62,7 @@ and displays the key and value from each item.
         Console.WriteLine("{0} {1}", dn.Key, dn.Value);
 ```
 
-```vb
-    Dim result =
-        GetDefinedNames("C:\Users\Public\Documents\definednames.xlsx")
-    For Each dn In result
-        Console.WriteLine("{0}: {1}", dn.Key, dn.Value)
-```
+
 
 ## How the Code Works
 
@@ -104,13 +76,7 @@ The code starts by creating a variable named **returnValue** that the method wil
     return returnValue;
 ```
 
-```vb
-    ' Given a workbook name, return a dictionary of defined names.
-    ' The pairs include the range name and a string representing the range.
-    Dim returnValue As New Dictionary(Of String, String)
-        ' Code removed here…
-    Return returnValue
-```
+
 
 The code continues by opening the spreadsheet document, using the **Open** method and indicating that the
 document should be open for read-only access (the final false parameter). Given the open workbook, the code uses the **WorkbookPart** property to navigate to the main workbook part. The code stores this reference in a variable named **wbPart**.
@@ -126,16 +92,7 @@ document should be open for read-only access (the final false parameter). Given 
     }
 ```
 
-```vb
-    ' Open the spreadsheet document for read-only access.
-    Using document As SpreadsheetDocument =
-        SpreadsheetDocument.Open(fileName, False)
-      
-        ' Retrieve a reference to the workbook part.
-        Dim wbPart As WorkbookPart = document.WorkbookPart
-        ' Code removed here…
-    End Using
-```
+
 
 ## Retrieving the Defined Names
 
@@ -155,17 +112,7 @@ defined names that are contained within the workbook. If the property returns a 
     }
 ```
 
-```vb
-    ' Retrieve a reference to the defined names collection.
-    Dim definedNames As DefinedNames = wbPart.Workbook.DefinedNames
 
-    ' If there are defined names, add them to the dictionary.
-    If definedNames IsNot Nothing Then
-        For Each dn As DefinedName In definedNames
-            returnValue.Add(dn.Name.Value, dn.Text)
-        Next
-    End If
-```
 
 ## Sample Code
 
@@ -200,34 +147,7 @@ The following is the complete **GetDefinedNames** code sample in C\# and Visual 
     }
 ```
 
-```vb
-    Public Function GetDefinedNames(
-        ByVal fileName As String) As Dictionary(Of String, String)
 
-        ' Given a workbook name, return a dictionary of defined names.
-        ' The pairs include the range name and a string representing the range.
-        Dim returnValue As New Dictionary(Of String, String)
-        
-        ' Open the spreadsheet document for read-only access.
-        Using document As SpreadsheetDocument =
-          SpreadsheetDocument.Open(fileName, False)
-          
-            ' Retrieve a reference to the workbook part.
-            Dim wbPart As WorkbookPart = document.WorkbookPart
-
-            ' Retrieve a reference to the defined names collection.
-            Dim definedNames As DefinedNames = wbPart.Workbook.DefinedNames
-            
-            ' If there are defined names, add them to the dictionary.
-            If definedNames IsNot Nothing Then
-                For Each dn As DefinedName In definedNames
-                    returnValue.Add(dn.Name.Value, dn.Text)
-                Next
-            End If
-        End Using
-        Return returnValue
-    End Function
-```
 
 ## See also
 

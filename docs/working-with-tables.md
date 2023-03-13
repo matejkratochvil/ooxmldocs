@@ -1,19 +1,4 @@
----
 
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 7b72277f-3c5e-43ba-bbd8-7467cf532c95
-title: Working with SpreadsheetML tables (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 
 # Working with SpreadsheetML tables (Open XML SDK)
 

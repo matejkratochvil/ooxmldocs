@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 1771fc05-dd94-40e3-a788-6a13809d64f3
-title: 'Create a word processing document by providing a file name'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Create a word processing document by providing a file name
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -28,11 +12,7 @@ this topic.
     using DocumentFormat.OpenXml.Wordprocessing;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Wordprocessing
-```
+
 
 --------------------------------------------------------------------------------
 ## Creating a WordprocessingDocument Object
@@ -72,11 +52,7 @@ bracketed block, as shown in the following code example.
     }
 ```
 
-```vb
-    Using wordDocument As WordprocessingDocument = WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document)
-        ' Insert other code here. 
-    End Using
-```
+
 
 The **using** statement provides a recommended
 alternative to the typical .Create, .Save, .Close sequence. It ensures
@@ -155,9 +131,7 @@ using the technique shown in the following code example.
                 new Text("Create text in body - CreateWordprocessingDocument")))));
 ```
 
-```vb
-    mainPart.Document = New Document(New Body(New Paragraph(New Run(New Text("Create text in body - CreateWordprocessingDocument")))))
-```
+
 
 --------------------------------------------------------------------------------
 ## Sample Code
@@ -170,9 +144,7 @@ Invoice.docx file in the Public Documents folder.
     CreateWordprocessingDocument(@"c:\Users\Public\Documents\Invoice.docx");
 ```
 
-```vb
-    CreateWordprocessingDocument("c:\Users\Public\Documents\Invoice.docx")
-```
+
 
 The file extension, .docx, matches the type of file specified by the
 **WordprocessingDocumentType.Document**
@@ -200,24 +172,7 @@ Following is the complete code example in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    Public Sub CreateWordprocessingDocument(ByVal filepath As String)
-        ' Create a document by supplying the filepath.
-        Using wordDocument As WordprocessingDocument = _
-            WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document)
-        
-            ' Add a main document part. 
-            Dim mainPart As MainDocumentPart = wordDocument.AddMainDocumentPart()
 
-            ' Create the document structure and add some text.
-            mainPart.Document = New Document()
-            Dim body As Body = mainPart.Document.AppendChild(New Body())
-            Dim para As Paragraph = body.AppendChild(New Paragraph())
-            Dim run As Run = para.AppendChild(New Run())
-            run.AppendChild(New Text("Create text in body - CreateWordprocessingDocument"))
-        End Using
-    End Sub
-```
 
 --------------------------------------------------------------------------------
 ## See also

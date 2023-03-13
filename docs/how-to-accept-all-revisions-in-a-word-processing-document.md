@@ -1,18 +1,4 @@
----
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: b3406fcc-f10b-4075-a18f-116400f35faf
-title: 'How to: Accept all revisions in a word processing document (Open XML SDK)'
-description: 'Learn how to accept all revisions in a word processing document using the Open XML SDK.'
-ms.suite: office
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/30/2021
-ms.localizationpriority: high
----
+
 
 # Accept all revisions in a word processing document (Open XML SDK)
 
@@ -28,13 +14,7 @@ The following assembly directives are required to compile the code in this topic
     using System.Collections.Generic;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Wordprocessing
-    Imports System.Linq
-    Imports System.Collections.Generic
-```
+
 
 ## Open the Existing Document for Editing
 
@@ -47,11 +27,7 @@ To open an existing document, you can instantiate the [WordprocessingDocument](h
     }
 ```
 
-```vb
-    Using wdDoc As WordprocessingDocument = WordprocessingDocument.Open(fileName, True)
-        ' Insert other code here. 
-    End Using
-```
+
 
 The **using** statement provides a recommended alternative to the typical .Open, .Save, .Close sequence. It ensures that the **Dispose** method (internal method used by the Open XML SDK to clean up resources) is automatically called when the closing brace is reached. The block that follows the **using** statement establishes a scope for the object that is created or named in the **using** statement, in this case *wdDoc*. Because the **WordprocessingDocument** class in the Open XML SDK automatically saves and closes the object as part of its **System.IDisposable** implementation, and because **Dispose** is automatically called when you exit the block, you do not have to explicitly call **Save** and **Close** as long as you use **using**.
 
@@ -110,8 +86,6 @@ Consider a paragraph in a WordprocessingML document which is centered, and this 
 
 The element specifies that there was a revision to the paragraph properties at 01-01-2006 by Samantha Smith, and the previous set of paragraph properties on the paragraph was the null set (in other words, no paragraph properties explicitly present under the element). **pPr** **pPrChange**
 
-© ISO/IEC29500: 2008.
-
 ## Deleted Element
 
 The following information from the [ISO/IEC 29500](https://www.iso.org/standard/71691.html) specification
@@ -149,8 +123,6 @@ This revision is represented using the following WordprocessingML:
 The **del** element on the run properties for
 the first paragraph mark specifies that this paragraph mark was deleted,
 and this deletion was tracked as a revision.
-
-© ISO/IEC29500: 2008.
 
 ## The Inserted Element
 
@@ -197,8 +169,6 @@ The **ins** element on the table row properties for the second table row
 specifies that this row was inserted, and this insertion was tracked as
 a revision.
 
-© ISO/IEC29500: 2008.
-
 ## How the Sample Code Works
 
 After you have opened the document in the using statement, you
@@ -219,19 +189,7 @@ the formatting changes by creating the *changes* **List**, and removing each cha
     }
 ```
 
-```vb
-    Dim body As Body = wdDoc.MainDocumentPart.Document.Body
 
-    ' Handle the formatting changes.
-    Dim changes As List(Of OpenXmlElement) = _
-        body.Descendants(Of ParagraphPropertiesChange)() _
-        .Where(Function(c) c.Author.Value = authorName).Cast _
-        (Of OpenXmlElement)().ToList()
-
-    For Each change In changes
-        change.Remove()
-    Next
-```
 
 You then handle the deletions by constructing the *deletions* **List**, and removing each deletion element (**w:del**) from the **List**, which is similar to the process of
 accepting deletion changes.
@@ -254,25 +212,7 @@ accepting deletion changes.
     }
 ```
 
-```vb
-    ' Handle the deletions.
-    Dim deletions As List(Of OpenXmlElement) = _
-        body.Descendants(Of Deleted)() _
-        .Where(Function(c) c.Author.Value = authorName).Cast _
-        (Of OpenXmlElement)().ToList()
 
-    deletions.AddRange(body.Descendants(Of DeletedRun)() _
-        .Where(Function(c) c.Author.Value = authorName).Cast _
-        (Of OpenXmlElement)().ToList())
-
-    deletions.AddRange(body.Descendants(Of DeletedMathControl)() _
-        .Where(Function(c) c.Author.Value = authorName).Cast _
-        (Of OpenXmlElement)().ToList())
-
-    For Each deletion In deletions
-        deletion.Remove()
-    Next
-```
 
 Finally, you handle the insertions by constructing the *insertions* **List** and inserting the new text by removing the
 insertion element (**w:ins**), which is the
@@ -314,39 +254,7 @@ same as accepting the inserted text.
     }
 ```
 
-```vb
-    ' Handle the insertions.
-    Dim insertions As List(Of OpenXmlElement) = _
-        body.Descendants(Of Inserted)() _
-        .Where(Function(c) c.Author.Value = authorName).Cast _
-        (Of OpenXmlElement)().ToList()
 
-    insertions.AddRange(body.Descendants(Of InsertedRun)() _
-        .Where(Function(c) c.Author.Value = authorName).Cast _
-        (Of OpenXmlElement)().ToList())
-
-    insertions.AddRange(body.Descendants(Of InsertedMathControl)() _
-    .Where(Function(c) c.Author.Value = authorName).Cast _
-        (Of OpenXmlElement)().ToList())
-
-    Dim lastInsertedRun As Run = Nothing
-    For Each insertion In insertions
-        ' Found new content. Promote them to the same level as node, and then
-        ' delete the node.
-        For Each run In insertion.Elements(Of Run)()
-            If run Is insertion.FirstChild Then
-                lastInsertedRun  = insertion.InsertAfterSelf(New Run(run.OuterXml))
-            Else
-                lastInsertedRun = lastInsertedRun.Insertion.InsertAfterSelf(New Run(run.OuterXml))
-            End If
-        Next
-        insertion.RemoveAttribute("rsidR", _
-            "https://schemas.openxmlformats.org/wordprocessingml/2006/main")
-        insertion.RemoveAttribute("rsidRPr", _
-            "https://schemas.openxmlformats.org/wordprocessingml/2006/main")
-        insertion.Remove()
-    Next
-```
 
 ## Sample Code
 
@@ -361,11 +269,7 @@ file "word1.docx" as in the following example.
     AcceptRevisions(docName, authorName);
 ```
 
-```vb
-    Dim docName As String = "C:\Users\Public\Documents\word1.docx"
-    Dim authorName As String = "Katie Jordan"
-    AcceptRevisions(docName, authorName)
-```
+
 
 After you have run the program, open the word processing file to make
 sure that all revision marks have been accepted.
@@ -443,66 +347,7 @@ The following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    Public Sub AcceptRevisions(ByVal fileName As String, ByVal authorName As String)
-        ' Given a document name and an author name, accept revisions. 
-        Using wdDoc As WordprocessingDocument = WordprocessingDocument.Open(fileName, True)
-            Dim body As Body = wdDoc.MainDocumentPart.Document.Body
 
-            ' Handle the formatting changes.
-            Dim changes As List(Of OpenXmlElement) = _
-                body.Descendants(Of ParagraphPropertiesChange)() _
-                .Where(Function(c) c.Author.Value = authorName).Cast(Of OpenXmlElement)().ToList()
-
-            For Each change In changes
-                change.Remove()
-            Next
-
-            ' Handle the deletions.
-            Dim deletions As List(Of OpenXmlElement) = _
-                body.Descendants(Of Deleted)() _
-                .Where(Function(c) c.Author.Value = authorName).Cast(Of OpenXmlElement)().ToList()
-
-            deletions.AddRange(body.Descendants(Of DeletedRun)() _
-            .Where(Function(c) c.Author.Value = authorName).Cast(Of OpenXmlElement)().ToList())
-
-            deletions.AddRange(body.Descendants(Of DeletedMathControl)() _
-            .Where(Function(c) c.Author.Value = authorName).Cast(Of OpenXmlElement)().ToList())
-
-            For Each deletion In deletions
-                deletion.Remove()
-            Next
-
-            ' Handle the insertions.
-            Dim insertions As List(Of OpenXmlElement) = _
-                body.Descendants(Of Inserted)() _
-                .Where(Function(c) c.Author.Value = authorName).Cast(Of OpenXmlElement)().ToList()
-
-            insertions.AddRange(body.Descendants(Of InsertedRun)() _
-            .Where(Function(c) c.Author.Value = authorName).Cast(Of OpenXmlElement)().ToList())
-
-            insertions.AddRange(body.Descendants(Of InsertedMathControl)() _
-            .Where(Function(c) c.Author.Value = authorName).Cast(Of OpenXmlElement)().ToList())
-
-            For Each insertion In insertions
-                ' Found new content. Promote them to the same level as node, and then
-                ' delete the node.
-                For Each run In insertion.Elements(Of Run)()
-                    If run Is insertion.FirstChild Then
-                        insertion.InsertAfterSelf(New Run(run.OuterXml))
-                    Else
-                        insertion.NextSibling().InsertAfterSelf(New Run(run.OuterXml))
-                    End If
-                Next
-                insertion.RemoveAttribute("rsidR", _
-                    "https://schemas.openxmlformats.org/wordprocessingml/2006/main")
-                insertion.RemoveAttribute("rsidRPr", _
-                    "https://schemas.openxmlformats.org/wordprocessingml/2006/main")
-                insertion.Remove()
-            Next
-        End Using
-    End Sub
-```
 
 ## See also
 

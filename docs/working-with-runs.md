@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 1fbc6d30-bfe4-4b2b-8fd8-0c5a400d1e03
-title: Working with runs (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Working with runs (Open XML SDK)
 
 This topic discusses the Open XML SDK 2.5 **[Run](https://msdn.microsoft.com/library/office/documentformat.openxml.wordprocessing.run.aspx)** class and how it relates to the Open
@@ -43,8 +27,6 @@ elements is bold, underlined, or visible, for example. Some examples of
 run properties are bold, border, character style, color, font, font
 size, italic, kerning, disable spelling/grammar check, shading, small
 caps, strikethrough, text direction, and underline.
-
-© ISO/IEC29500: 2008.
 
 The following table lists the most common Open XML SDK classes used when
 working with runs.
@@ -106,24 +88,7 @@ formatting to the run.
     }
 ```
 
-```vb
-    Public Sub WriteToWordDoc(ByVal filepath As String, ByVal txt As String)
-        ' Open a WordprocessingDocument for editing using the filepath.
-        Using wordprocessingDocument As WordprocessingDocument = _
-            WordprocessingDocument.Open(filepath, True)
-            ' Assign a reference to the existing document body.
-            Dim body As Body = wordprocessingDocument.MainDocumentPart.Document.Body
 
-            ' Add new text.
-            Dim para As Paragraph = body.AppendChild(New Paragraph())
-            Dim run As Run = para.AppendChild(New Run())
-
-            ' Apply bold formatting to the run.
-            Dim runProperties As RunProperties = run.AppendChild(New RunProperties(New Bold()))
-            run.AppendChild(New Text(txt))
-        End Using
-    End Sub
-```
 When this code is run, the following XML is written to the
 WordprocessingML document specified in the preceding code.
 

@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 7b72277f-3c5e-43ba-bbd8-7467cf532c95
-title: Working with WordprocessingML tables (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Working with WordprocessingML tables (Open XML SDK)
 
 This topic discusses the Open XML SDK 2.5 [Table](https://msdn.microsoft.com/library/office/documentformat.openxml.wordprocessing.table.aspx) class and how it relates to the Office Open XML File Formats WordprocessingML schema.
@@ -27,8 +11,6 @@ Another type of block-level content in WordprocessingML, A table is a set of par
 Tables in WordprocessingML are defined via the tbl element, which is analogous to the HTML \<table\> tag. The table element specifies the location of a table present in the document.
 
 A tbl element has two elements that define its properties: tblPr, which defines the set of table-wide properties (such as style and width), and tblGrid, which defines the grid layout of the table. A tbl element can also contain an arbitrary non-zero number of rows, where each row is specified with a tr element. Each tr element can contain an arbitrary non-zero number of cells, where each cell is specified with a tc element.
-
-© ISO/IEC29500: 2008.
 
 The following table lists some of the most common Open XML SDK classes used when working with tables.
 
@@ -115,49 +97,7 @@ public static void InsertTableInDoc(string filepath)
 }
 ```
 
-```VB
-Public Sub InsertTableInDoc(ByVal filepath As String)
-    ' Open a WordprocessingDocument for editing using the filepath.
-    Using wordprocessingDocument As WordprocessingDocument = _
-        WordprocessingDocument.Open(filepath, True)
-        ' Assign a reference to the existing document body.
-        Dim body As Body = wordprocessingDocument.MainDocumentPart.Document.Body
 
-        ' Create a table.
-        Dim tbl As New Table()
-
-        ' Set the style and width for the table.
-        Dim tableProp As New TableProperties()
-        Dim tableStyle As New TableStyle() With {.Val = "TableGrid"}
-
-        ' Make the table width 100% of the page width.
-        Dim tableWidth As New TableWidth() With {.Width = "5000", .Type = TableWidthUnitValues.Pct}
-
-        ' Apply
-        tableProp.Append(tableStyle, tableWidth)
-        tbl.AppendChild(tableProp)
-
-        ' Add 3 columns to the table.
-        Dim tg As New TableGrid(New GridColumn(), New GridColumn(), New GridColumn())
-        tbl.AppendChild(tg)
-
-        ' Create 1 row to the table.
-        Dim tr1 As New TableRow()
-
-        ' Add a cell to each column in the row.
-        Dim tc1 As New TableCell(New Paragraph(New Run(New Text("1"))))
-        Dim tc2 As New TableCell(New Paragraph(New Run(New Text("2"))))
-        Dim tc3 As New TableCell(New Paragraph(New Run(New Text("3"))))
-        tr1.Append(tc1, tc2, tc3)
-
-        ' Add row to the table.
-        tbl.AppendChild(tr1)
-
-        ' Add the table to the document
-        body.AppendChild(tbl)
-    End Using
-End Sub
-```
 
 When this code is run, the following XML is written to the WordprocessingML document specified in the preceding code.
 

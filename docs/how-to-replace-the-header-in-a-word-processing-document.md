@@ -1,20 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: d57e9b7d-b271-4c8d-998f-b7ca3eb6c850
-title: 'How to: Replace the header in a word processing document (Open XML SDK)'
-description: 'Learn how to replace the header in a word processing document using the Open XML SDK.'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/28/2021
-ms.localizationpriority: high
----
 # Replace the header in a word processing document (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -39,12 +22,7 @@ the code in this topic.
     using DocumentFormat.OpenXml.Wordprocessing;
 ```
 
-```vb
-    Imports System.Collections.Generic
-    Imports System.Linq
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Wordprocessing
-```
+
 
 ## Structure of the Header Reference Element
 
@@ -127,8 +105,6 @@ The resulting section shall use the header part with relationship id
 relationship id **rId2** for all subsequent even
 pages, and the header part with relationship id **rId5** for all subsequent odd pages. *end example*]
 
-© ISO/IEC29500: 2008.
-
 ## Sample Code
 
 The following code example shows how to replace the header in a word
@@ -142,11 +118,7 @@ segment as an example.
     AddHeaderFromTo(filepathFrom, filepathTo);
 ```
 
-```vb
-    Dim filepathFrom As String = "C:\Users\Public\Documents\word15a.docx"
-    Dim filepathTo As String = "C:\Users\Public\Documents\Word15b.docx"
-    AddHeaderFromTo(filepathFrom, filepathTo)
-```
+
 
 Following is the complete sample code in both C\# and Visual Basic.
 
@@ -199,44 +171,7 @@ Following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    Public Sub AddHeaderFromTo(ByVal filepathFrom As String, ByVal filepathTo As String)
-        ' Replace header in target document with header of source document.
-        Using wdDoc As WordprocessingDocument = _
-            WordprocessingDocument.Open(filepathTo, True)
-            Dim mainPart As MainDocumentPart = wdDoc.MainDocumentPart
 
-            ' Delete the existing header part.
-            mainPart.DeleteParts(mainPart.HeaderParts)
-
-            ' Create a new header part.
-            Dim headerPart = mainPart.AddNewPart(Of HeaderPart)()
-
-            ' Get Id of the headerPart.
-            Dim rId As String = mainPart.GetIdOfPart(headerPart)
-
-            ' Feed target headerPart with source headerPart.
-            Using wdDocSource As WordprocessingDocument = _
-                WordprocessingDocument.Open(filepathFrom, True)
-                Dim firstHeader = wdDocSource.MainDocumentPart.HeaderParts.FirstOrDefault()
-
-                If firstHeader IsNot Nothing Then
-                    headerPart.FeedData(firstHeader.GetStream())
-                End If
-            End Using
-
-            ' Get SectionProperties and Replace HeaderReference with new Id.
-            Dim sectPrs = mainPart.Document.Body.Elements(Of SectionProperties)()
-            For Each sectPr In sectPrs
-                ' Delete existing references to headers.
-                sectPr.RemoveAllChildren(Of HeaderReference)()
-
-                ' Create the new header reference node.
-                sectPr.PrependChild(Of HeaderReference)(New HeaderReference() With { .Id = rId })
-            Next
-        End Using
-    End Sub
-```
 
 ## See also
 

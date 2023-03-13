@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: ffdf5bd3-53f5-4f48-8946-11a0287fb107
-title: Working with the calculation chain (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Working with the calculation chain (Open XML SDK)
 
 This topic discusses the Open XML SDK 2.5 [CalculationChain](https://msdn.microsoft.com/library/office/documentformat.openxml.spreadsheet.calculationchain.aspx) class and how it relates
@@ -67,8 +51,6 @@ expressed in the Calculation Chain part does not force or dictate to the
 implementing application the order in which calculations must be
 performed at runtime.
 
-© ISO/IEC29500: 2008.
-
 The following table lists the common Open XML SDK 2.5 classes used when
 working with the **CalculationChain** class.
 
@@ -100,8 +82,6 @@ calculated appears first (top-tobottom), and so on. The reference
 attribute r indicates the cell's address in the sheet. The index
 attribute i indicates the index of the sheet with which that cell is
 associated.
-
-© ISO/IEC29500: 2008.
 
 ### SpreadsheetML
 

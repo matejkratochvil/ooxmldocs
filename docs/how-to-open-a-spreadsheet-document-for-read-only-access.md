@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 625bf571-5630-47f8-953f-e9e1a93e3229
-title: 'How to: Open a spreadsheet document for read-only access (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Open a spreadsheet document for read-only access (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -30,12 +14,7 @@ this topic.
     using DocumentFormat.OpenXml.Spreadsheet;
 ```
 
-```vb
-    Imports System.IO
-    Imports System.IO.Packaging
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Spreadsheet
-```
+
 
 ---------------------------------------------------------------------------------
 ## When to Open a Document for Read-Only Access
@@ -90,10 +69,7 @@ Method.
     using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(filepath, false))
 ```
 
-```vb
-    ' Open a SpreadsheetDocument for read-only access based on a filepath.
-    Using spreadsheetDocument As SpreadsheetDocument = SpreadsheetDocument.Open(filepath, False)
-```
+
 
 The other two **Open** methods create an
 instance of the SpreadsheetDocument class based on an input/output
@@ -111,11 +87,7 @@ The following code example opens a document based on a stream.
         SpreadsheetDocument.Open(stream, false))
 ```
 
-```vb
-    Dim stream As Stream = File.Open(strDoc, FileMode.Open)
-    ' Open a SpreadsheetDocument for read-only access based on a stream.
-    Using spreadsheetDocument As SpreadsheetDocument = SpreadsheetDocument.Open(stream, False)
-```
+
 
 Suppose you have an application that uses the Open XML support in the
 System.IO.Packaging namespace of the .NET Framework Class Library, and
@@ -139,13 +111,7 @@ operation.
         SpreadsheetDocument.Open(spreadsheetPackage))
 ```
 
-```vb
-    ' Open System.IO.Packaging.Package.
-    Dim spreadsheetPackage As Package = Package.Open(filepath, FileMode.Open, FileAccess.Read)
 
-    ' Open a SpreadsheetDocument based on a package.
-    Using spreadsheetDocument As SpreadsheetDocument = SpreadsheetDocument.Open(spreadsheetPackage)
-```
 
 After you open the spreadsheet document package, you can access the main
 workbook part. To access the main workbook part, you assign a reference
@@ -156,10 +122,7 @@ to the existing workbook part, as shown in the following code example.
     WorkbookPart wbPart = document.WorkbookPart;
 ```
 
-```vb
-    ' Assign a reference to the existing workbook part.
-    Dim wbPart As WorkbookPart = document.WorkbookPart
-```
+
 
 ---------------------------------------------------------------------------------
 ## Basic Document Structure
@@ -242,18 +205,7 @@ attempts to add the new **WorksheetPart**.
     }
 ```
 
-```vb
-    Public Shared Sub OpenSpreadsheetDocumentReadonly(ByVal filepath As String)
-        ' Open a SpreadsheetDocument based on a filepath.
-        Using spreadsheetDocument As SpreadsheetDocument = SpreadsheetDocument.Open(filepath, False)
-            ' Attempt to add a new WorksheetPart.
-            ' The call to AddNewPart generates an exception because the file is read-only.
-            Dim newWorksheetPart As WorksheetPart = spreadsheetDocument.WorkbookPart.AddNewPart(Of WorksheetPart)()
 
-            ' The rest of the code will not be called.
-        End Using
-    End Sub
-```
 
 --------------------------------------------------------------------------------
 ## Sample Code
@@ -265,9 +217,7 @@ the following code, which opens the file "Sheet10.xlsx," as an example.
     OpenSpreadsheetDocumentReadonly(@"C:\Users\Public\Documents\Sheet10.xlsx");
 ```
 
-```vb
-    OpenSpreadsheetDocumentReadonly("C:\Users\Public\Documents\Sheet10.xlsx")
-```
+
 The following is the complete sample code in both C\# and Visual Basic.
 
 ```csharp
@@ -285,18 +235,7 @@ The following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    Public Sub OpenSpreadsheetDocumentReadonly(ByVal filepath As String)
-        ' Open a SpreadsheetDocument based on a filepath.
-        Using spreadsheetDocument As SpreadsheetDocument = spreadsheetDocument.Open(filepath, False)
-            ' Attempt to add a new WorksheetPart.
-            ' The call to AddNewPart generates an exception because the file is read-only.
-            Dim newWorksheetPart As WorksheetPart = spreadsheetDocument.WorkbookPart.AddNewPart(Of WorksheetPart)()
 
-            ' The rest of the code will not be called.
-        End Using
-    End Sub
-```
 
 --------------------------------------------------------------------------------
 ## See also

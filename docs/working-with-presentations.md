@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 82deb499-7479-474d-9d89-c4847e6f3649
-title: Working with presentations (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
 # Working with presentations (Open XML SDK)
 
 This topic discusses the Open XML SDK 2.5 for Office [Presentation](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.presentation.aspx) class and how it relates to
@@ -54,8 +38,6 @@ size and default text styles.
     </p:defaultTextStyle>  
 </p:presentation>
 ```
-
-© ISO/IEC29500: 2008.
 
 The \<presentation\> element typically contains child elements that list
 slide masters, slides, and custom slide shows contained within the
@@ -110,8 +92,6 @@ slide master slides that are available within the corresponding
 presentation. A slide master is a slide that is specifically designed to
 be a template for all related child layout slides.
 
-© ISO/IEC29500: 2008.
-
 ### SlideMasterId Class
 
 The **SlideMasterId** class corresponds to the
@@ -139,8 +119,6 @@ embedTrueTypeFonts="1">
 </p:presentation>
 ```
 
-© ISO/IEC29500: 2008.
-
 ### SlideIdList Class
 
 The **SlideIdList** class corresponds to the
@@ -153,8 +131,6 @@ This element specifies a list of identification information for the
 slides that are available within the corresponding presentation. A slide
 contains the information that is specific to a single slide such as
 slide-specific shape and text information.
-
-© ISO/IEC29500: 2008.
 
 ### SlideId Class
 
@@ -186,8 +162,6 @@ embedTrueTypeFonts="1">
 </p:presentation>
 ```
 
-© ISO/IEC29500: 2008.
-
 ### NotesMasterIdList Class
 
 The **NotesMasterIdList** class corresponds to
@@ -200,8 +174,6 @@ This element specifies a list of identification information for the
 notes master slides that are available within the corresponding
 presentation. A notes master is a slide that is specifically designed
 for the printing of the slide along with any attached notes.
-
-© ISO/IEC29500: 2008.
 
 ### HandoutMasterIdList Class
 
@@ -216,8 +188,6 @@ handout master slides that are available within the corresponding
 presentation. A handout master is a slide that is specifically designed
 for printing as a handout.
 
-© ISO/IEC29500: 2008.
-
 ### CustomShowList Class
 
 The **CustomShowList** class corresponds to the
@@ -230,8 +200,6 @@ This element specifies a list of all custom shows that are available
 within the corresponding presentation. A custom show is a defined slide
 sequence that allows for the displaying of the slides with the
 presentation in any arbitrary order.
-
-© ISO/IEC29500: 2008.
 
 ### SlideSize Class
 
@@ -257,8 +225,6 @@ embedTrueTypeFonts="1">
     …  
 </p:presentation>  
 ```
-
-© ISO/IEC29500: 2008.
 
 ### NotesSize Class
 
@@ -288,8 +254,6 @@ embedTrueTypeFonts="1">
 </p:presentation>
 ```
 
-© ISO/IEC29500: 2008.
-
 ### DefaultTextStyle Class
 
 The DefaultTextStyle class corresponds to the \<defaultTextStyle\>
@@ -303,8 +267,6 @@ within the presentation. The text style defined here can be referenced
 when inserting a new slide if that slide is not associated with a master
 slide or if no styling information has been otherwise specified for the
 text within the presentation slide.
-
-© ISO/IEC29500: 2008.
 
 
 --------------------------------------------------------------------------------
@@ -367,44 +329,7 @@ presentation.
             }
 ```
 
-```vb
-    Public Shared Sub CreatePresentation(ByVal filepath As String)
 
-                ' Create a presentation at a specified file path. The presentation document type is pptx, by default.
-                Dim presentationDoc As PresentationDocument = PresentationDocument.Create(filepath, PresentationDocumentType.Presentation)
-                Dim presentationPart As PresentationPart = presentationDoc.AddPresentationPart()
-                presentationPart.Presentation = New Presentation()
-
-                CreatePresentationParts(presentationPart)
-
-                ' Close the presentation handle.
-                presentationDoc.Close()
-            End Sub
-    Private Shared Sub CreatePresentationParts(ByVal presentationPart As PresentationPart)
-                Dim slideMasterIdList1 As New SlideMasterIdList(New SlideMasterId() With { _
-                 .Id = DirectCast(2147483648UI, UInt32Value), _
-                 .RelationshipId = "rId1" _
-                })
-                Dim slideIdList1 As New SlideIdList(New SlideId() With { _
-                 .Id = DirectCast(256UI, UInt32Value), _
-                 .RelationshipId = "rId2" _
-                })
-                Dim slideSize1 As New SlideSize() With { _
-                 .Cx = 9144000, _
-                 .Cy = 6858000, _
-                 .Type = SlideSizeValues.Screen4x3 _
-                }
-                Dim notesSize1 As New NotesSize() With { _
-                 .Cx = 6858000, _
-                 .Cy = 9144000 _
-                }
-                Dim defaultTextStyle1 As New DefaultTextStyle()
-
-                presentationPart.Presentation.Append(slideMasterIdList1, slideIdList1, slideSize1, notesSize1, defaultTextStyle1)
-
-             ' Code to create other parts of the presentation file goes here.
-            End Sub
-```
 
 ---------------------------------------------------------------------------------
 ## Resulting PresentationML

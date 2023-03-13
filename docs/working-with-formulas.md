@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 17abd341-abe9-4eee-9bb3-27fded0b04d2
-title: Working with formulas (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Working with formulas (Open XML SDK)
 
 This topic discusses the Open XML SDK 2.5 [CellFormula](https://msdn.microsoft.com/library/office/documentformat.openxml.spreadsheet.cellformula.aspx) class and how it relates to the
@@ -102,8 +86,6 @@ types: array, error, logical, number, and text.
 An array value or constant represents a collection of one or more
 elements, whose values can have any type (i.e., the elements of an array
 need not all have the same type).
-
-© ISO/IEC29500: 2008.
 
 For more information about formula syntax see the ISO/IEC 29500
 specification.

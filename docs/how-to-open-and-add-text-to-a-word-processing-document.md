@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 360318b5-9d17-42a1-b707-c3ccd1a89c97
-title: 'How to: Open and add text to a word processing document (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Open and add text to a word processing document (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -28,10 +12,7 @@ this topic.
     using DocumentFormat.OpenXml.Wordprocessing;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Wordprocessing
-```
+
 
 --------------------------------------------------------------------------------
 ## How to Open and Add Text to a Document
@@ -70,10 +51,7 @@ method.
         WordprocessingDocument.Open(filepath, true);
 ```
 
-```vb
-    ' Open a WordprocessingDocument for editing using the filepath.
-    Dim wordprocessingDocument As WordprocessingDocument = WordprocessingDocument.Open(filepath, True)
-```
+
 
 When you have opened the Word document package, you can add text to the
 main document part. To access the body of the main document part, assign
@@ -85,10 +63,7 @@ code example.
     Body body = wordprocessingDocument.MainDocumentPart.Document.Body;
 ```
 
-```vb
-    ' Assign a reference to the existing document body.
-    Dim body As Body = wordprocessingDocument.MainDocumentPart.Document.Body
-```
+
 
 --------------------------------------------------------------------------------
 ## Structure of a WordProcessingML Document
@@ -143,12 +118,7 @@ following code example adds the paragraph, run and text.
     run.AppendChild(new Text(txt));
 ```
 
-```vb
-    ' Add new text.
-    Dim para As Paragraph = body.AppendChild(New Paragraph())
-    Dim run As Run = para.AppendChild(New Run())
-    run.AppendChild(New Text(txt))
-```
+
 
 --------------------------------------------------------------------------------
 ## Sample Code
@@ -165,11 +135,7 @@ Public Documents folder and adds text to it.
     OpenAndAddTextToWordDocument(strDoc, strTxt);
 ```
 
-```vb
-    Dim strDoc As String = "C:\Users\Public\Documents\Letter.docx"
-    Dim strTxt As String = "Append text in body - OpenAndAddTextToWordDocument"
-    OpenAndAddTextToWordDocument(strDoc, strTxt)
-```
+
 
 Following is the complete sample code in both C\# and Visual Basic.
 
@@ -199,24 +165,7 @@ of **OpenSettings**.
     }
 ```
 
-```vb
-    Public Sub OpenAndAddTextToWordDocument(ByVal filepath As String, ByVal txt As String)
-        ' Open a WordprocessingDocument for editing using the filepath.
-        Dim wordprocessingDocument As WordprocessingDocument = _
-            wordprocessingDocument.Open(filepath, True)
 
-        ' Assign a reference to the existing document body. 
-        Dim body As Body = wordprocessingDocument.MainDocumentPart.Document.Body
-
-        ' Add new text.
-        Dim para As Paragraph = body.AppendChild(New Paragraph)
-        Dim run As Run = para.AppendChild(New Run)
-        run.AppendChild(New Text(txt))
-
-        ' Close the handle explicitly.
-        wordprocessingDocument.Close()
-    End Sub
-```
 
 --------------------------------------------------------------------------------
 ## See also

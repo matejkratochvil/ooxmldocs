@@ -1,18 +1,4 @@
----
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: a6d35b76-d12a-460c-9d9d-2334abde759e
-title: 'How to: Retrieve a list of the hidden worksheets in a spreadsheet document (Open XML SDK)'
-description: 'Learn how to retrieve a list of the hidden worksheets in a spreadsheet document using the Open XML SDK.'
-ms.suite: office
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/28/2021
-ms.localizationpriority: medium
----
+
 
 # Retrieve a list of the hidden worksheets in a spreadsheet document (Open XML SDK)
 
@@ -33,10 +19,7 @@ You must also use the following **using** directives or **Imports** statements t
     using DocumentFormat.OpenXml.Spreadsheet;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml.Spreadsheet
-    Imports DocumentFormat.OpenXml.Packaging
-```
+
 
 ## GetHiddenSheets method
 
@@ -46,9 +29,7 @@ You can use the **GetHiddenSheets** method, which is shown in the following code
     public static List<Sheet> GetHiddenSheets(string fileName)
 ```
 
-```vb
-    Public Function GetHiddenSheets(ByVal fileName As String) As List(Of Sheet)
-```
+
 
 The method works with the workbook you specify, filling a **[List\<T\>](https://msdn2.microsoft.com/library/6sh2ey19)** instance with a reference to each hidden **Sheet** object.
 
@@ -67,15 +48,7 @@ The method returns a generic list that contains information about the individual
     }
 ```
 
-```vb
-    ' Revise this path to the location of a file that contains hidden worksheets.
-    Const DEMOPATH As String =
-        "C:\Users\Public\Documents\HiddenSheets.xlsx"
-    Dim sheets As List(Of Sheet) = GetHiddenSheets(DEMOPATH)
-    For Each sheet In sheets
-        Console.WriteLine(sheet.Name)
-    Next
-```
+
 
 ## How the code works
 
@@ -85,9 +58,7 @@ The following code starts by creating a generic list that will contain informati
     List<Sheet> returnVal = new List<Sheet>();
 ```
 
-```vb
-    Dim returnVal As New List(Of Sheet)
-```
+
 
 Next, the following code opens the specified workbook by using the **SpreadsheetDocument.Open** method and indicating that the document should be open for read-only access (the final **false** parameter value). Given the open workbook, the code uses the **WorkbookPart** property to navigate to the main workbook part, storing the reference in a variable named **wbPart**.
 
@@ -101,13 +72,7 @@ Next, the following code opens the specified workbook by using the **Spreadsheet
     return returnVal;
 ```
 
-```vb
-    Using document As SpreadsheetDocument =     SpreadsheetDocument.Open(fileName, False)
-        Dim wbPart As WorkbookPart = document.WorkbookPart
-        ' Code removed here…
-    End Using
-    Return returnVal
-```
+
 
 ## Retrieve the collection of worksheets
 
@@ -118,9 +83,7 @@ The following code uses the **Descendants** generic method of the **Workbook** o
     var sheets = wbPart.Workbook.Descendants<Sheet>();
 ```
 
-```vb
-    Dim sheets = wbPart.Workbook.Descendants(Of Sheet)()
-```
+
 
 ## Retrieve hidden sheets
 
@@ -136,12 +99,7 @@ Given the collection that contains information about all the sheets, the followi
         item.State.Value == SheetStateValues.VeryHidden));
 ```
 
-```vb
-    Dim hiddenSheets = sheets.Where(Function(item) item.State IsNot
-        Nothing AndAlso item.State.HasValue _
-        AndAlso (item.State.Value = SheetStateValues.Hidden Or _
-            item.State.Value = SheetStateValues.VeryHidden))
-```
+
 
 Finally, the following code calls the **[ToList\<TSource\>](https://msdn2.microsoft.com/library/bb342261)** method to execute the LINQ query that retrieves the list of hidden sheets, placing the result into the return value for the function.
 
@@ -149,9 +107,7 @@ Finally, the following code calls the **[ToList\<TSource\>](https://msdn2.micros
     returnVal = hiddenSheets.ToList();
 ```
 
-```vb
-    returnVal = hiddenSheets.ToList()
-```
+
 
 ## Sample code
 
@@ -182,29 +138,7 @@ The following is the complete **GetHiddenSheets** code sample in C\# and Visual 
     }
 ```
 
-```vb
-    Public Function GetHiddenSheets(ByVal fileName As String) As List(Of Sheet)
-        Dim returnVal As New List(Of Sheet)
 
-        Using document As SpreadsheetDocument =
-            SpreadsheetDocument.Open(fileName, False)
-
-            Dim wbPart As WorkbookPart = document.WorkbookPart
-            Dim sheets = wbPart.Workbook.Descendants(Of Sheet)()
-
-            ' Look for sheets where there is a State attribute defined, 
-            ' where the State has a value,
-            ' and where the value is either Hidden or VeryHidden:
-            Dim hiddenSheets = sheets.Where(Function(item) item.State IsNot
-                Nothing AndAlso item.State.HasValue _
-                AndAlso (item.State.Value = SheetStateValues.Hidden Or _
-                    item.State.Value = SheetStateValues.VeryHidden))
-
-            returnVal = hiddenSheets.ToList()
-        End Using
-        Return returnVal
-    End Function
-```
 
 ## See also
 

@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 03ac59c4-49a6-4721-8931-d045c4c9ddde
-title: 'How to: Create a spreadsheet document by providing a file name (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Create a spreadsheet document by providing a file name (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -28,11 +12,7 @@ this topic.
     using DocumentFormat.OpenXml.Spreadsheet;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Spreadsheet
-```
+
 
 --------------------------------------------------------------------------------
 ## Getting a SpreadsheetDocument Object 
@@ -68,10 +48,7 @@ method.
     SpreadsheetDocument.Create(filepath, SpreadsheetDocumentType.Workbook);
 ```
 
-```vb
-    Dim spreadsheetDocument As SpreadsheetDocument = _
-    SpreadsheetDocument.Create(filepath, SpreadsheetDocumentType.Workbook)
-```
+
 
 When you have created the Excel document package, you can add parts to
 it. To add the workbook part you call the [AddWorkbookPart()](https://msdn.microsoft.com/library/office/documentformat.openxml.packaging.spreadsheetdocument.addworkbookpart.aspx) method of the **SpreadsheetDocument** class. A workbook part must
@@ -87,10 +64,7 @@ worksheet to the workbook.
     sheets.Append(sheet);
 ```
 
-```vb
-    Dim sheet As New Sheet() With {.Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart), .SheetId = 1, .Name = "mySheet"}
-    sheets.Append(sheet)
-```
+
 
 
 --------------------------------------------------------------------------------
@@ -157,9 +131,7 @@ public documents folder.
     CreateSpreadsheetWorkbook(@"c:\Users\Public\Documents\Sheet2.xlsx")
 ```
 
-```vb
-    CreateSpreadsheetWorkbook("c:\Users\Public\Documents\Sheet2.xlsx")
-```
+
 
 Notice that the file name extension, .xlsx, matches the type of file
 specified by the **SpreadsheetDocumentType.Workbook** parameter in the
@@ -199,38 +171,7 @@ Following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    Public Sub CreateSpreadsheetWorkbook(ByVal filepath As String)
-        ' Create a spreadsheet document by supplying the filepath.
-        ' By default, AutoSave = true, Editable = true, and Type = xlsx.
-        Dim spreadsheetDocument As SpreadsheetDocument = _
-    spreadsheetDocument.Create(filepath, SpreadsheetDocumentType.Workbook)
 
-        ' Add a WorkbookPart to the document.
-        Dim workbookpart As WorkbookPart = spreadsheetDocument.AddWorkbookPart
-        workbookpart.Workbook = New Workbook
-
-        ' Add a WorksheetPart to the WorkbookPart.
-        Dim worksheetPart As WorksheetPart = workbookpart.AddNewPart(Of WorksheetPart)()
-        worksheetPart.Worksheet = New Worksheet(New SheetData())
-
-        ' Add Sheets to the Workbook.
-        Dim sheets As Sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild(Of Sheets)(New Sheets())
-
-        ' Append a new worksheet and associate it with the workbook.
-        Dim sheet As Sheet = New Sheet
-        sheet.Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart)
-        sheet.SheetId = 1
-        sheet.Name = "mySheet"
-
-        sheets.Append(sheet)
-
-        workbookpart.Workbook.Save()
-
-        ' Close the document.
-        spreadsheetDocument.Close()
-    End Sub
-```
 
 --------------------------------------------------------------------------------
 ## See also 

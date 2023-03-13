@@ -1,20 +1,4 @@
----
 
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 3e9ca812-460e-442e-8257-38f523a53dc6
-title: 'How to: Retrieve application property values from a word processing document (Open XML SDK)'
-description: 'Learn how to retrieve application property values from a word processing document using the Open XML SDK.'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/28/2021
-ms.localizationpriority: medium
----
 
 # Retrieve application property values from a word processing document (Open XML SDK)
 
@@ -34,9 +18,7 @@ the code in this topic.
     using DocumentFormat.OpenXml.Packaging;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml.Packaging
-```
+
 
 ## Retrieving Application Properties
 
@@ -52,14 +34,7 @@ To retrieve application document properties, you can retrieve the **ExtendedFile
     }
 ```
 
-```vb
-    Private Const FILENAME As String = "DocumentProperties.docx"
 
-    Using document As WordprocessingDocument =
-        WordprocessingDocument.Open(FILENAME, True)
-        ' Code removed here…
-    End Using
-```
 
 Given the reference to the **WordProcessingDocument** object, you can retrieve a reference to the **ExtendedFilePropertiesPart** property of the document. This object provides its own properties, each of which exposes one of the application document properties.
 
@@ -67,9 +42,7 @@ Given the reference to the **WordProcessingDocument** object, you can retrieve a
     var props = document.ExtendedFilePropertiesPart.Properties;
 ```
 
-```vb
-    Dim props = document.ExtendedFilePropertiesPart.Properties
-```
+
 
 Once you have the reference to the properties of **ExtendedFilePropertiesPart**, you can then retrieve any of the application properties, using simple code such as that shown
 in the next example. Note that the code must confirm that the reference to each property isn't **null** before retrieving its **Text** property. Unlike core properties,
@@ -86,19 +59,7 @@ document properties aren't available if you (or the application) haven't specifi
         Console.WriteLine("Manager = " + props.Manager.Text);
 ```
 
-```vb
-    If props.Company IsNot Nothing Then
-        Console.WriteLine("Company = " & props.Company.Text)
-    End If
 
-    If props.Lines IsNot Nothing Then
-        Console.WriteLine("Lines = " & props.Lines.Text)
-    End If
-
-    If props.Manager IsNot Nothing Then
-        Console.WriteLine("Manager = " & props.Manager.Text)
-    End If
-```
 
 ## Sample Code
 
@@ -136,34 +97,7 @@ The following is the complete code sample in C\# and Visual Basic.
     }
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml.Packaging
 
-    Module Module1
-
-        Private Const FILENAME As String =
-            "C:\Users\Public\Documents\DocumentProperties.docx"
-
-        Sub Main()
-            Using document As WordprocessingDocument =
-                WordprocessingDocument.Open(FILENAME, False)
-
-                Dim props = document.ExtendedFilePropertiesPart.Properties
-                If props.Company IsNot Nothing Then
-                    Console.WriteLine("Company = " & props.Company.Text)
-                End If
-
-                If props.Lines IsNot Nothing Then
-                    Console.WriteLine("Lines = " & props.Lines.Text)
-                End If
-
-                If props.Manager IsNot Nothing Then
-                    Console.WriteLine("Manager = " & props.Manager.Text)
-                End If
-            End Using
-        End Sub
-    End Module
-```
 
 ## See also
 

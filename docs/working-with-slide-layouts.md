@@ -1,20 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 1ec087c3-8b9e-46a9-9c3c-14586908eb0e
-title: Working with slide layouts (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
-
 # Working with slide layouts (Open XML SDK)
 
 This topic discusses the Open XML SDK 2.5 for Office [SlideLayout](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.slidelayout.aspx) class and how it relates to the Open XML File Format PresentationML schema.
@@ -37,27 +20,26 @@ The following table lists the child elements of the \<sldLayout\>
 element used when working with slide layouts and the Open XML SDK 2.5
 classes that correspond to them.
 
-| **PresentationML Element** |                                                               **Open XML SDK 2.5 Class**                                                                |
-|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-|       \<clrMapOvr\>        |              [ColorMapOverride](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.colormapoverride.aspx)              |
-|          \<cSld\>          |               [CommonSlideData](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.commonslidedata.aspx)               |
-|         \<extLst\>         | [ExtensionListWithModification](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.extensionlistwithmodification.aspx) |
-|           \<hf\>           |                  [HeaderFooter](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.headerfooter.aspx)                  |
-|         \<timing\>         |                        [Timing](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.timing.aspx)                        |
-|       \<transition\>       |                    [Transition](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.transition.aspx)                    |
+| **PresentationML Element** | **Open XML SDK 2.5 Class**                                                                                                                        |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| \<clrMapOvr\>              | [ColorMapOverride](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.colormapoverride.aspx)                           |
+| \<cSld\>                   | [CommonSlideData](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.commonslidedata.aspx)                             |
+| \<extLst\>                 | [ExtensionListWithModification](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.extensionlistwithmodification.aspx) |
+| \<hf\>                     | [HeaderFooter](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.headerfooter.aspx)                                   |
+| \<timing\>                 | [Timing](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.timing.aspx)                                               |
+| \<transition\>             | [Transition](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.transition.aspx)                                       |
 
 The following table from the [ISO/IEC 29500](https://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=51463)
 specification describes the attributes of the \<sldLayout\> element.
 
-
-|                    **Attributes**                     |                                                                                                                                                                                                                    **Description**                                                                                                                                                                                                                     |
-|-------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|             matchingName (Matching Name)              |                                                                                   Specifies a name to be used in place of the name attribute within the cSld element. This is used for layout matching in response to layout changes and template applications.  <br/>The possible values for this attribute are defined by the W3C XML Schema **string** datatype.                                                                                    |
-|           preserve (Preserve Slide Layout)            | Specifies whether the corresponding slide layout is deleted when all the slides that follow that layout are deleted. If this attribute is not specified then a value of **false** should be assumed by the generating application. This would mean that the slide would in fact be deleted if no slides within the presentation were related to it.<br/>The possible values for this attribute are defined by the W3C XML Schema **boolean** datatype. |
-| showMasterPhAnim (Show Master Placeholder Animations) |                                                                                                                                Specifies whether or not to display animations on placeholders from the master slide.<br/>The possible values for this attribute are defined by the W3C XML Schema **boolean** datatype.                                                                                                                                |
-|           showMasterSp (Show Master Shapes)           |                                                                                                                                      Specifies if shapes on the master slide should be shown on slides or not.<br/>The possible values for this attribute are defined by the W3C XML Schema **boolean** datatype.                                                                                                                                      |
-|               type (Slide Layout Type)                |                                                                                                                                          Specifies the slide layout type that is used by this slide.<br/>The possible values for this attribute are defined by the ST_SlideLayoutType simple type (§19.7.15).                                                                                                                                          |
-|               userDrawn (Is User Drawn)               |                                                                                        Specifies if the corresponding object has been drawn by the user and should thus not be deleted. This allows for the flagging of slides that contain user drawn data.<br/>The possible values for this attribute are defined by the W3C XML Schema **boolean** datatype.                                                                                        |
+| **Attributes**                                        | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| matchingName (Matching Name)                          | Specifies a name to be used in place of the name attribute within the cSld element. This is used for layout matching in response to layout changes and template applications. <br/>The possible values for this attribute are defined by the W3C XML Schema **string** datatype.                                                                                                                                                                       |
+| preserve (Preserve Slide Layout)                      | Specifies whether the corresponding slide layout is deleted when all the slides that follow that layout are deleted. If this attribute is not specified then a value of **false** should be assumed by the generating application. This would mean that the slide would in fact be deleted if no slides within the presentation were related to it.<br/>The possible values for this attribute are defined by the W3C XML Schema **boolean** datatype. |
+| showMasterPhAnim (Show Master Placeholder Animations) | Specifies whether or not to display animations on placeholders from the master slide.<br/>The possible values for this attribute are defined by the W3C XML Schema **boolean** datatype.                                                                                                                                                                                                                                                               |
+| showMasterSp (Show Master Shapes)                     | Specifies if shapes on the master slide should be shown on slides or not.<br/>The possible values for this attribute are defined by the W3C XML Schema **boolean** datatype.                                                                                                                                                                                                                                                                           |
+| type (Slide Layout Type)                              | Specifies the slide layout type that is used by this slide.<br/>The possible values for this attribute are defined by the ST_SlideLayoutType simple type (§19.7.15).                                                                                                                                                                                                                                                                                   |
+| userDrawn (Is User Drawn)                             | Specifies if the corresponding object has been drawn by the user and should thus not be deleted. This allows for the flagging of slides that contain user drawn data.<br/>The possible values for this attribute are defined by the W3C XML Schema **boolean** datatype.                                                                                                                                                                               |
 
 ## The Open XML SDK 2.5 SlideLayout Class
 
@@ -168,7 +150,7 @@ the **CommonSlideData** class, the **ColorMapOverride** class, the [ShapeTree](h
 
 The following method from the article [How to: Create a presentation document by providing a file name (Open XML SDK)](how-to-create-a-presentation-document-by-providing-a-file-name.md) adds a new slide layout part to an existing presentation and creates an instance of an Open XML SDK 2.5**SlideLayout** class in the new slide layout part. The **SlideLayout** class constructor creates instances of the **CommonSlideData** class and the **ColorMapOverride** class. The **CommonSlideData** class constructor creates an instance of the [ShapeTree](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.shapetree.aspx) class, whose constructor in turn creates additional class instances: an instance of the [NonVisualGroupShapeProperties (https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.nonvisualgroupshapeproperties.aspx) class, an instance of the [GroupShapeProperties](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.groupshapeproperties.aspx) class, and an instance of the [Shape](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.shape.aspx) class.
 
-The namespace represented by the letter *P* in the code is the [DocumentFormat.OpenXml.Presentation (https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.aspx) namespace.
+The namespace represented by the letter _P_ in the code is the [DocumentFormat.OpenXml.Presentation (https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.aspx) namespace.
 
 ```csharp
     private static SlideLayoutPart CreateSlideLayoutPart(SlidePart slidePart1)
@@ -195,25 +177,6 @@ The namespace represented by the letter *P* in the code is the [DocumentFormat.O
                 slideLayoutPart1.SlideLayout = slideLayout;
                 return slideLayoutPart1;
              }
-```
-
-```vb
-    Private Shared Function CreateSlideLayoutPart(ByVal slidePart1 As SlidePart) As SlideLayoutPart
-                Dim slideLayoutPart1 As SlideLayoutPart = slidePart1.AddNewPart(Of SlideLayoutPart)("rId1")
-                Dim slideLayout As New SlideLayout(New CommonSlideData(New ShapeTree(New P.NonVisualGroupShapeProperties(New P.NonVisualDrawingProperties() With { _
-                  .Id = CType(1UI, UInt32Value), _
-                  .Name = "" _
-                }, New P.NonVisualGroupShapeDrawingProperties(), New ApplicationNonVisualDrawingProperties()), _
-                    New GroupShapeProperties(New TransformGroup()), New P.Shape(New P.NonVisualShapeProperties(New P.NonVisualDrawingProperties() With { _
-                  .Id = CType(2UI, UInt32Value), _
-                  .Name = "" _
-                }, New P.NonVisualShapeDrawingProperties(New ShapeLocks() With { _
-                  .NoGrouping = True _
-                }), New ApplicationNonVisualDrawingProperties(New PlaceholderShape())), New P.ShapeProperties(), New P.TextBody(New BodyProperties(), _
-                    New ListStyle(), New Paragraph(New EndParagraphRunProperties()))))), New ColorMapOverride(New MasterColorMapping()))
-                slideLayoutPart1.SlideLayout = slideLayout
-                Return slideLayoutPart1
-            End Function
 ```
 
 ## Generated PresentationML
@@ -267,4 +230,4 @@ When the Open XML SDK code is run, the following XML is written to the Presentat
 
 [About the Open XML SDK 2.5 for Office](about-the-open-xml-sdk.md)
 [How to: Create a Presentation by Providing a File Name](how-to-create-a-presentation-document-by-providing-a-file-name.md)
-[How to: Apply a theme to a presentation (Open XML SDK)](how-to-apply-a-theme-to-a-presentation.md)  
+[How to: Apply a theme to a presentation (Open XML SDK)](how-to-apply-a-theme-to-a-presentation.md)

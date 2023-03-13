@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: b0d3d890-431a-4838-89dc-1f0dccd5dcd0
-title: 'How to: Get the contents of a document part from a package (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Get the contents of a document part from a package (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -29,11 +13,7 @@ this topic.
     using DocumentFormat.OpenXml.Packaging;
 ```
 
-```vb
-    Imports System
-    Imports System.IO
-    Imports DocumentFormat.OpenXml.Packaging
-```
+
 
 --------------------------------------------------------------------------------
 ## Packages and Document Parts
@@ -68,12 +48,7 @@ opened in read-only mode to avoid accidental changes.
     }
 ```
 
-```vb
-    ' Open a Wordprocessing document for editing.
-    Using wordDoc As WordprocessingDocument = WordprocessingDocument.Open(document, False)
-        ' Insert other code here.
-    End Using
-```
+
 
 The **using** statement provides a recommended
 alternative to the typical .Create, .Save, .Close sequence. It ensures
@@ -147,8 +122,6 @@ document:
 The **comments** element contains the single
 comment specified by this document in this example.
 
-© ISO/IEC29500: 2008.
-
 The following XML schema fragment defines the contents of this element.
 
 ```xml
@@ -177,15 +150,7 @@ the document.
             WordprocessingCommentsPart WordprocessingCommentsPart = mainPart.WordprocessingCommentsPart;
 ```
 
-```vb
-    ' To get the contents of a document part.
-    Public Shared Function GetCommentsFromDocument(ByVal document As String) As String
-        Dim comments As String = Nothing
 
-        Using wordDoc As WordprocessingDocument = WordprocessingDocument.Open(document, True)
-            Dim mainPart As MainDocumentPart = wordDoc.MainDocumentPart
-            Dim WordprocessingCommentsPart As WordprocessingCommentsPart = mainPart.WordprocessingCommentsPart
-```
 
 You can then use a **StreamReader** object to
 read the contents of the **WordprocessingCommentsPart** part of the document
@@ -200,12 +165,7 @@ and return its contents.
         return comments;
 ```
 
-```vb
-    Using streamReader As New StreamReader(WordprocessingCommentsPart.GetStream())
-    comments = streamReader.ReadToEnd()
-    End Using
-    Return comments
-```
+
 
 --------------------------------------------------------------------------------
 ## Sample Code
@@ -219,10 +179,7 @@ following example.
     GetCommentsFromDocument(document);
 ```
 
-```vb
-    Dim document As String = "C:\Users\Public\Documents\MyPkg5.docx"
-    GetCommentsFromDocument(document)
-```
+
 
 Following is the complete code example in both C\# and Visual Basic.
 
@@ -246,22 +203,10 @@ Following is the complete code example in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    ' To get the contents of a document part.
-    Public Function GetCommentsFromDocument(ByVal document As String) As String
-        Dim comments As String = Nothing
-        Dim wordDoc As WordprocessingDocument = WordprocessingDocument.Open(document, False)
-        Dim mainPart As MainDocumentPart = wordDoc.MainDocumentPart
-        Dim WordprocessingCommentsPart As WordprocessingCommentsPart = mainPart.WordprocessingCommentsPart
-        Dim streamReader As StreamReader = New StreamReader(WordprocessingCommentsPart.GetStream)
-        comments = streamReader.ReadToEnd
-        Return comments
-    End Function
-```
+
 
 --------------------------------------------------------------------------------
 ## See also
 
 
-[Open XML SDK 2.5 class library
-reference](https://msdn.microsoft.com/library/36c8a76e-ce1b-5959-7e85-5d77db7f46d6(Office.15).aspx)
+[Open XML SDK 2.5 class library reference](https://msdn.microsoft.com/library/36c8a76e-ce1b-5959-7e85-5d77db7f46d6(Office.15).aspx)

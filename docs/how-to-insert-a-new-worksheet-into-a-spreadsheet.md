@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 944036fa-9251-408f-86cb-2351a5f8cd48
-title: 'How to: Insert a new worksheet into a spreadsheet document (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Insert a new worksheet into a spreadsheet document (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -29,11 +13,7 @@ this topic.
     using DocumentFormat.OpenXml.Spreadsheet;
 ```
 
-```vb
-    Imports System.Linq
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Spreadsheet
-```
+
 
 --------------------------------------------------------------------------------
 ## Getting a SpreadsheetDocument Object 
@@ -64,13 +44,7 @@ shown in the following **using** statement.
     }
 ```
 
-```vb
-    ' Open the document for editing.
-    Dim spreadSheet As SpreadsheetDocument = SpreadsheetDocument.Open(docName, True)
-    Using (spreadSheet)
-        ' Insert other code here.
-    End Using
-```
+
 
 The **using** statement provides a recommended
 alternative to the typical .Open, .Save, .Close sequence. It ensures
@@ -154,15 +128,7 @@ adds a new **WorksheetPart** object to the
         spreadSheet.WorkbookPart.GetIdOfPart(newWorksheetPart);
 ```
 
-```vb
-    ' Add a blank WorksheetPart.
-    Dim newWorksheetPart As WorksheetPart = spreadSheet.WorkbookPart.AddNewPart(Of WorksheetPart)()
-    newWorksheetPart.Worksheet = New Worksheet(New SheetData())
-    ' newWorksheetPart.Worksheet.Save()
 
-    Dim sheets As Sheets = spreadSheet.WorkbookPart.Workbook.GetFirstChild(Of Sheets)()
-    Dim relationshipId As String = spreadSheet.WorkbookPart.GetIdOfPart(newWorksheetPart)
-```
 
 The code then gets a unique ID for the new worksheet by selecting the
 maximum [SheetId](https://msdn.microsoft.com/library/office/documentformat.openxml.spreadsheet.sheet.sheetid.aspx) object used within the spreadsheet
@@ -188,23 +154,7 @@ appends the new sheet to the sheets collection.
     sheets.Append(sheet);
 ```
 
-```vb
-    ' Get a unique ID for the new worksheet.
-    Dim sheetId As UInteger = 1
-    If (sheets.Elements(Of Sheet).Count > 0) Then
-        sheetId = sheets.Elements(Of Sheet).Select(Function(s) s.SheetId.Value).Max + 1
-    End If
 
-    ' Give the new worksheet a name.
-    Dim sheetName As String = ("Sheet" + sheetId.ToString())
-
-    ' Append the new worksheet and associate it with the workbook.
-    Dim sheet As Sheet = New Sheet
-    sheet.Id = relationshipId
-    sheet.SheetId = sheetId
-    sheet.Name = sheetName
-    sheets.Append(sheet)
-```
 
 --------------------------------------------------------------------------------
 ## Sample Code 
@@ -220,10 +170,7 @@ inserts a worksheet in a file names "Sheet7.xslx," as an example.
     InsertWorksheet(docName);
 ```
 
-```vb
-    Dim docName As String = "C:\Users\Public\Documents\Sheet7.xlsx"
-    InsertWorksheet(docName)
-```
+
 
 Following is the complete sample code in both C\# and Visual Basic.
 
@@ -258,39 +205,7 @@ Following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    ' Given a document name, inserts a new worksheet.
-    Public Sub InsertWorksheet(ByVal docName As String)
-        ' Open the document for editing.
-        Dim spreadSheet As SpreadsheetDocument = SpreadsheetDocument.Open(docName, True)
 
-        Using (spreadSheet)
-            ' Add a blank WorksheetPart.
-            Dim newWorksheetPart As WorksheetPart = spreadSheet.WorkbookPart.AddNewPart(Of WorksheetPart)()
-            newWorksheetPart.Worksheet = New Worksheet(New SheetData())
-            ' newWorksheetPart.Worksheet.Save()
-
-            Dim sheets As Sheets = spreadSheet.WorkbookPart.Workbook.GetFirstChild(Of Sheets)()
-            Dim relationshipId As String = spreadSheet.WorkbookPart.GetIdOfPart(newWorksheetPart)
-
-            ' Get a unique ID for the new worksheet.
-            Dim sheetId As UInteger = 1
-            If (sheets.Elements(Of Sheet).Count > 0) Then
-                sheetId = sheets.Elements(Of Sheet).Select(Function(s) s.SheetId.Value).Max + 1
-            End If
-
-            ' Give the new worksheet a name.
-            Dim sheetName As String = ("Sheet" + sheetId.ToString())
-
-            ' Append the new worksheet and associate it with the workbook.
-            Dim sheet As Sheet = New Sheet
-            sheet.Id = relationshipId
-            sheet.SheetId = sheetId
-            sheet.Name = sheetName
-            sheets.Append(sheet)
-        End Using
-    End Sub
-```
 
 --------------------------------------------------------------------------------
 ## See also 

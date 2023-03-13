@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: e4e5a2e5-a97e-47b9-a263-6723bd4230a1
-title: 'How to: Set the font for a text run (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Set the font for a text run (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -29,11 +13,7 @@ this topic.
     using DocumentFormat.OpenXml.Packaging;
 ```
 
-```vb
-    Imports System.Linq
-    Imports DocumentFormat.OpenXml.Wordprocessing
-    Imports DocumentFormat.OpenXml.Packaging
-```
+
 
 --------------------------------------------------------------------------------
 ## Packages and Document Parts
@@ -67,13 +47,7 @@ opened in read/write mode.
     }
 ```
 
-```vb
-    ' Open a Wordprocessing document for editing.
-    Dim package As WordprocessingDocument = WordprocessingDocument.Open(fileName, True)
-    Using (package)
-        ' Insert other code here.
-    End Using
-```
+
 
 The **using** statement provides a recommended
 alternative to the typical .Create, .Save, .Close sequence. It ensures
@@ -143,8 +117,6 @@ This text run shall therefore use the Courier New font for all
 characters in the ASCII range, and shall use the Times New Roman font
 for all characters in the Complex Script range.
 
-© ISO/IEC29500: 2008.
-
 
 --------------------------------------------------------------------------------
 ## How the Sample Code Works
@@ -164,10 +136,7 @@ set the font of the run to Arial, the code creates a **RunFonts** object and the
         });
 ```
 
-```vb
-    ' Use an object initializer for RunProperties and rPr.
-    Dim rPr As New RunProperties(New RunFonts() With {.Ascii = "Arial"})
-```
+
 
 The code then creates a [Run](https://msdn.microsoft.com/library/office/documentformat.openxml.wordprocessing.run.aspx) object that represents the first text
 run of the document. The code instantiates a **Run** and sets it to the first text run of the
@@ -190,13 +159,7 @@ in the Wordprocessing package).
     package.MainDocumentPart.Document.Save();
 ```
 
-```vb
-    Dim r As Run = package.MainDocumentPart.Document.Descendants(Of Run)().First()
-    r.PrependChild(Of RunProperties)(rPr)
 
-    ' Save changes to the MainDocumentPart part.
-    package.MainDocumentPart.Document.Save()
-```
 
 --------------------------------------------------------------------------------
 ## Sample Code
@@ -210,10 +173,7 @@ change the font in the file "myPkg9.docx" by using the following call.
     SetRunFont(fileName);
 ```
 
-```vb
-    Dim fileName As String = "C:\Users\Public\Documents\MyPkg9.docx"
-    SetRunFont(fileName)
-```
+
 
 After running the program check your file "MyPkg9.docx" to see the
 changed font.
@@ -247,23 +207,7 @@ The following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    ' Set the font for a text run.
-    Public Sub SetRunFont(ByVal fileName As String)
-        ' Open a Wordprocessing document for editing.
-        Dim package As WordprocessingDocument = WordprocessingDocument.Open(fileName, True)
-        Using (package)
-            ' Set the font to Arial to the first Run.
-            Dim rPr As RunProperties = New RunProperties(New RunFonts With {.Ascii = "Arial"})
-            Dim r As Run = package.MainDocumentPart.Document.Descendants(Of Run).First
 
-            r.PrependChild(Of RunProperties)(rPr)
-
-            ' Save changes to the main document part.
-            package.MainDocumentPart.Document.Save()
-        End Using
-    End Sub
-```
 
 --------------------------------------------------------------------------------
 ## See also

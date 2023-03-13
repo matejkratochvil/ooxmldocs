@@ -1,20 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: b6f429a7-4489-4155-b713-2139f3add8c2
-title: 'How to: Retrieve the number of slides in a presentation document (Open XML SDK)'
-description: 'Learn how to retrieve the number of slides in a presentation document using the Open XML SDK.'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/28/2021
-ms.localizationpriority: medium
----
 # Retrieve the number of slides in a presentation document (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -41,9 +24,7 @@ the code in this topic.
     using DocumentFormat.OpenXml.Packaging;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml.Packaging
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -61,10 +42,7 @@ include hidden slides in the count.
         bool includeHidden = true)
 ```
 
-```vb
-    Public Function RetrieveNumberOfSlides(ByVal fileName As String,
-            Optional ByVal includeHidden As Boolean = True) As Integer
-```
+
 
 ---------------------------------------------------------------------------------
 ## Calling the RetrieveNumberOfSlides Method
@@ -81,12 +59,7 @@ values, as shown in the following code.
     Console.WriteLine(RetrieveNumberOfSlides(DEMOPATH));
 ```
 
-```vb
-    ' Retrieve the number of slides, excluding the hidden slides.
-    Console.WriteLine(RetrieveNumberOfSlides(DEMOPATH, False))
-    ' Retrieve the number of slides, including the hidden slides.
-    Console.WriteLine(RetrieveNumberOfSlides(DEMOPATH))
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -106,15 +79,7 @@ final **false** parameter value). Given the open presentation, the code uses the
     Return slidesCount;
 ```
 
-```vb
-    Using doc As PresentationDocument =
-        PresentationDocument.Open(fileName, False)
-        ' Get the presentation part of the document.
-        Dim presentationPart As PresentationPart = doc.PresentationPart
-        ' Code removed here…
-    End Using
-    Return slidesCount
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -133,13 +98,7 @@ If the presentation part reference is not null (and it will not be, for any vali
     }
 ```
 
-```vb
-    If includeHidden Then
-        slidesCount = presentationPart.SlideParts.Count()
-    Else
-        ' Code removed here…
-    End If
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -165,14 +124,7 @@ function with a lambda expression to do the work.
     slidesCount = slides.Count();
 ```
 
-```vb
-    Dim slides = presentationPart.SlideParts.
-      Where(Function(s) (s.Slide IsNot Nothing) AndAlso
-              ((s.Slide.Show Is Nothing) OrElse
-              (s.Slide.Show.HasValue AndAlso
-               s.Slide.Show.Value)))
-    slidesCount = slides.Count()
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -215,34 +167,7 @@ Visual Basic.
     }
 ```
 
-```vb
-    Public Function RetrieveNumberOfSlides(ByVal fileName As String,
-            Optional ByVal includeHidden As Boolean = True) As Integer
-        Dim slidesCount As Integer = 0
 
-        Using doc As PresentationDocument =
-            PresentationDocument.Open(fileName, False)
-            ' Get the presentation part of the document.
-            Dim presentationPart As PresentationPart = doc.PresentationPart
-            If presentationPart IsNot Nothing Then
-                If includeHidden Then
-                    slidesCount = presentationPart.SlideParts.Count()
-                Else
-                    ' Each slide can include a Show property, which if 
-                    ' hidden will contain the value "0". The Show property may 
-                    ' not exist, and most likely will not, for non-hidden slides.
-                    Dim slides = presentationPart.SlideParts.
-                      Where(Function(s) (s.Slide IsNot Nothing) AndAlso
-                              ((s.Slide.Show Is Nothing) OrElse
-                              (s.Slide.Show.HasValue AndAlso
-                               s.Slide.Show.Value)))
-                    slidesCount = slides.Count()
-                End If
-            End If
-        End Using
-        Return slidesCount
-    End Function
-```
 
 ---------------------------------------------------------------------------------
 

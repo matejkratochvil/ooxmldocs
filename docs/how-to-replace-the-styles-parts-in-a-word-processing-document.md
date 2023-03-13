@@ -1,20 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 67edb37c-cfec-461c-b616-5a8b7d074c91
-title: 'How to: Replace the styles parts in a word processing document (Open XML SDK)'
-description: 'Learn how to replace the styles parts in a word processing document using the Open XML SDK.'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/28/2021
-ms.localizationpriority: medium
----
 # Replace the styles parts in a word processing document (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -42,11 +25,7 @@ the code in this topic.
     using DocumentFormat.OpenXml.Packaging;
 ```
 
-```vb
-    Imports System.IO
-    Imports System.Xml
-    Imports DocumentFormat.OpenXml.Packaging
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -97,9 +76,7 @@ effectively completely replacing the styles.
     public static void ReplaceStyles(string fromDoc, string toDoc)
 ```
 
-```vb
-    Public Sub ReplaceStyles(fromDoc As String, toDoc As String)
-```
+
 
 The complete code listing for the **ReplaceStyles** method and its supporting methods
 can be found in the [Sample Code](#sample-code) section.
@@ -122,11 +99,7 @@ document will reflect the new styles.
     ReplaceStyles(fromDoc, toDoc);
 ```
 
-```vb
-    Const fromDoc As String = "C:\Users\Public\Documents\StylesFrom.docx"
-    Const toDoc As String = "C:\Users\Public\Documents\StylesTo.docx"
-    ReplaceStyles(fromDoc, toDoc)
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -150,13 +123,7 @@ target document.
         ReplaceStylesPart(toDoc, node, false);
 ```
 
-```vb
-    ' Extract and replace the styles part.
-    Dim node = ExtractStylesPart(fromDoc, False)
-    If node IsNot Nothing Then
-        ReplaceStylesPart(toDoc, node, False)
-    End If
-```
+
 
 The final parameter in the signature for either the **ExtractStylesPart** or the **ReplaceStylesPart** method determines whether the
 styles part or the stylesWithEffects part is employed. A value of false
@@ -175,15 +142,7 @@ stylesWithEffects part.
     return;
 ```
 
-```vb
-    ' Extract and replace the stylesWithEffects part. To fully support 
-    ' round-tripping from Word 2013 to Word 2010, you should 
-    ' replace this part, as well.
-    node = ExtractStylesPart(fromDoc, True)
-    If node IsNot Nothing Then
-        ReplaceStylesPart(toDoc, node, True)
-    End If
-```
+
 For more information about the **ExtractStylesPart** method, see <span
 sdata="link">[How to: Extract styles from a word processing document
 (Open XML SDK)](how-to-extract-styles-from-a-word-processing-document.md). The
@@ -214,11 +173,7 @@ from a source document).
       bool setStylesWithEffectsPart = true)
 ```
 
-```vb
-    Public Sub ReplaceStylesPart(
-      ByVal fileName As String, ByVal newStyles As XDocument,
-      Optional ByVal setStylesWithEffectsPart As Boolean = True)
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -246,17 +201,7 @@ the main document part, and then prepares a variable named **stylesPart** to hol
         StylesPart stylesPart = null;
 ```
 
-```vb
-    ' Open the document for write access and get a reference.
-    Using document = WordprocessingDocument.Open(fileName, True)
 
-        ' Get a reference to the main document part.
-        Dim docPart = document.MainDocumentPart
-
-        ' Assign a reference to the appropriate part to the
-        ' stylesPart variable.
-        Dim stylesPart As StylesPart = Nothing
-```
 
 ---------------------------------------------------------------------------------
 
@@ -274,13 +219,7 @@ requested styles part, and stores it in the **stylesPart** variable.
         stylesPart = docPart.StyleDefinitionsPart;
 ```
 
-```vb
-    If setStylesWithEffectsPart Then
-        stylesPart = docPart.StylesWithEffectsPart
-    Else
-        stylesPart = docPart.StyleDefinitionsPart
-    End If
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -305,13 +244,7 @@ the XDocument, saving its contents into the styles part.
     }
 ```
 
-```vb
-    ' If the part exists, populate it with the new styles.
-    If stylesPart IsNot Nothing Then
-        newStyles.Save(New StreamWriter(
-          stylesPart.GetStream(FileMode.Create, FileAccess.Write)))
-    End If
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -409,92 +342,7 @@ Basic.
     }
 ```
 
-```vb
-    ' Replace the styles in the "to" document with the styles
-    ' in the "from" document.
-    Public Sub ReplaceStyles(fromDoc As String, toDoc As String)
-        ' Extract and copy the styles part.
-        Dim node = ExtractStylesPart(fromDoc, False)
-        If node IsNot Nothing Then
-            ReplaceStylesPart(toDoc, node, False)
-        End If
 
-        ' Extract and copy the stylesWithEffects part. To fully support 
-        ' round-tripping from Word 2013 to Word 2010, you should 
-        ' replace this part, as well.
-        node = ExtractStylesPart(fromDoc, True)
-        If node IsNot Nothing Then
-            ReplaceStylesPart(toDoc, node, True)
-        End If
-    End Sub
-
-    ' Given a file and an XDocument instance that contains the content of 
-    ' a styles or stylesWithEffects part, replace the styles in the file 
-    ' with the styles in the XDocument.
-    Public Sub ReplaceStylesPart(
-      ByVal fileName As String, ByVal newStyles As XDocument,
-      Optional ByVal setStylesWithEffectsPart As Boolean = True)
-
-        ' Open the document for write access and get a reference.
-        Using document = WordprocessingDocument.Open(fileName, True)
-
-            ' Get a reference to the main document part.
-            Dim docPart = document.MainDocumentPart
-
-            ' Assign a reference to the appropriate part to the
-            ' stylesPart variable.
-            Dim stylesPart As StylesPart = Nothing
-            If setStylesWithEffectsPart Then
-                stylesPart = docPart.StylesWithEffectsPart
-            Else
-                stylesPart = docPart.StyleDefinitionsPart
-            End If
-
-            ' If the part exists, populate it with the new styles.
-            If stylesPart IsNot Nothing Then
-                newStyles.Save(New StreamWriter(
-                  stylesPart.GetStream(FileMode.Create, FileAccess.Write)))
-            End If
-        End Using
-    End Sub
-
-    ' Extract the styles or stylesWithEffects part from a 
-    ' word processing document as an XDocument instance.
-    Public Function ExtractStylesPart(
-      ByVal fileName As String,
-      Optional ByVal getStylesWithEffectsPart As Boolean = True) As XDocument
-
-        ' Declare a variable to hold the XDocument.
-        Dim styles As XDocument = Nothing
-
-        ' Open the document for read access and get a reference.
-        Using document = WordprocessingDocument.Open(fileName, False)
-
-            ' Get a reference to the main document part.
-            Dim docPart = document.MainDocumentPart
-
-            ' Assign a reference to the appropriate part to the 
-            ' stylesPart variable.
-            Dim stylesPart As StylesPart = Nothing
-            If getStylesWithEffectsPart Then
-                stylesPart = docPart.StylesWithEffectsPart
-            Else
-                stylesPart = docPart.StyleDefinitionsPart
-            End If
-
-            ' If the part exists, read it into the XDocument.
-            If stylesPart IsNot Nothing Then
-                Using reader = XmlNodeReader.Create(
-                  stylesPart.GetStream(FileMode.Open, FileAccess.Read))
-                    ' Create the XDocument:  
-                    styles = XDocument.Load(reader)
-                End Using
-            End If
-        End Using
-        ' Return the XDocument instance.
-        Return styles
-    End Function
-```
 
 ---------------------------------------------------------------------------------
 

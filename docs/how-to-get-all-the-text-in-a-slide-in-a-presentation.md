@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 6de46612-f864-413f-a504-11ea85f1f88f
-title: 'How to: Get all the text in a slide in a presentation (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
 # Get all the text in a slide in a presentation (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -32,14 +16,7 @@ this topic.
     using DocumentFormat.OpenXml.Packaging;
 ```
 
-```vb
-    Imports System
-    Imports System.Collections.Generic
-    Imports System.Linq
-    Imports System.Text
-    Imports DocumentFormat.OpenXml.Presentation
-    Imports DocumentFormat.OpenXml.Packaging
-```
+
 
 --------------------------------------------------------------------------------
 ## Getting a PresentationDocument object
@@ -65,11 +42,7 @@ document.
     }
 ```
 
-```vb
-    Using presentationDocument As PresentationDocument = PresentationDocument.Open(file, False)
-        ' Insert other code here.
-    End Using
-```
+
 
 The **using** statement provides a recommended
 alternative to the typical .Open, .Save, .Close sequence. It ensures
@@ -119,9 +92,7 @@ specification introduces the overall form of a **PresentationML** package.
 > in a document are stored in one comment part while each slide has its
 > own part.
 > 
-> © ISO/IEC29500: 2008.
-
-The following XML code segment represents a presentation that contains
+> The following XML code segment represents a presentation that contains
 two slides denoted by the ID 267 and 256.
 
 ```xml
@@ -187,18 +158,7 @@ represents a paragraph of text in the specified slide.
     }
 ```
 
-```vb
-    ' Get all the text in a slide.
-    Public Shared Function GetAllTextInSlide(ByVal presentationFile As String, ByVal slideIndex As Integer) As String()
-        ' Open the presentation as read-only.
-        Using presentationDocument As PresentationDocument = PresentationDocument.Open(presentationFile, False)
-            ' Pass the presentation and the slide index
-            ' to the next GetAllTextInSlide method, and
-            ' then return the array of strings it returns. 
-            Return GetAllTextInSlide(presentationDocument, slideIndex)
-        End Using
-    End Function
-```
+
 
 The second overloaded method takes the presentation document passed in
 and gets a slide part to pass to the third overloaded method. It returns
@@ -257,51 +217,7 @@ text in the specified slide.
     }
 ```
 
-```vb
-    Public Shared Function GetAllTextInSlide(ByVal presentationDocument As PresentationDocument, ByVal slideIndex As Integer) As String()
-        ' Verify that the presentation document exists.
-        If presentationDocument Is Nothing Then
-            Throw New ArgumentNullException("presentationDocument")
-        End If
 
-        ' Verify that the slide index is not out of range.
-        If slideIndex < 0 Then
-            Throw New ArgumentOutOfRangeException("slideIndex")
-        End If
-
-        ' Get the presentation part of the presentation document.
-        Dim presentationPart As PresentationPart = presentationDocument.PresentationPart
-
-        ' Verify that the presentation part and presentation exist.
-        If presentationPart IsNot Nothing AndAlso presentationPart.Presentation IsNot Nothing Then
-            ' Get the Presentation object from the presentation part.
-            Dim presentation As Presentation = presentationPart.Presentation
-
-            ' Verify that the slide ID list exists.
-            If presentation.SlideIdList IsNot Nothing Then
-                ' Get the collection of slide IDs from the slide ID list.
-                Dim slideIds = presentation.SlideIdList.ChildElements
-
-                ' If the slide ID is in range...
-                If slideIndex < slideIds.Count Then
-                    ' Get the relationship ID of the slide.
-                    Dim slidePartRelationshipId As String = (TryCast(slideIds(slideIndex), SlideId)).RelationshipId
-
-                    ' Get the specified slide part from the relationship ID.
-                    Dim slidePart As SlidePart = CType(presentationPart.GetPartById(slidePartRelationshipId), SlidePart)
-
-                    ' Pass the slide part to the next method, and
-                    ' then return the array of strings that method
-                    ' returns to the previous method.
-                    Return GetAllTextInSlide(slidePart)
-                End If
-            End If
-        End If
-
-        ' Else, return null.
-        Return Nothing
-    End Function
-```
 
 The following code segment shows the third overloaded method, which
 takes takes the slide part passed in, and returns to the second
@@ -362,44 +278,7 @@ the specified slide in the presentation.
     }
 ```
 
-```vb
-    Public Shared Function GetAllTextInSlide(ByVal slidePart As SlidePart) As String()
-        ' Verify that the slide part exists.
-        If slidePart Is Nothing Then
-            Throw New ArgumentNullException("slidePart")
-        End If
 
-        ' Create a new linked list of strings.
-        Dim texts As New LinkedList(Of String)()
-
-        ' If the slide exists...
-        If slidePart.Slide IsNot Nothing Then
-            ' Iterate through all the paragraphs in the slide.
-            For Each paragraph In slidePart.Slide.Descendants(Of DocumentFormat.OpenXml.Drawing.Paragraph)()
-                ' Create a new string builder.                    
-                Dim paragraphText As New StringBuilder()
-
-                ' Iterate through the lines of the paragraph.
-                For Each text In paragraph.Descendants(Of DocumentFormat.OpenXml.Drawing.Text)()
-                    ' Append each line to the previous lines.
-                    paragraphText.Append(text.Text)
-                Next text
-
-                If paragraphText.Length > 0 Then
-                    ' Add each paragraph to the linked list.
-                    texts.AddLast(paragraphText.ToString())
-                End If
-            Next paragraph
-        End If
-
-        If texts.Count > 0 Then
-            ' Return an array of strings.
-            Return texts.ToArray()
-        Else
-            Return Nothing
-        End If
-    End Function
-```
 
 --------------------------------------------------------------------------------
 ## Sample Code
@@ -414,11 +293,7 @@ the second slide of the presentation file "Myppt8.pptx."
         Console.WriteLine(s);
 ```
 
-```vb
-    For Each s As String In GetAllTextInSlide("C:\Users\Public\Documents\Myppt8.pptx", 1)
-        Console.WriteLine(s)
-    Next
-```
+
 
 Following is the complete sample code in both C\# and Visual Basic.
 
@@ -535,97 +410,7 @@ Following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    ' Get all the text in a slide.
-    Public Function GetAllTextInSlide(ByVal presentationFile As String, ByVal slideIndex As Integer) As String()
-        ' Open the presentation as read-only.
-        Using presentationDocument As PresentationDocument = presentationDocument.Open(presentationFile, False)
-            ' Pass the presentation and the slide index
-            ' to the next GetAllTextInSlide method, and
-            ' then return the array of strings it returns. 
-            Return GetAllTextInSlide(presentationDocument, slideIndex)
-        End Using
-    End Function
-    Public Function GetAllTextInSlide(ByVal presentationDocument As PresentationDocument, ByVal slideIndex As Integer) As String()
-        ' Verify that the presentation document exists.
-        If presentationDocument Is Nothing Then
-            Throw New ArgumentNullException("presentationDocument")
-        End If
 
-        ' Verify that the slide index is not out of range.
-        If slideIndex < 0 Then
-            Throw New ArgumentOutOfRangeException("slideIndex")
-        End If
-
-        ' Get the presentation part of the presentation document.
-        Dim presentationPart As PresentationPart = presentationDocument.PresentationPart
-
-        ' Verify that the presentation part and presentation exist.
-        If presentationPart IsNot Nothing AndAlso presentationPart.Presentation IsNot Nothing Then
-            ' Get the Presentation object from the presentation part.
-            Dim presentation As Presentation = presentationPart.Presentation
-
-            ' Verify that the slide ID list exists.
-            If presentation.SlideIdList IsNot Nothing Then
-                ' Get the collection of slide IDs from the slide ID list.
-                Dim slideIds = presentation.SlideIdList.ChildElements
-
-                ' If the slide ID is in range...
-                If slideIndex < slideIds.Count Then
-                    ' Get the relationship ID of the slide.
-                    Dim slidePartRelationshipId As String = (TryCast(slideIds(slideIndex), SlideId)).RelationshipId
-
-                    ' Get the specified slide part from the relationship ID.
-                    Dim slidePart As SlidePart = CType(presentationPart.GetPartById(slidePartRelationshipId), SlidePart)
-
-                    ' Pass the slide part to the next method, and
-                    ' then return the array of strings that method
-                    ' returns to the previous method.
-                    Return GetAllTextInSlide(slidePart)
-                End If
-            End If
-        End If
-
-        ' Else, return null.
-        Return Nothing
-    End Function
-    Public Function GetAllTextInSlide(ByVal slidePart As SlidePart) As String()
-        ' Verify that the slide part exists.
-        If slidePart Is Nothing Then
-            Throw New ArgumentNullException("slidePart")
-        End If
-
-        ' Create a new linked list of strings.
-        Dim texts As New LinkedList(Of String)()
-
-        ' If the slide exists...
-        If slidePart.Slide IsNot Nothing Then
-            ' Iterate through all the paragraphs in the slide.
-            For Each paragraph In slidePart.Slide.Descendants(Of DocumentFormat.OpenXml.Drawing.Paragraph)()
-                ' Create a new string builder.                    
-                Dim paragraphText As New StringBuilder()
-
-                ' Iterate through the lines of the paragraph.
-                For Each Text In paragraph.Descendants(Of DocumentFormat.OpenXml.Drawing.Text)()
-                    ' Append each line to the previous lines.
-                    paragraphText.Append(Text.Text)
-                Next Text
-
-                If paragraphText.Length > 0 Then
-                    ' Add each paragraph to the linked list.
-                    texts.AddLast(paragraphText.ToString())
-                End If
-            Next paragraph
-        End If
-
-        If texts.Count > 0 Then
-            ' Return an array of strings.
-            Return texts.ToArray()
-        Else
-            Return Nothing
-        End If
-    End Function
-```
 
 --------------------------------------------------------------------------------
 ## See also

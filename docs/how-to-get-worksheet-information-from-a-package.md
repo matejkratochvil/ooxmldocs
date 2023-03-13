@@ -1,17 +1,4 @@
----
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 124cb0a0-cc47-433f-bad0-06b793890650
-title: 'How to: Get worksheet information from an Open XML package (Open XML SDK)'
-ms.suite: office
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 03/22/2022
-ms.localizationpriority: high
----
+
 
 # Get worksheet information from an Open XML package (Open XML SDK)
 
@@ -27,13 +14,7 @@ The following assembly directives are required to compile the code in this topic
     using A = DocumentFormat.OpenXml.OpenXmlAttribute;
 ```
 
-```vb
-    Imports System
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports S = DocumentFormat.OpenXml.Spreadsheet.Sheets
-    Imports E = DocumentFormat.OpenXml.OpenXmlElement
-    Imports A = DocumentFormat.OpenXml.OpenXmlAttribute
-```
+
 
 ## Create SpreadsheetDocument object
 
@@ -48,10 +29,7 @@ The following code example calls the **Open** method to open the file specified 
     using (SpreadsheetDocument mySpreadsheet = SpreadsheetDocument.Open(fileName, false))
 ```
 
-```vb
-    ' Open file as read-only.
-    Using mySpreadsheet As SpreadsheetDocument = SpreadsheetDocument.Open(fileName, False)
-```
+
 
 The **using** statement provides a recommended alternative to the typical .Open, .Save, .Close sequence. It ensures that the **Dispose** method (internal method used by the Open XML SDK to clean up resources) is automatically called when the closing brace is reached. The block that follows the **using** statement establishes a scope for the object that is created or named in the **using** statement, in this case **mySpreadsheet**.
 
@@ -108,9 +86,7 @@ After you have opened the file for read-only access, you instantiate the **Sheet
     S sheets = mySpreadsheet.WorkbookPart.Workbook.Sheets;
 ```
 
-```vb
-    Dim sheets As S = mySpreadsheet.WorkbookPart.Workbook.Sheets
-```
+
 
 You then you iterate through the **Sheets** collection and display **[OpenXmlElement](/dotnet/api/documentformat.openxml.openxmlelement?view=openxml-2.8.1&preserve-view=true)** and the **[OpenXmlAttribute](/api/documentformat.openxml.openxmlattribute?view=openxml-2.8.1&preserve-view=true)** in each element.
 
@@ -124,13 +100,7 @@ You then you iterate through the **Sheets** collection and display **[OpenXmlEle
     }
 ```
 
-```vb
-    For Each sheet In sheets
-        For Each attr In sheet.GetAttributes()
-            Console.WriteLine("{0}: {1}", attr.LocalName, attr.Value)
-        Next
-    Next
-```
+
 
 By displaying the attribute information you get the name and ID for each worksheet in the spreadsheet file.
 
@@ -142,9 +112,7 @@ In the following code example, you retrieve and display the attributes of the al
     GetSheetInfo(@"C:\Users\Public\Documents\Sheet5.xlsx");
 ```
 
-```vb
-    GetSheetInfo("C:\Users\Public\Documents\Sheet5.xlsx")
-```
+
 
 The following is the complete code sample in both C\# and Visual Basic.
 
@@ -168,21 +136,7 @@ The following is the complete code sample in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    Public Sub GetSheetInfo(ByVal fileName As String)
-            ' Open file as read-only.
-            Using mySpreadsheet As SpreadsheetDocument = SpreadsheetDocument.Open(fileName, False)
-                Dim sheets As S = mySpreadsheet.WorkbookPart.Workbook.Sheets
 
-                ' For each sheet, display the sheet information.
-                For Each sheet As E In sheets
-                    For Each attr As A In sheet.GetAttributes()
-                        Console.WriteLine("{0}: {1}", attr.LocalName, attr.Value)
-                    Next
-                Next
-            End Using
-        End Sub
-```
 
 ## See also
 

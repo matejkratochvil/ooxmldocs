@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 56aeeed4-24ce-42ba-a236-6fec6785dd93
-title: Working with PresentationML documents (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Working with PresentationML documents (Open XML SDK)
 
 This section provides conceptual topics for working with PresentationML

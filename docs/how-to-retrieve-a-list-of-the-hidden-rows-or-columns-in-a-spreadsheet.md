@@ -1,20 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 5adddb6e-545e-4fba-ae35-cc4682e3eda7
-title: 'How to: Retrieve a list of the hidden rows or columns in a spreadsheet document (Open XML SDK)'
-description: 'Learn how to retrieve a list of the hidden rows or columns in a spreadsheet document using the Open XML SDK.'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/28/2021
-ms.localizationpriority: high
----
 # Retrieve a list of the hidden rows or columns in a spreadsheet document (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for Office to programmatically retrieve a list of hidden rows or columns in a Microsoft Excel 2010 or Microsoft Excel 2013 worksheet, without
@@ -37,11 +20,7 @@ You must also use the following **using** directives or **Imports** statements t
     using DocumentFormat.OpenXml.Spreadsheet;
 ```
 
-```vb
-    Imports System.IO
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Spreadsheet
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -63,11 +42,7 @@ parameters, indicating the following:
       string fileName, string sheetName, bool detectRows)
 ```
 
-```vb
-    Public Function GetHiddenRowsOrCols(
-      ByVal fileName As String, ByVal sheetName As String,
-      ByVal detectRows As Boolean) As List(Of UInteger)
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -84,16 +59,7 @@ The method returns a list of unsigned integers that contain each index for the h
     Console.WriteLine(sw.ToString());
 ```
 
-```vb
-    Const fileName As String = "C:\Users\Public\Documents\RetrieveHiddenRowsCols.xlsx"
-    Dim items As List(Of UInteger) =
-        GetHiddenRowsOrCols(fileName, "Sheet1", True)
-    Dim sw As New StringWriter
-    For Each item In items
-        sw.WriteLine(item)
-    Next
-    Console.WriteLine(sw.ToString())
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -105,9 +71,7 @@ The code starts by creating a variable, **itemList**, that will contain the retu
     List<uint> itemList = new List<uint>();
 ```
 
-```vb
-    Dim itemList As New List(Of UInteger)
-```
+
 
 Next, the code opens the document, by using the [SpreadsheetDocument.Open](https://msdn.microsoft.com/library/office/documentformat.openxml.packaging.spreadsheetdocument.open.aspx) method and indicating that the document should be open for read-only access (the final **false** parameter value). Next the code retrieves a reference to the workbook part, by using the [WorkbookPart](https://msdn.microsoft.com/library/office/documentformat.openxml.packaging.spreadsheetdocument.workbookpart.aspx) property of the document.
 
@@ -120,14 +84,7 @@ Next, the code opens the document, by using the [SpreadsheetDocument.Open](https
     }
 ```
 
-```vb
-    Using document As SpreadsheetDocument =
-        SpreadsheetDocument.Open(fileName, False)
 
-        Dim wbPart As WorkbookPart = document.WorkbookPart
-        ' Code removed here...
-    End Using
-```
 
 To find the hidden rows or columns, the code must first retrieve a reference to the specified sheet, given its name. This is not as easy as you might think. The code must look through all the sheet-type descendants of the workbook part's [Workbook](https://msdn.microsoft.com/library/office/documentformat.openxml.packaging.workbookpart.workbook.aspx) property, examining the [Name](https://msdn.microsoft.com/library/office/documentformat.openxml.spreadsheet.sheet.name.aspx) property of each sheet that it finds.
 Note that this search simply looks through the relations of the workbook, and does not actually find a worksheet part. It simply finds a reference to a [Sheet](https://msdn.microsoft.com/library/office/documentformat.openxml.spreadsheet.sheet.aspx) object, which contains information such as the name and [Id](https://msdn.microsoft.com/library/office/documentformat.openxml.spreadsheet.sheet.id.aspx) property of the sheet. The simplest way to accomplish this is to use a LINQ query.
@@ -141,12 +98,7 @@ Note that this search simply looks through the relations of the workbook, and do
     }
 ```
 
-```vb
-    Dim theSheet As Sheet = wbPart.Workbook.Descendants(Of Sheet)().
-        Where(Function(s) s.Name = sheetName).FirstOrDefault()
-    If theSheet Is Nothing Then
-        Throw New ArgumentException("sheetName")
-```
+
 
 The [FirstOrDefault](https://msdn2.microsoft.com/library/bb358452) method returns either the first matching reference (a sheet, in this case) or a null reference if no match was found. The code checks for the
 null reference, and throws an exception if you passed in an invalid sheet name. Now that you have information about the sheet, the code must retrieve a reference to the corresponding worksheet part. The sheet
@@ -163,15 +115,7 @@ information you already retrieved provides an **Id** property, and given that **
     }
 ```
 
-```vb
-    Else
-        ' The sheet does exist.
-        Dim wsPart As WorksheetPart =
-            CType(wbPart.GetPartById(theSheet.Id), WorksheetPart)
-        Dim ws As Worksheet = wsPart.Worksheet
-        ' Code removed here...
-    End If
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -194,15 +138,7 @@ retrieve information about rows or columns.
     }
 ```
 
-```vb
-    If detectRows Then
-        ' Retrieve hidden rows.
-        ' Code removed here...
-    Else
-        ' Retrieve hidden columns.
-        ' Code removed here...
-    End If
-```
+
 
 The code that actually retrieves the list of hidden rows requires only a single line of code.
 
@@ -212,12 +148,7 @@ The code that actually retrieves the list of hidden rows requires only a single 
         Select(r => r.RowIndex.Value).ToList<uint>();
 ```
 
-```vb
-    itemList = ws.Descendants(Of Row).
-        Where(Function(r) r.Hidden IsNot Nothing AndAlso
-              r.Hidden.Value).
-        Select(Function(r) r.RowIndex.Value).ToList()
-```
+
 
 This single line accomplishes a lot, however. It starts by calling the [Descendants](https://msdn.microsoft.com/library/office/documentformat.openxml.openxmlelement.descendants.aspx) method of the worksheet, retrieving a list of all the rows. The [Where](https://msdn2.microsoft.com/library/bb301979) method limits the results to only those rows where the [Hidden](https://msdn.microsoft.com/library/office/documentformat.openxml.spreadsheet.row.hidden.aspx) property of the item is not null and the value of the **Hidden** property is **True**. The [Select](https://msdn2.microsoft.com/library/bb357126) method projects the return value for each row, returning the value of the [RowIndex](https://msdn.microsoft.com/library/office/documentformat.openxml.spreadsheet.row.rowindex.aspx) property. Finally, the [ToList\<TSource\>](https://msdn2.microsoft.com/library/bb342261) method converts the resulting [IEnumerable\<T\>](https://msdn2.microsoft.com/library/9eekhta0) interface into a [List\<T\>](https://msdn2.microsoft.com/library/6sh2ey19) object of unsigned integers. If there are no hidden rows, the returned list is empty.
 
@@ -235,16 +166,7 @@ Retrieving the list of hidden columns is a bit trickier, because Excel collapses
     }
 ```
 
-```vb
-    Dim cols = ws.Descendants(Of Column).
-      Where(Function(c) c.Hidden IsNot Nothing AndAlso
-              c.Hidden.Value)
-    For Each item As Column In cols
-        For i As UInteger = item.Min.Value To item.Max.Value
-            itemList.Add(i)
-        Next
-    Next
-```
+
 
 ---------------------------------------------------------------------------------
 
@@ -308,56 +230,7 @@ The following is the complete **GetHiddenRowsOrCols** code sample in C\# and Vis
     }
 ```
 
-```vb
-    Public Function GetHiddenRowsOrCols(
-      ByVal fileName As String, ByVal sheetName As String,
-      ByVal detectRows As Boolean) As List(Of UInteger)
 
-        ' Given a workbook and a worksheet name, return either 
-        ' a list of hidden row numbers, or a list of hidden 
-        ' column numbers. If detectRows is True, return
-        ' hidden rows. If detectRows is False, return hidden columns. 
-        ' Rows and columns are numbered starting with 1.
-
-        Dim itemList As New List(Of UInteger)
-
-        Using document As SpreadsheetDocument =
-            SpreadsheetDocument.Open(fileName, False)
-
-            Dim wbPart As WorkbookPart = document.WorkbookPart
-
-            Dim theSheet As Sheet = wbPart.Workbook.Descendants(Of Sheet)().
-                Where(Function(s) s.Name = sheetName).FirstOrDefault()
-            If theSheet Is Nothing Then
-                Throw New ArgumentException("sheetName")
-            Else
-                ' The sheet does exist.
-                Dim wsPart As WorksheetPart =
-                    CType(wbPart.GetPartById(theSheet.Id), WorksheetPart)
-                Dim ws As Worksheet = wsPart.Worksheet
-
-                If detectRows Then
-                    ' Retrieve hidden rows.
-                    itemList = ws.Descendants(Of Row).
-                        Where(Function(r) r.Hidden IsNot Nothing AndAlso
-                              r.Hidden.Value).
-                        Select(Function(r) r.RowIndex.Value).ToList()
-                Else
-                    ' Retrieve hidden columns.
-                    Dim cols = ws.Descendants(Of Column).
-                        Where(Function(c) c.Hidden IsNot Nothing AndAlso
-                              c.Hidden.Value)
-                    For Each item As Column In cols
-                        For i As UInteger = item.Min.Value To item.Max.Value
-                            itemList.Add(i)
-                        Next
-                    Next
-                End If
-            End If
-        End Using
-        Return itemList
-    End Function
-```
 
 ---------------------------------------------------------------------------------
 

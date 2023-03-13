@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 98781b17-8de4-46e9-b29a-5b4033665491
-title: 'How to: Delete a slide from a presentation (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
 # Delete a slide from a presentation (Open XML SDK)
 
 This topic shows how to use the Open XML SDK 2.5 for Office to delete a
@@ -38,13 +22,7 @@ this topic.
     using DocumentFormat.OpenXml.Packaging;
 ```
 
-```vb
-    Imports System
-    Imports System.Collections.Generic
-    Imports System.Linq
-    Imports DocumentFormat.OpenXml.Presentation
-    Imports DocumentFormat.OpenXml.Packaging
-```
+
 
 --------------------------------------------------------------------------------
 ## Getting a Presentation Object 
@@ -59,12 +37,7 @@ In the Open XML SDK, the **[PresentationDocument](https://msdn.microsoft.com/lib
     }                                                                           
 ```
 
-```vb
-    ' Open the presentation as read-only.
-    Using presentationDocument As PresentationDocument = PresentationDocument.Open(presentationFile, False)
-        ' Insert other code here.
-    End Using
-```
+
 
 To delete a slide from the presentation file, open it for read/write
 access as shown in the following **using**
@@ -78,12 +51,7 @@ statement.
     }
 ```
 
-```vb
-    ' Open the source document as read/write.
-    Using presentationDocument As PresentationDocument = PresentationDocument.Open(presentationFile, True)
-        ' Place other code here.
-    End Using
-```
+
 
 The **using** statement provides a recommended alternative to the typical .Open, .Save, .Close sequence. It ensures that the **Dispose** method (internal method used by the Open XML SDK to clean up resources) is automatically called when the closing brace is reached. The block that follows the **using** statement establishes a scope for the object that is created or named in the **using** statement, in this case **presentationDocument**.
 
@@ -123,9 +91,7 @@ specification introduces the overall form of a **PresentationML** package.
 > parts. For example, all comments in a document are stored in one
 > comment part while each slide has its own part.
 > 
-> © ISO/IEC29500: 2008.
-
-This following XML code segment represents a presentation that contains
+> This following XML code segment represents a presentation that contains
 two slides denoted by the IDs 267 and 256.
 
 ```xml
@@ -172,11 +138,7 @@ The sample code consists of two overloads of the **CountSlides** method. The fir
     return CountSlides(presentationDocument);
 ```
 
-```vb
-    ' Pass the presentation to the next CountSlides method
-    ' and return the slide count.
-    Return CountSlides(presentationDocument)
-```
+
 
 In the second **CountSlides** method, the code
 verifies that the **PresentationDocument**
@@ -207,24 +169,7 @@ and returns it.
     return slidesCount;
 ```
 
-```vb
-    ' Check for a null document object.
-    If presentationDocument Is Nothing Then
-        Throw New ArgumentNullException("presentationDocument")
-    End If
 
-    Dim slidesCount As Integer = 0
-
-    ' Get the presentation part of document.
-    Dim presentationPart As PresentationPart = presentationDocument.PresentationPart
-
-    ' Get the slide count from the SlideParts.
-    If presentationPart IsNot Nothing Then
-        slidesCount = presentationPart.SlideParts.Count()
-    End If
-    ' Return the slide count to the previous method.
-    Return slidesCount
-```
 
 --------------------------------------------------------------------------------
 ## Deleting a Specific Slide 
@@ -249,24 +194,7 @@ object and the index number to the next overloaded **DeleteSlide** method, which
     }  
 ```
 
-```vb
-    ' Check for a null document object.
-    If presentationDocument Is Nothing Then
-        Throw New ArgumentNullException("presentationDocument")
-    End If
 
-    Dim slidesCount As Integer = 0
-
-    ' Get the presentation part of document.
-    Dim presentationPart As PresentationPart = presentationDocument.PresentationPart
-
-    ' Get the slide count from the SlideParts.
-    If presentationPart IsNot Nothing Then
-        slidesCount = presentationPart.SlideParts.Count()
-    End If
-    ' Return the slide count to the previous method.
-    Return slidesCount
-```
 
 The first section of the second overloaded **DeleteSlide** method uses the **CountSlides** method to get the number of slides in
 the presentation. Then, it gets the list of slide IDs in the
@@ -309,38 +237,7 @@ removes the slide from the slide list.
         slideIdList.RemoveChild(slideId);
 ```
 
-```vb
-    ' Delete the specified slide from the presentation.
-    Public Shared Sub DeleteSlide(ByVal presentationDocument As 
-        If presentationDocument Is Nothing Then
-            Throw New ArgumentNullException("presentationDocument")
-        End If
 
-        ' Use the CountSlides sample to get the number of slides in the presentation.
-        Dim slidesCount As Integer = CountSlides(presentationDocument)
-
-        If slideIndex < 0 OrElse slideIndex >= slidesCount Then
-            Throw New ArgumentOutOfRangeException("slideIndex")
-        End If
-
-        ' Get the presentation part from the presentation document. 
-        Dim presentationPart As PresentationPart = presentationDocument.PresentationPart
-
-        ' Get the presentation from the presentation part.
-        Dim presentation As Presentation = presentationPart.Presentation
-
-        ' Get the list of slide IDs in the presentation.
-        Dim slideIdList As SlideIdList = presentation.SlideIdList
-
-        ' Get the slide ID of the specified slide
-        Dim slideId As SlideId = TryCast(slideIdList.ChildElements(slideIndex), SlideId)
-
-        ' Get the relationship ID of the slide.
-        Dim slideRelId As String = slideId.RelationshipId
-
-        ' Remove the slide from the slide list.
-        slideIdList.RemoveChild(slideId)
-```
 
 The next section of the second overloaded **DeleteSlide** method removes all references to the
 deleted slide from custom shows. It does that by iterating through the
@@ -381,29 +278,7 @@ respective custom show.
     }
 ```
 
-```vb
-    ' Remove references to the slide from all custom shows.
-    If presentation.CustomShowList IsNot Nothing Then
-        ' Iterate through the list of custom shows.
-        For Each customShow In presentation.CustomShowList.Elements(Of CustomShow)()
-            If customShow.SlideList IsNot Nothing Then
-                ' Declare a link list of slide list entries.
-                Dim slideListEntries As New LinkedList(Of SlideListEntry)()
-                For Each slideListEntry As SlideListEntry In customShow.SlideList.Elements()
-                    ' Find the slide reference to remove from the custom show.
-                    If slideListEntry.Id IsNot Nothing AndAlso slideListEntry.Id = slideRelId Then
-                        slideListEntries.AddLast(slideListEntry)
-                    End If
-                Next slideListEntry
 
-                ' Remove all references to the slide from the custom show.
-                For Each slideListEntry As SlideListEntry In slideListEntries
-                    customShow.SlideList.RemoveChild(slideListEntry)
-                Next slideListEntry
-            End If
-        Next customShow
-    End If
-```
 
 Finally, the code saves the modified presentation, and deletes the slide
 part for the deleted slide.
@@ -420,17 +295,7 @@ part for the deleted slide.
     }
 ```
 
-```vb
-    ' Save the modified presentation.
-    presentation.Save()
 
-    ' Get the slide part for the specified slide.
-    Dim slidePart As SlidePart = TryCast(presentationPart.GetPartById(slideRelId), SlidePart)
-
-    ' Remove the slide part.
-    presentationPart.DeletePart(slidePart)
-    End Sub
-```
 
 --------------------------------------------------------------------------------
 ## Sample Code 
@@ -444,9 +309,7 @@ presentation file "Myppt6.pptx."
     DeleteSlide(@"C:\Users\Public\Documents\Myppt6.pptx", 2);
 ```
 
-```vb
-    DeleteSlide("C:\Users\Public\Documents\Myppt6.pptx", 0)
-```
+
 
 You can also use the following call to count the number of slides in the
 presentation.
@@ -456,10 +319,7 @@ presentation.
     CountSlides(@"C:\Users\Public\Documents\Myppt6.pptx"));
 ```
 
-```vb
-    Console.WriteLine("Number of slides = {0}", _
-    CountSlides("C:\Users\Public\Documents\Myppt6.pptx"))
-```
+
 
 It might be a good idea to count the number of slides before and after
 performing the deletion.
@@ -589,129 +449,7 @@ Following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    ' Count the number of slides in the presentation.
-    Public Function CountSlides(ByVal presentationFile As String) As Integer
-        ' Open the presentation as read-only.
-        Using presentationDocument__1 As PresentationDocument = PresentationDocument.Open(presentationFile, False)
-            ' Pass the presentation to the next CountSlides method
-            ' and return the slide count.
-            Return CountSlides(presentationDocument__1)
-        End Using
-    End Function
-    ' Count the slides in the presentation.
-    Public Function CountSlides(ByVal presentationDocument As PresentationDocument) As Integer
-        ' Check for a null document object.
-        If presentationDocument Is Nothing Then
-            Throw New ArgumentNullException("presentationDocument")
-        End If
 
-        Dim slidesCount As Integer = 0
-
-        ' Get the presentation part of document.
-        Dim presentationPart As PresentationPart = presentationDocument.PresentationPart
-
-        If presentationPart IsNot Nothing AndAlso presentationPart.Presentation IsNot Nothing Then
-            ' Get the Presentation object from the presentation part.
-            Dim presentation As Presentation = presentationPart.Presentation
-
-            ' Verify that the presentation contains slides. 
-            If presentation.SlideIdList IsNot Nothing Then
-
-                ' Get the slide count from the slide ID list. 
-                slidesCount = presentation.SlideIdList.Elements(Of SlideId)().Count()
-            End If
-        End If
-
-        ' Return the slide count to the previous method.
-        Return slidesCount
-    End Function
-    ' Delete the specified slide from the presentation.
-    Public Sub DeleteSlide(ByVal presentationFile As String, ByVal slideIndex As Integer)
-
-        ' Open the source document as read/write.
-        Dim presentationDocument As PresentationDocument = presentationDocument.Open(presentationFile, True)
-
-        Using (presentationDocument)
-
-            ' Pass the source document and the index of the slide to be deleted to the next DeleteSlide method.
-            DeleteSlide2(presentationDocument, slideIndex)
-
-        End Using
-
-    End Sub
-    ' Delete the specified slide in the presentation.
-    Public Sub DeleteSlide2(ByVal presentationDocument As PresentationDocument, ByVal slideIndex As Integer)
-        If (presentationDocument Is Nothing) Then
-            Throw New ArgumentNullException("presentationDocument")
-        End If
-
-        ' Use the CountSlides code example to get the number of slides in the presentation.
-        Dim slidesCount As Integer = CountSlides(presentationDocument)
-        If ((slideIndex < 0) OrElse (slideIndex >= slidesCount)) Then
-            Throw New ArgumentOutOfRangeException("slideIndex")
-        End If
-
-        ' Get the presentation part from the presentation document.
-        Dim presentationPart As PresentationPart = presentationDocument.PresentationPart
-
-        ' Get the presentation from the presentation part. 
-        Dim presentation As Presentation = presentationPart.Presentation
-
-        ' Get the list of slide IDs in the presentation.
-        Dim slideIdList As SlideIdList = presentation.SlideIdList
-
-        ' Get the slide ID of the specified slide.
-        Dim slideId As SlideId = CType(slideIdList.ChildElements(slideIndex), SlideId)
-
-        ' Get the relationship ID of the specified slide.
-        Dim slideRelId As String = slideId.RelationshipId
-
-        ' Remove the slide from the slide list.
-        slideIdList.RemoveChild(slideId)
-        ' Remove references to the slide from all custom shows.
-        If (Not (presentation.CustomShowList) Is Nothing) Then
-
-            ' Iterate through the list of custom shows.
-            For Each customShow As System.Object In presentation.CustomShowList.Elements(Of _
-                                   DocumentFormat.OpenXml.Presentation.CustomShow)()
-
-                If (Not (customShow.SlideList) Is Nothing) Then
-
-                    ' Declare a linked list.
-                    Dim slideListEntries As LinkedList(Of SlideListEntry) = New LinkedList(Of SlideListEntry)
-
-                    ' Iterate through all the slides in the custom show.
-                    For Each slideListEntry As SlideListEntry In customShow.SlideList.Elements
-
-                        ' Find the slide reference to be removed from the custom show.
-                        If ((Not (slideListEntry.Id) Is Nothing) _
-                                    AndAlso (slideListEntry.Id = slideRelId)) Then
-
-                            ' Add that slide reference to the end of the linked list.
-                            slideListEntries.AddLast(slideListEntry)
-                        End If
-                    Next
-
-                    ' Remove references to the slide from the custom show.
-                    For Each slideListEntry As SlideListEntry In slideListEntries
-                        customShow.SlideList.RemoveChild(slideListEntry)
-                    Next
-                End If
-            Next
-        End If
-
-        ' Save the change to the presentation part.
-        presentation.Save()
-
-        ' Get the slide part for the specified slide.
-        Dim slidePart As SlidePart = CType(presentationPart.GetPartById(slideRelId), SlidePart)
-
-        ' Remove the slide part.
-        presentationPart.DeletePart(slidePart)
-
-    End Sub
-```
 
 --------------------------------------------------------------------------------
 ## See also 

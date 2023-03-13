@@ -1,20 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: c66a64ca-cb0d-4acc-9d05-535b5bbb8c96
-title: 'How to: Delete comments by all or a specific author in a word processing document (Open XML SDK)'
-description: 'Learn how to delete comments by all or a specific author in a word processing document using the Open XML SDK.'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/28/2021
-ms.localizationpriority: medium
----
 # Delete comments by all or a specific author in a word processing document (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -41,10 +24,7 @@ the code in this topic.
     using DocumentFormat.OpenXml.Wordprocessing;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Wordprocessing
-```
+
 
 --------------------------------------------------------------------------------
 
@@ -66,12 +46,7 @@ an author name, the code deletes all comments.
         string author = "")
 ```
 
-```vb
-    ' Delete comments by a specific author. Pass an empty string for the author 
-    ' to delete all comments, by all authors.
-    Public Sub DeleteComments(ByVal fileName As String,
-        Optional ByVal author As String = "")
-```
+
 
 --------------------------------------------------------------------------------
 
@@ -85,10 +60,7 @@ the required parameters as shown in the following code.
     "David Jones");
 ```
 
-```vb
-    DeleteComments("C:\Users\Public\Documents\DeleteComments.docx",
-    "David Jones")
-```
+
 
 --------------------------------------------------------------------------------
 ## How the Code Works
@@ -121,23 +93,7 @@ in proceeding, as there cannot be any comments to delete.
     }
 ```
 
-```vb
-    ' Get an existing Wordprocessing document.
-    Using document As WordprocessingDocument =
-        WordprocessingDocument.Open(fileName, True)
-        ' Set commentPart to the document 
-        ' WordprocessingCommentsPart, if it exists.
-        Dim commentPart As WordprocessingCommentsPart =
-          document.MainDocumentPart.WordprocessingCommentsPart
 
-        ' If no WordprocessingCommentsPart exists, there can be no
-        ' comments. Stop execution and return from the method.
-        If (commentPart Is Nothing) Then
-            Return
-        End If
-        ' Code removed here…
-    End Using
-```
 
 --------------------------------------------------------------------------------
 
@@ -156,10 +112,7 @@ converts the [Elements](https://msdn.microsoft.com/library/office/documentformat
         commentPart.Comments.Elements<Comment>().ToList();
 ```
 
-```vb
-    Dim commentsToDelete As List(Of Comment) = _
-        commentPart.Comments.Elements(Of Comment)().ToList()
-```
+
 
 So far, the list of comments contains all of the comments. If the author
 parameter is not an empty string, the following code limits the list to
@@ -174,12 +127,7 @@ supplied.
     }
 ```
 
-```vb
-    If Not String.IsNullOrEmpty(author) Then
-        commentsToDelete = commentsToDelete.
-        Where(Function(c) c.Author = author).ToList()
-    End If
-```
+
 
 Before deleting any comments, the code retrieves a list of comments ID
 values, so that it can later delete matching elements from the document
@@ -192,10 +140,7 @@ of strings that contain all the comment ID values.
         commentsToDelete.Select(r => r.Id.Value);
 ```
 
-```vb
-    Dim commentIds As IEnumerable(Of String) =
-        commentsToDelete.Select(Function(r) r.Id.Value)
-```
+
 
 --------------------------------------------------------------------------------
 
@@ -217,16 +162,7 @@ and performs the deletion. The code then saves the comments part.
     commentPart.Comments.Save();
 ```
 
-```vb
-    ' Delete each comment in commentToDelete from the Comments 
-    ' collection.
-    For Each c As Comment In commentsToDelete
-        c.Remove()
-    Next
 
-    ' Save the comment part changes.
-    commentPart.Comments.Save()
-```
 
 --------------------------------------------------------------------------------
 
@@ -244,9 +180,7 @@ document part, as shown in the following code.
     Document doc = document.MainDocumentPart.Document;
 ```
 
-```vb
-    Dim doc As Document = document.MainDocumentPart.Document
-```
+
 
 Given a reference to the document element, the following code performs
 its deletion loop three times, once for each of the different elements
@@ -290,35 +224,7 @@ saving the document.
     doc.Save();
 ```
 
-```vb
-    ' Delete CommentRangeStart for each 
-    ' deleted comment in the main document.
-    Dim commentRangeStartToDelete As List(Of CommentRangeStart) = _
-        doc.Descendants(Of CommentRangeStart). _
-        Where(Function(c) commentIds.Contains(c.Id.Value)).ToList()
-    For Each c As CommentRangeStart In commentRangeStartToDelete
-        c.Remove()
-    Next
 
-    ' Delete CommentRangeEnd for each deleted comment in the main document.
-    Dim commentRangeEndToDelete As List(Of CommentRangeEnd) = _
-        doc.Descendants(Of CommentRangeEnd). _
-        Where(Function(c) commentIds.Contains(c.Id.Value)).ToList()
-    For Each c As CommentRangeEnd In commentRangeEndToDelete
-        c.Remove()
-    Next
-
-    ' Delete CommentReference for each deleted comment in the main document.
-    Dim commentRangeReferenceToDelete As List(Of CommentReference) = _
-        doc.Descendants(Of CommentReference). _
-        Where(Function(c) commentIds.Contains(c.Id.Value)).ToList
-    For Each c As CommentReference In commentRangeReferenceToDelete
-        c.Remove()
-    Next
-
-    ' Save changes back to the MainDocumentPart part.
-    doc.Save()
-```
 
 --------------------------------------------------------------------------------
 
@@ -406,78 +312,7 @@ The following is the complete code sample in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    ' Delete comments by a specific author. Pass an empty string for the author 
-    ' to delete all comments, by all authors.
-    Public Sub DeleteComments(ByVal fileName As String,
-        Optional ByVal author As String = "")
 
-        ' Get an existing Wordprocessing document.
-        Using document As WordprocessingDocument =
-            WordprocessingDocument.Open(fileName, True)
-            ' Set commentPart to the document 
-            ' WordprocessingCommentsPart, if it exists.
-            Dim commentPart As WordprocessingCommentsPart =
-                document.MainDocumentPart.WordprocessingCommentsPart
-
-            ' If no WordprocessingCommentsPart exists, there can be no
-            ' comments. Stop execution and return from the method.
-            If (commentPart Is Nothing) Then
-                Return
-            End If
-
-            ' Create a list of comments by the specified author, or
-            ' if the author name is empty, all authors.
-            Dim commentsToDelete As List(Of Comment) = _
-                commentPart.Comments.Elements(Of Comment)().ToList()
-            If Not String.IsNullOrEmpty(author) Then
-                commentsToDelete = commentsToDelete.
-                Where(Function(c) c.Author = author).ToList()
-            End If
-            Dim commentIds As IEnumerable(Of String) =
-                commentsToDelete.Select(Function(r) r.Id.Value)
-
-            ' Delete each comment in commentToDelete from the Comments 
-            ' collection.
-            For Each c As Comment In commentsToDelete
-                c.Remove()
-            Next
-
-            ' Save the comment part change.
-            commentPart.Comments.Save()
-
-            Dim doc As Document = document.MainDocumentPart.Document
-
-            ' Delete CommentRangeStart for each 
-            ' deleted comment in the main document.
-            Dim commentRangeStartToDelete As List(Of CommentRangeStart) = _
-                doc.Descendants(Of CommentRangeStart). _
-                Where(Function(c) commentIds.Contains(c.Id.Value)).ToList()
-            For Each c As CommentRangeStart In commentRangeStartToDelete
-                c.Remove()
-            Next
-
-            ' Delete CommentRangeEnd for each deleted comment in main document.
-            Dim commentRangeEndToDelete As List(Of CommentRangeEnd) = _
-                doc.Descendants(Of CommentRangeEnd). _
-                Where(Function(c) commentIds.Contains(c.Id.Value)).ToList()
-            For Each c As CommentRangeEnd In commentRangeEndToDelete
-                c.Remove()
-            Next
-
-            ' Delete CommentReference for each deleted comment in the main document.
-            Dim commentRangeReferenceToDelete As List(Of CommentReference) = _
-                doc.Descendants(Of CommentReference). _
-                Where(Function(c) commentIds.Contains(c.Id.Value)).ToList
-            For Each c As CommentReference In commentRangeReferenceToDelete
-                c.Remove()
-            Next
-
-            ' Save changes back to the MainDocumentPart part.
-            doc.Save()
-        End Using
-    End Sub
-```
 
 --------------------------------------------------------------------------------
 

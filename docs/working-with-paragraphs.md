@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 8a9117f7-066e-409c-8681-a26610c0eede
-title: Working with paragraphs (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Working with paragraphs (Open XML SDK)
 
 This topic discusses the Open XML SDK 2.5 [Paragraph](https://msdn.microsoft.com/library/office/documentformat.openxml.wordprocessing.paragraph.aspx) class and how it relates to the
@@ -38,8 +22,6 @@ A paragraph's properties are specified via the \<pPr\>element. Some
 examples of paragraph properties are alignment, border, hyphenation
 override, indentation, line spacing, shading, text direction, and
 widow/orphan control.
-
-© ISO/IEC29500: 2008.
 
 The following table lists the most common Open XML SDK classes used when
 working with paragraphs.
@@ -105,22 +87,7 @@ a WordprocessingML document.
     }
 ```
 
-```vb
-    Public Sub WriteToWordDoc(ByVal filepath As String, ByVal txt As String)
-        ' Open a WordprocessingDocument for editing using the filepath.
-        Using wordprocessingDocument As WordprocessingDocument = _
-            WordprocessingDocument.Open(filepath, True)
-            ' Assign a reference to the existing document body.
-            Dim body As Body = wordprocessingDocument.MainDocumentPart.Document.Body
 
-            ' Add a paragraph with some text.            
-            Dim para As Paragraph = body.AppendChild(New Paragraph())
-            Dim run As Run = para.AppendChild(New Run())
-            run.AppendChild(New Text(txt))
-        End Using
-
-    End Sub
-```
 
 When this code is run, the following XML is written to the
 WordprocessingML document referenced in the code.

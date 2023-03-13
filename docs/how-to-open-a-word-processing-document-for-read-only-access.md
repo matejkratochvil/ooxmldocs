@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: c811c2c7-1066-45a5-a724-33d0fbfd5284
-title: 'How to: Open a word processing document for read-only access (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Open a word processing document for read-only access (Open XML SDK)
 
 This topic describes how to use the classes in the Open XML SDK 2.5 for
@@ -30,12 +14,7 @@ this topic.
     using DocumentFormat.OpenXml.Wordprocessing;
 ```
 
-```vb
-    Imports System.IO
-    Imports System.IO.Packaging
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Wordprocessing
-```
+
 
 ---------------------------------------------------------------------------------
 ## When to Open a Document for Read-only Access 
@@ -95,10 +74,7 @@ Method.
         WordprocessingDocument.Open(filepath, false))
 ```
 
-```vb
-    ' Open a WordprocessingDocument for read-only access based on a filepath.
-    Using wordDocument As WordprocessingDocument = WordprocessingDocument.Open(filepath, False)
-```
+
 
 The other two **Open** methods create an
 instance of the **WordprocessingDocument**
@@ -116,11 +92,7 @@ The following code example opens a document based on a stream.
         WordprocessingDocument.Open(stream, false))
 ```
 
-```vb
-    Dim stream As Stream = File.Open(strDoc, FileMode.Open)
-    ' Open a WordprocessingDocument for read-only access based on a stream.
-    Using wordDocument As WordprocessingDocument = WordprocessingDocument.Open(stream, False)
-```
+
 
 Suppose you have an application that employs the Open XML support in the
 System.IO.Packaging namespace of the .NET Framework Class Library, and
@@ -143,13 +115,7 @@ this operation.
         WordprocessingDocument.Open(wordPackage))
 ```
 
-```vb
-    ' Open System.IO.Packaging.Package.
-    Dim wordPackage As Package = Package.Open(filepath, FileMode.Open, FileAccess.Read)
 
-    ' Open a WordprocessingDocument based on a package.
-    Using wordDocument As WordprocessingDocument = WordprocessingDocument.Open(wordPackage)
-```
 
 Once you open the Word document package, you can access the main
 document part. To access the body of the main document part, you assign
@@ -161,10 +127,7 @@ code example.
     Body body = wordprocessingDocument.MainDocumentPart.Document.Body;
 ```
 
-```vb
-    ' Assign a reference to the existing document body.
-    Dim body As Body = wordprocessingDocument.MainDocumentPart.Document.Body
-```
+
 
 ---------------------------------------------------------------------------------
 ## Basic Document Structure 
@@ -224,15 +187,7 @@ following code example adds the paragraph, run, and text.
     wordDocument.MainDocumentPart.Document.Save();
 ```
 
-```vb
-    ' Attempt to add some text.
-    Dim para As Paragraph = body.AppendChild(New Paragraph())
-    Dim run As Run = para.AppendChild(New Run())
-    run.AppendChild(New Text("Append text in body, but text is not saved - OpenWordprocessingDocumentReadonly"))
 
-    ' Call Save to generate an exception and show that access is read-only.
-    wordDocument.MainDocumentPart.Document.Save()
-```
 
 --------------------------------------------------------------------------------
 ## Sample Code 
@@ -246,9 +201,7 @@ access.
     OpenWordprocessingDocumentReadonly(@"c:\Users\Public\Public Documents\Word12.docx");
 ```
 
-```vb
-    OpenWordprocessingDocumentReadonly("c:\Users\Public\Public Documents\Word12.docx")
-```
+
 
 The second example method, **OpenWordprocessingPackageReadonly**, shows how to
 open a Word document for read-only access from a
@@ -260,9 +213,7 @@ Word12.docx file in the Public Documents folder for read-only access.
     OpenWordprocessingPackageReadonly(@"c:\Users\Public\Public Documents\Word12.docx");
 ```
 
-```vb
-    OpenWordprocessingPackageReadonly("c:\Users\Public\Public Documents\Word12.docx")
-```
+
 
 > [!IMPORTANT]
 > If you uncomment the statement that saves the file, the program would throw an **IOException** because the file is opened for read-only access.
@@ -315,45 +266,7 @@ The following is the complete sample code in C\# and VB.
     }
 ```
 
-```vb
-    Public Sub OpenWordprocessingDocumentReadonly(ByVal filepath As String)
-        ' Open a WordprocessingDocument based on a filepath.
-        Using wordDocument As WordprocessingDocument = WordprocessingDocument.Open(filepath, False)
-            ' Assign a reference to the existing document body. 
-            Dim body As Body = wordDocument.MainDocumentPart.Document.Body
-            
-            ' Attempt to add some text.
-            Dim para As Paragraph = body.AppendChild(New Paragraph())
-            Dim run As Run = para.AppendChild(New Run())
-            run.AppendChild(New Text("Append text in body, but text is not saved - OpenWordprocessingDocumentReadonly"))
-            
-            ' Call Save to generate an exception and show that access is read-only.
-            ' wordDocument.MainDocumentPart.Document.Save()
-        End Using
-    End Sub
 
-    Public Sub OpenWordprocessingPackageReadonly(ByVal filepath As String)
-        ' Open System.IO.Packaging.Package.
-        Dim wordPackage As Package = Package.Open(filepath, FileMode.Open, FileAccess.Read)
-        
-        ' Open a WordprocessingDocument based on a package.
-        Using wordDocument As WordprocessingDocument = WordprocessingDocument.Open(wordPackage)
-            ' Assign a reference to the existing document body. 
-            Dim body As Body = wordDocument.MainDocumentPart.Document.Body
-            
-            ' Attempt to add some text.
-            Dim para As Paragraph = body.AppendChild(New Paragraph())
-            Dim run As Run = para.AppendChild(New Run())
-            run.AppendChild(New Text("Append text in body, but text is not saved - OpenWordprocessingPackageReadonly"))
-            
-            ' Call Save to generate an exception and show that access is read-only.
-            ' wordDocument.MainDocumentPart.Document.Save()
-        End Using
-        
-        ' Close the package.
-        wordPackage.Close()
-    End Sub
-```
 
 --------------------------------------------------------------------------------
 ## See also 

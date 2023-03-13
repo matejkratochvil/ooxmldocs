@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 56d28bc5-c9ea-4c0e-b2f5-20be9c16d290
-title: Working with notes slides (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
 # Working with notes slides (Open XML SDK)
 
 This topic discusses the Open XML SDK 2.5 for Office [NotesSlide](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.notesslide.aspx) class and how it relates to the
@@ -47,8 +31,6 @@ slide with all of its parts. Notice the cSld element, which specifies
 the common elements that can appear on any slide type and then any
 elements specify additional non-common properties for this notes slide.
 
-© ISO/IEC29500: 2008.
-
 The \<notes\> element is the root element of the PresentationML Notes
 Slide part. For more information about the overall structure of the
 parts and elements that make up a PresentationML document, see
@@ -74,8 +56,6 @@ specification describes the attributes of the \<notes\> element.
 | showMasterPhAnim (Show Master Placeholder Animations) | Specifies whether or not to display animations on placeholders from the master slide.<br/>The possible values for this attribute are defined by the W3C XML Schema **boolean** datatype. |
 |           showMasterSp (Show Master Shapes)           |       Specifies if shapes on the master slide should be shown on slides or not.<br/>The possible values for this attribute are defined by the W3C XML Schema **boolean** datatype.       |
 
-© ISO/IEC29500: 2008.
-
 
 ---------------------------------------------------------------------------------
 ## Open XML SDK 2.5 NotesSlide Class
@@ -100,8 +80,6 @@ by the master is used. If the \<overrideClrMapping\> child element is
 present, it defines a new color scheme specific to the parent notes
 slide, presentation slide, or slide layout.
 
-© ISO/IEC29500: 2008.
-
 ### CommonSlideData Class
 
 The **CommonSlideData** class corresponds to
@@ -119,8 +97,6 @@ The actual data in \<cSld\> describe only the particular parent slide;
 it is only the type of information stored that is common across all
 slides.
 
-© ISO/IEC29500: 2008.
-
 ### ExtensionListWithModification Class
 
 The **ExtensionListWithModification** class
@@ -137,8 +113,6 @@ framework.
 
 [Note: Using this extLst element allows the generating application to
 store whether this extension property has been modified. end note]
-
-© ISO/IEC29500: 2008.
 
 
 ---------------------------------------------------------------------------------
@@ -203,25 +177,7 @@ namespace.
         }
 ```
 
-```vb
-    Private Shared Function CreateNotesSlidePart(ByVal slidePart1 As SlidePart) As NotesSlidePart
-            Dim notesSlidePart1 As NotesSlidePart = slidePart1.AddNewPart(Of NotesSlidePart)("rId6")
-            Dim notesSlide As New NotesSlide(New CommonSlideData(New ShapeTree(New P.NonVisualGroupShapeProperties(New P.NonVisualDrawingProperties() With { _
-             .Id = DirectCast(1UI, UInt32Value), _
-             .Name = "" _
-            }, New P.NonVisualGroupShapeDrawingProperties(), New ApplicationNonVisualDrawingProperties()), New _
-                GroupShapeProperties(New TransformGroup()), New P.Shape(New P.NonVisualShapeProperties(New P.NonVisualDrawingProperties() With { _
-             .Id = DirectCast(2UI, UInt32Value), _
-             .Name = "" _
-            }, New P.NonVisualShapeDrawingProperties(New ShapeLocks() With { _
-             .NoGrouping = True _
-            }), New ApplicationNonVisualDrawingProperties(New PlaceholderShape())), New P.ShapeProperties(), New _
-                P.TextBody(New BodyProperties(), New ListStyle(), New Paragraph(New EndParagraphRunProperties()))))),
-            New ColorMapOverride(New MasterColorMapping()))
-            notesSlidePart1.NotesSlide = notesSlide
-            Return notesSlidePart1
-        End Function
-```
+
 
 ---------------------------------------------------------------------------------
 ## Generated PresentationML

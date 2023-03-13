@@ -1,20 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: how-to-set-a-custom-property-in-a-word-processing-document
-title: 'How to: Set a custom property in a word processing document (Open XML SDK)'
-description: 'Learn how to use the classes in the Open XML SDK 2.5 for Office to programmatically set a custom property in a word processing document.'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/28/2021
-ms.localizationpriority: high
----
 # Set a custom property in a word processing document (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for Office to programmatically set a custom property in a word processing document. It contains an example **SetCustomProperty** method to illustrate this task.
@@ -36,12 +19,7 @@ You must also use the following **using** directives or **Imports** statements t
     using DocumentFormat.OpenXml.VariantTypes;
 ```
 
-```vb
-    Imports System.IO
-    Imports DocumentFormat.OpenXml.CustomProperties
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.VariantTypes
-```
+
 
 The sample code also includes an enumeration that defines the possible types of custom properties. The **SetCustomProperty** method requires that you supply one of these values when you call the method.
 
@@ -56,15 +34,7 @@ The sample code also includes an enumeration that defines the possible types of 
     }
 ```
 
-```vb
-    Public Enum PropertyTypes
-        YesNo
-        Text
-        DateTime
-        NumberInteger
-        NumberDouble
-    End Enum
-```
+
 
 ## How Custom Properties Are Stored
 
@@ -124,13 +94,7 @@ Use the **SetCustomProperty** method to set a custom property in a word processi
         PropertyTypes propertyType)
 ```
 
-```vb
-    Public Function SetCustomProperty( _
-        ByVal fileName As String,
-        ByVal propertyName As String, _
-        ByVal propertyValue As Object,
-        ByVal propertyType As PropertyTypes) As String
-```
+
 
 ## Calling the SetCustomProperty Method
 
@@ -150,19 +114,7 @@ The **SetCustomProperty** method enables you to set a custom property, and retur
         DateTime.Parse("12/21/2010"), PropertyTypes.DateTime));
 ```
 
-```vb
-    Const fileName As String = "C:\Users\Public\Documents\SetCustomProperty.docx"
 
-    Console.WriteLine("Manager = " &
-        SetCustomProperty(fileName, "Manager", "Peter", PropertyTypes.Text))
-
-    Console.WriteLine("Manager = " &
-        SetCustomProperty(fileName, "Manager", "Mary", PropertyTypes.Text))
-
-    Console.WriteLine("ReviewDate = " &
-        SetCustomProperty(fileName, "ReviewDate",
-        #12/21/2010#, PropertyTypes.DateTime))
-```
 
 After running this code, use the following procedure to view the custom properties from Word.
 
@@ -253,58 +205,7 @@ type of the property value, and then converts the input to the correct type, set
     }
 ```
 
-```vb
-    Dim returnValue As String = Nothing
 
-    Dim newProp As New CustomDocumentProperty
-    Dim propSet As Boolean = False
-
-    ' Calculate the correct type:
-    Select Case propertyType
-
-        Case PropertyTypes.DateTime
-            ' Be sure you were passed a real date, 
-            ' and if so, format in the correct way. 
-            ' The date/time value passed in should 
-            ' represent a UTC date/time.
-            If TypeOf (propertyValue) Is DateTime Then
-                newProp.VTFileTime = _
-                    New VTFileTime(String.Format("{0:s}Z",
-                        Convert.ToDateTime(propertyValue)))
-                propSet = True
-            End If
-
-        Case PropertyTypes.NumberInteger
-            If TypeOf (propertyValue) Is Integer Then
-                newProp.VTInt32 = New VTInt32(propertyValue.ToString())
-                propSet = True
-            End If
-
-        Case PropertyTypes.NumberDouble
-            If TypeOf propertyValue Is Double Then
-                newProp.VTFloat = New VTFloat(propertyValue.ToString())
-                propSet = True
-            End If
-
-        Case PropertyTypes.Text
-            newProp.VTLPWSTR = New VTLPWSTR(propertyValue.ToString())
-            propSet = True
-
-        Case PropertyTypes.YesNo
-            If TypeOf propertyValue Is Boolean Then
-                ' Must be lowercase.
-                newProp.VTBool = _
-                  New VTBool(Convert.ToBoolean(propertyValue).ToString().ToLower())
-                propSet = True
-            End If
-    End Select
-
-    If Not propSet Then
-        ' If the code was not able to convert the 
-        ' property to a valid value, throw an exception.
-        Throw New InvalidDataException("propertyValue")
-    End If
-```
 
 At this point, if the code has not thrown an exception, you can assume that the property is valid, and the code sets the [FormatId](https://msdn.microsoft.com/library/office/documentformat.openxml.customproperties.customdocumentproperty.formatid.aspx) and [Name](https://msdn.microsoft.com/library/office/documentformat.openxml.customproperties.customdocumentproperty.name.aspx) properties of the new custom property.
 
@@ -315,12 +216,7 @@ At this point, if the code has not thrown an exception, you can assume that the 
     newProp.Name = propertyName;
 ```
 
-```vb
-    ' Now that you have handled the parameters, start
-    ' working on the document.
-    newProp.FormatId = "{D5CDD505-2E9C-101B-9397-08002B2CF9AE}"
-    newProp.Name = propertyName
-```
+
 
 ## Working with the Document
 
@@ -335,12 +231,7 @@ using the [Open](https://msdn.microsoft.com/library/office/documentformat.openxm
     }
 ```
 
-```vb
-    Using document = WordprocessingDocument.Open(fileName, True)
-        Dim customProps = document.CustomFilePropertiesPart
-        ' Code removed here...
-    End Using
-```
+
 
 If the code cannot find a custom properties part, it creates a new part, and adds a new set of properties to the part.
 
@@ -355,14 +246,7 @@ If the code cannot find a custom properties part, it creates a new part, and add
     }
 ```
 
-```vb
-    If customProps Is Nothing Then
-        ' No custom properties? Add the part, and the
-        ' collection of properties now.
-        customProps = document.AddCustomFilePropertiesPart
-        customProps.Properties = New Properties
-    End If
-```
+
 
 Next, the code retrieves a reference to the [Properties](https://msdn.microsoft.com/library/office/documentformat.openxml.packaging.customfilepropertiespart.properties.aspx) property of the custom
 properties part (that is, a reference to the properties themselves). If
@@ -379,12 +263,7 @@ cannot continue.
     }
 ```
 
-```vb
-    Dim props = customProps.Properties
-    If props IsNot Nothing Then
-      ' Code removed here...
-    End If
-```
+
 
 If the property already exists, the code retrieves its current value,
 and then deletes the property. Why delete the property? If the new type
@@ -411,17 +290,7 @@ find the first match for the property name.
     }
 ```
 
-```vb
-    Dim prop = props.
-      Where(Function(p) CType(p, CustomDocumentProperty).
-              Name.Value = propertyName).FirstOrDefault()
-    ' Does the property exist? If so, get the return value, 
-    ' and then delete the property.
-    If prop IsNot Nothing Then
-        returnValue = prop.InnerText
-        prop.Remove()
-    End If
-```
+
 
 Now, you will know for sure that the custom property part exists, a property that has the same name as the new property does not exist, and that there may be other existing custom properties. The code performs the following steps:
 
@@ -444,18 +313,7 @@ Now, you will know for sure that the custom property part exists, a property tha
     props.Save();
 ```
 
-```vb
-    ' Append the new property, and 
-    ' fix up all the property ID values. 
-    ' The PropertyId value must start at 2.
-    props.AppendChild(newProp)
-    Dim pid As Integer = 2
-    For Each item As CustomDocumentProperty In props
-        item.PropertyId = pid
-        pid += 1
-    Next
-    props.Save()
-```
+
 
 Finally, the code returns the stored original property value.
 
@@ -463,9 +321,7 @@ Finally, the code returns the stored original property value.
     return returnValue;
 ```
 
-```vb
-    Return returnValue
-```
+
 
 ## Sample Code
 
@@ -609,122 +465,7 @@ The following is the complete **SetCustomProperty** code sample in C\# and Visua
     }
 ```
 
-```vb
-    Public Enum PropertyTypes
-        YesNo
-        Text
-        DateTime
-        NumberInteger
-        NumberDouble
-    End Enum
 
-    Public Function SetCustomProperty( _
-        ByVal fileName As String,
-        ByVal propertyName As String, _
-        ByVal propertyValue As Object,
-        ByVal propertyType As PropertyTypes) As String
-
-        ' Given a document name, a property name/value, and the property type, 
-        ' add a custom property to a document. The method returns the original 
-        ' value, if it existed.
-
-        Dim returnValue As String = Nothing
-
-        Dim newProp As New CustomDocumentProperty
-        Dim propSet As Boolean = False
-
-        ' Calculate the correct type:
-        Select Case propertyType
-
-            Case PropertyTypes.DateTime
-                ' Make sure you were passed a real date, 
-                ' and if so, format in the correct way. 
-                ' The date/time value passed in should 
-                ' represent a UTC date/time.
-                If TypeOf (propertyValue) Is DateTime Then
-                    newProp.VTFileTime = _
-                        New VTFileTime(String.Format("{0:s}Z",
-                            Convert.ToDateTime(propertyValue)))
-                    propSet = True
-                End If
-
-            Case PropertyTypes.NumberInteger
-                If TypeOf (propertyValue) Is Integer Then
-                    newProp.VTInt32 = New VTInt32(propertyValue.ToString())
-                    propSet = True
-                End If
-
-            Case PropertyTypes.NumberDouble
-                If TypeOf propertyValue Is Double Then
-                    newProp.VTFloat = New VTFloat(propertyValue.ToString())
-                    propSet = True
-                End If
-
-            Case PropertyTypes.Text
-                newProp.VTLPWSTR = New VTLPWSTR(propertyValue.ToString())
-                propSet = True
-
-            Case PropertyTypes.YesNo
-                If TypeOf propertyValue Is Boolean Then
-                    ' Must be lowercase.
-                    newProp.VTBool = _
-                      New VTBool(Convert.ToBoolean(propertyValue).ToString().ToLower())
-                    propSet = True
-                End If
-        End Select
-
-        If Not propSet Then
-            ' If the code was not able to convert the 
-            ' property to a valid value, throw an exception.
-            Throw New InvalidDataException("propertyValue")
-        End If
-
-        ' Now that you have handled the parameters, start
-        ' working on the document.
-        newProp.FormatId = "{D5CDD505-2E9C-101B-9397-08002B2CF9AE}"
-        newProp.Name = propertyName
-
-        Using document = WordprocessingDocument.Open(fileName, True)
-            Dim customProps = document.CustomFilePropertiesPart
-            If customProps Is Nothing Then
-                ' No custom properties? Add the part, and the
-                ' collection of properties now.
-                customProps = document.AddCustomFilePropertiesPart
-                customProps.Properties = New Properties
-            End If
-
-            Dim props = customProps.Properties
-            If props IsNot Nothing Then
-                ' This will trigger an exception is the property's Name property 
-                ' is null, but if that happens, the property is damaged, and 
-                ' probably should raise an exception.
-                Dim prop = props.
-                  Where(Function(p) CType(p, CustomDocumentProperty).
-                          Name.Value = propertyName).FirstOrDefault()
-                ' Does the property exist? If so, get the return value, 
-                ' and then delete the property.
-                If prop IsNot Nothing Then
-                    returnValue = prop.InnerText
-                    prop.Remove()
-                End If
-
-                ' Append the new property, and 
-                ' fix up all the property ID values. 
-                ' The PropertyId value must start at 2.
-                props.AppendChild(newProp)
-                Dim pid As Integer = 2
-                For Each item As CustomDocumentProperty In props
-                    item.PropertyId = pid
-                    pid += 1
-                Next
-                props.Save()
-            End If
-        End Using
-
-        Return returnValue
-
-    End Function
-```
 
 ## See also
 

@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: dd28d239-42be-42a9-893e-b65338fe184e
-title: 'How to: Parse and read a large spreadsheet document (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Parse and read a large spreadsheet document (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -34,13 +18,7 @@ in this topic.
     using DocumentFormat.OpenXml.Spreadsheet;
 ```
 
-```vb
-    Imports System
-    Imports System.Linq
-    Imports DocumentFormat.OpenXml
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Spreadsheet
-```
+
 
 --------------------------------------------------------------------------------
 ## Getting a SpreadsheetDocument Object 
@@ -68,13 +46,7 @@ because the document is opened as read-only.
     }
 ```
 
-```vb
-    ' Open the document for editing.
-    Using spreadsheetDocument As SpreadsheetDocument = _
-    SpreadsheetDocument.Open(filename, False)
-        ' Code removed here.
-    End Using
-```
+
 
 --------------------------------------------------------------------------------
 ## Approaches to Parsing Open XML Files 
@@ -107,18 +79,7 @@ the DOM approach.
     }
 ```
 
-```vb
-    Dim workbookPart As WorkbookPart = spreadsheetDocument.WorkbookPart
-    Dim worksheetPart As WorksheetPart = workbookPart.WorksheetParts.First()
-    Dim sheetData As SheetData = worksheetPart.Worksheet.Elements(Of SheetData)().First()
-    Dim text As String
-    For Each r As Row In sheetData.Elements(Of Row)()
-        For Each c As Cell In r.Elements(Of Cell)()
-            text = c.CellValue.Text
-            Console.Write(text & " ")
-        Next
-    Next
-```
+
 
 The following code segment performs an identical task to the preceding
 sample (reading a very large Excel file), but uses the SAX approach.
@@ -140,19 +101,7 @@ This is the recommended approach for reading very large files.
     }
 ```
 
-```vb
-    Dim workbookPart As WorkbookPart = spreadsheetDocument.WorkbookPart
-    Dim worksheetPart As WorksheetPart = workbookPart.WorksheetParts.First()
 
-    Dim reader As OpenXmlReader = OpenXmlReader.Create(worksheetPart)
-    Dim text As String
-    While reader.Read()
-        If reader.ElementType = GetType(CellValue) Then
-            text = reader.GetText()
-            Console.Write(text & " ")
-        End If
-    End While
-```
 
 --------------------------------------------------------------------------------
 ## Sample Code 
@@ -174,12 +123,7 @@ exclude.
     ReadExcelFileSAX(fileName);    // SAX
 ```
 
-```vb
-    Dim fileName As String = "C:\Users\Public\Documents\BigFile.xlsx"
-    ' Comment one of the following lines to test each method separately.
-    ReadExcelFileDOM(fileName)    ' DOM
-    ReadExcelFileSAX(fileName)    ' SAX
-```
+
 
 The following is the complete code sample in both C\# and Visual Basic.
 
@@ -232,47 +176,7 @@ The following is the complete code sample in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    ' The DOM approach.
-    ' Note that the this code works only for cells that contain numeric values.
 
-
-    Private Sub ReadExcelFileDOM(ByVal fileName As String)
-        Using spreadsheetDocument As SpreadsheetDocument = SpreadsheetDocument.Open(fileName, False)
-            Dim workbookPart As WorkbookPart = spreadsheetDocument.WorkbookPart
-            Dim worksheetPart As WorksheetPart = workbookPart.WorksheetParts.First()
-            Dim sheetData As SheetData = worksheetPart.Worksheet.Elements(Of SheetData)().First()
-            Dim text As String
-            For Each r As Row In sheetData.Elements(Of Row)()
-                For Each c As Cell In r.Elements(Of Cell)()
-                    text = c.CellValue.Text
-                    Console.Write(text & " ")
-                Next
-            Next
-            Console.WriteLine()
-            Console.ReadKey()
-        End Using
-    End Sub
-
-    ' The SAX approach.
-    Private Sub ReadExcelFileSAX(ByVal fileName As String)
-        Using spreadsheetDocument As SpreadsheetDocument = SpreadsheetDocument.Open(fileName, False)
-            Dim workbookPart As WorkbookPart = spreadsheetDocument.WorkbookPart
-            Dim worksheetPart As WorksheetPart = workbookPart.WorksheetParts.First()
-
-            Dim reader As OpenXmlReader = OpenXmlReader.Create(worksheetPart)
-            Dim text As String
-            While reader.Read()
-                If reader.ElementType = GetType(CellValue) Then
-                    text = reader.GetText()
-                    Console.Write(text & " ")
-                End If
-            End While
-            Console.WriteLine()
-            Console.ReadKey()
-        End Using
-    End Sub
-```
 
 --------------------------------------------------------------------------------
 ## See also 

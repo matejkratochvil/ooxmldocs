@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 119a7eb6-9a02-4914-b651-9ba090bf7994
-title: Working with sheets (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Working with sheets (Open XML SDK)
 
 This topic discusses the Open XML SDK 2.5 [Worksheet](https://msdn.microsoft.com/library/office/documentformat.openxml.spreadsheet.worksheet.aspx), [Chartsheet](https://msdn.microsoft.com/library/office/documentformat.openxml.spreadsheet.chartsheet.aspx), and [DialogSheet](https://msdn.microsoft.com/library/office/documentformat.openxml.spreadsheet.dialogsheet.aspx) classes and how they relate to
@@ -39,8 +23,6 @@ features are often connected very tightly with the spreadsheet grid,
 these are also included in the sheet definition on disk.
 
 Other types of sheets include chart sheets and dialog sheets.
-
-© ISO/IEC29500: 2008.
 
 
 ## Open XML SDK 2.5 Worksheet Class
@@ -79,8 +61,6 @@ collections can appear before sheetData, and some can appear after. To
 simplify the logic required to insert a new sheetData collection into an
 existing (but empty) sheet, the sheetData collection is required, even
 when empty.
-
-© ISO/IEC29500: 2008.
 
 A typical spreadsheet has at least one worksheet. The worksheet contains
 a table like structure for defining data, represented by the **sheetData** element. A sheet that contains data
@@ -126,8 +106,6 @@ introduces the **sheet data** (\<**sheetData**\>) element.
 The cell table is the core structure of a worksheet. It consists of all
 the text, numbers, and formulas in the grid.
 
-© ISO/IEC29500: 2008.
-
 ### Row Class
 
 The following information from the ISO/IEC 29500 specification
@@ -137,8 +115,6 @@ The cells in the cell table are organized by row. Each row has an index
 (attribute r) so that empty rows need not be written out. Each row
 indicates the number of cells defined for it, as well as their relative
 position in the sheet. In this example, the first row of data is row 2.
-
-© ISO/IEC29500: 2008.
 
 ### Cell Class
 
@@ -151,8 +127,6 @@ also indicate a style identifier (attribute s) and a data type
 (attribute t). The cell types include string, number, and Boolean. In
 order to optimize load/save operations, default data values are not
 written out.
-
-© ISO/IEC29500: 2008.
 
 ### CellValue Class
 
@@ -171,8 +145,6 @@ is done to optimize load/save performance and to reduce duplication of
 information. To determine whether the 0 in v is a number or an index to
 a string, the cell's data type must be examined. When the data type
 indicates string, then it is an index and not a numeric value.
-
-© ISO/IEC29500: 2008.
 
 ### Open XML SDK Code Example
 
@@ -235,56 +207,7 @@ is set equal to the numeric value 100.
     }
 ```
 
-```vb
-    Public Sub CreateSpreadsheetWorkbookWithNumValue(ByVal filepath As String)
-        ' Create a spreadsheet document by supplying the filepath.
-        ' By default, AutoSave = true, Editable = true, and Type = xlsx.
-        Dim spreadsheetDocument As SpreadsheetDocument = spreadsheetDocument.Create(filepath, SpreadsheetDocumentType.Workbook)
 
-        ' Add a WorkbookPart to the document.
-        Dim workbookpart As WorkbookPart = SpreadsheetDocument.AddWorkbookPart()
-        workbookpart.Workbook = New Workbook()
-
-        ' Add a WorksheetPart to the WorkbookPart.
-        Dim worksheetPart As WorksheetPart = workbookpart.AddNewPart(Of WorksheetPart)()
-        worksheetPart.Worksheet = New Worksheet(New SheetData())
-
-        ' Add Sheets to the Workbook.
-        Dim sheets As Sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild(Of Sheets)(New Sheets())
-
-        ' Append a new worksheet and associate it with the workbook.
-        Dim sheet As New Sheet() With {.Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart), .SheetId = 1, .Name = "mySheet"}
-        sheets.Append(sheet)
-
-        ' Get the sheetData cell table.
-        Dim sheetData As SheetData = worksheetPart.Worksheet.GetFirstChild(Of SheetData)()
-
-        ' Add a row to the cell table.
-        Dim row As Row
-        row = New Row() With {.RowIndex = 1}
-        sheetData.Append(row)
-
-        ' In the new row, find the column location to insert a cell in A1.  
-        Dim refCell As Cell = Nothing
-        For Each cell As Cell In row.Elements(Of Cell)()
-            If String.Compare(cell.CellReference.Value, "A1", True) > 0 Then
-                refCell = cell
-                Exit For
-            End If
-        Next
-
-        ' Add the cell to the cell table at A1.
-        Dim newCell As New Cell() With {.CellReference = "A1"}
-        row.InsertBefore(newCell, refCell)
-
-        ' Set the cell value to be a numeric value of 100.
-        newCell.CellValue = New CellValue("100")
-        newCell.DataType = New EnumValue(Of CellValues)(CellValues.Number)
-
-        ' Close the document.
-        SpreadsheetDocument.Close()
-    End Sub
-```
 
 ### Generated SpreadsheetML
 
@@ -326,8 +249,6 @@ relationship in the Chartsheet part's relationship item:
 </chartsheet>
 ```
 
-© ISO/IEC29500: 2008.
-
 The following table lists the common Open XML SDK 2.5 classes used when
 working with the [Chartsheet](https://msdn.microsoft.com/library/office/documentformat.openxml.spreadsheet.chartsheet.aspx) class.
 
@@ -348,8 +269,6 @@ A package is permitted to contain one or more Drawings parts, and each
 such part shall be the target of an explicit relationship from a
 Worksheet part (§12.3.24), or a Chartsheet part (§12.3.2). There shall
 be only one Drawings part per worksheet or chartsheet.
-
-© ISO/IEC29500: 2008.
 
 
 ## Open XML SDK 2.5 Dialogsheet Class

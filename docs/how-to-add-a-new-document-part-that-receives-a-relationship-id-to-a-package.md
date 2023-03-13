@@ -1,19 +1,4 @@
----
 
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: c9b2ce55-548c-4443-8d2e-08fe1f06b7d7
-title: 'How to: Add a new document part that receives a relationship ID to a package'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
 
 # Add a new document part that receives a relationship ID to a package
 
@@ -32,13 +17,7 @@ this topic.
     using System.Xml;
 ```
 
-```vb
-    Imports System.IO
-    Imports DocumentFormat.OpenXml
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Wordprocessing
-    Imports System.Xml
-```
+
 
 -----------------------------------------------------------------------------
 ## Packages and Document Parts 
@@ -106,12 +85,7 @@ a **WordprocessingDocument** object.
            WordprocessingDocumentType.Document);
 ```
 
-```vb
-    Public Shared Sub AddNewPart(ByVal document As String)
-        ' Create a new word processing document.
-        Dim wordDoc As WordprocessingDocument = _
-        WordprocessingDocument.Create(document, WordprocessingDocumentType.Document)
-```
+
 
 It then adds the **MainDocumentPart** part in
 the new word processing document, with the relationship ID, **rId1**. It also adds the **CustomFilePropertiesPart** part and a **CoreFilePropertiesPart** in the new word processing
@@ -140,25 +114,7 @@ document.
     }
 ```
 
-```vb
-    ' Add the MainDocumentPart part in the new word processing document.
-    Dim mainDocPart As MainDocumentPart = wordDoc.AddNewPart(Of MainDocumentPart) _
-    ("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml", "rId1") _
-    mainDocPart.Document = New Document()
 
-    ' Add the CustomFilePropertiesPart part in the new word processing document.
-    Dim customFilePropPart As CustomFilePropertiesPart = wordDoc.AddCustomFilePropertiesPart()
-    customFilePropPart.Properties = New DocumentFormat.OpenXml.CustomProperties.Properties()
-
-    ' Add the CoreFilePropertiesPart part in the new word processing document.
-    Dim coreFilePropPart As CoreFilePropertiesPart = wordDoc.AddCoreFilePropertiesPart()
-
-    Using writer As New XmlTextWriter(coreFilePropPart.GetStream(FileMode.Create), System.Text.Encoding.UTF8)
-        writer.WriteRaw("<?xml version=""1.0"" encoding=""UTF-8""?>" _
-    & vbCrLf & "<cp:coreProperties xmlns:cp=""https://schemas.openxmlformats.org/package/2006/metadata/core-properties""></cp:coreProperties>")
-        writer.Flush()
-    End Using
-```
 
 The code then adds the **DigitalSignatureOriginPart** part, the **ExtendedFilePropertiesPart** part, and the **ThumbnailPart** part in the new word processing
 document with realtionship IDs rId4, rId5, and rId6. And then it closes
@@ -178,19 +134,7 @@ the **wordDoc** object.
     wordDoc.Close();
 ```
 
-```vb
-    ' Add the DigitalSignatureOriginPart part in the new word processing document.
-    wordDoc.AddNewPart(Of DigitalSignatureOriginPart)("rId4")
 
-    ' Add the ExtendedFilePropertiesPart part in the new word processing document.**
-    Dim extendedFilePropPart As ExtendedFilePropertiesPart = wordDoc.AddNewPart(Of ExtendedFilePropertiesPart)("rId5")
-    extendedFilePropPart.Properties = New DocumentFormat.OpenXml.ExtendedProperties.Properties()
-
-    ' Add the ThumbnailPart part in the new word processing document.
-    wordDoc.AddNewPart(Of ThumbnailPart)("image/jpeg", "rId6")
-
-    wordDoc.Close()
-```
 
 > [!NOTE]
 > The **AddNewPart&lt;T&gt;** method creates a relationship from the current document part to the new document part. This method returns the new document part. Also, you can use the **[DataPart.FeedData](https://msdn.microsoft.com/library/office/documentformat.openxml.packaging.datapart.feeddata.aspx)** method to fill the document part.
@@ -207,10 +151,7 @@ the following code example.
     AddNewPart(document);
 ```
 
-```vb
-    Dim document As String = "C:\Users\Public\Documents\MyPkg1.docx"
-    AddNewPart(document)
-```
+
 
 The following is the complete code example in both C\# and Visual Basic.
 
@@ -257,45 +198,7 @@ The following is the complete code example in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    Public Sub AddNewPart(ByVal document As String)
-        ' Create a new word processing document.
-        Dim wordDoc As WordprocessingDocument = _
-    WordprocessingDocument.Create(document, WordprocessingDocumentType.Document)
-        
-        ' Add the MainDocumentPart part in the new word processing document.
-        Dim mainDocPart = wordDoc.AddNewPart(Of MainDocumentPart) _
-    ("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml", "rId1")
-        mainDocPart.Document = New Document()
-        
-        ' Add the CustomFilePropertiesPart part in the new word processing document.
-        Dim customFilePropPart = wordDoc.AddCustomFilePropertiesPart()
-        customFilePropPart.Properties = New DocumentFormat.OpenXml.CustomProperties.Properties()
-        
-        ' Add the CoreFilePropertiesPart part in the new word processing document.
-        Dim coreFilePropPart = wordDoc.AddCoreFilePropertiesPart()
-        Using writer As New XmlTextWriter(coreFilePropPart.GetStream(FileMode.Create), _
-    System.Text.Encoding.UTF8)
-            writer.WriteRaw( _
-    "<?xml version=""1.0"" encoding=""UTF-8""?>" & vbCr & vbLf & _
-    "<cp:coreProperties xmlns:cp=""https://schemas.openxmlformats.org/package/2006/metadata/core-properties""></cp:coreProperties>")
-            writer.Flush()
-        End Using
-        
-        ' Add the DigitalSignatureOriginPart part in the new word processing document.
-        wordDoc.AddNewPart(Of DigitalSignatureOriginPart)("rId4")
-        
-        ' Add the ExtendedFilePropertiesPart part in the new word processing document.
-        Dim extendedFilePropPart = wordDoc.AddNewPart(Of ExtendedFilePropertiesPart)("rId5")
-        extendedFilePropPart.Properties = _
-    New DocumentFormat.OpenXml.ExtendedProperties.Properties()
-        
-        ' Add the ThumbnailPart part in the new word processing document.
-        wordDoc.AddNewPart(Of ThumbnailPart)("image/jpeg", "rId6")
-        
-        wordDoc.Close()
-    End Sub
-```
+
 
 -----------------------------------------------------------------------------
 ## See also 

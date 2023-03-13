@@ -1,18 +1,4 @@
----
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 15e26fbd-fc23-466a-a7cc-b7584ba8f821
-title: 'How to: Retrieve the values of cells in a spreadsheet document (Open XML SDK)'
-description: 'Learn how to retrieve the values of cells in a spreadsheet document using the Open XML SDK.'
-ms.suite: office
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/28/2021
-ms.localizationpriority: high
----
+
 
 # Retrieve the values of cells in a spreadsheet document (Open XML SDK)
 
@@ -37,10 +23,7 @@ the code in this topic.
     using DocumentFormat.OpenXml.Spreadsheet;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Spreadsheet
-```
+
 
 ## GetCellValue Method
 
@@ -64,11 +47,7 @@ found. The following code example shows the method signature.
         string addressName)
 ```
 
-```vb
-    Public Function GetCellValue(ByVal fileName As String,
-        ByVal sheetName As String,
-        ByVal addressName As String) As String
-```
+
 
 ## Calling the GetCellValue Sample Method
 
@@ -89,19 +68,7 @@ example.
         DateTime.FromOADate(double.Parse(value)).ToShortDateString());
 ```
 
-```vb
-    Const fileName As String =
-        "C:\Users\Public\Documents\RetrieveCellValue.xlsx"
 
-    ' Retrieve the value in cell A1.
-    Dim value As String =
-        GetCellValue(fileName, "Sheet1", "A1")
-    Console.WriteLine(value)
-    ' Retrieve the date value in cell A2.
-    value = GetCellValue(fileName, "Sheet1", "A2")
-    Console.WriteLine(
-        DateTime.FromOADate(Double.Parse(value)).ToShortDateString())
-```
 
 ## How the Code Works
 
@@ -112,9 +79,7 @@ initializes it to null.
     string value = null;
 ```
 
-```vb
-    Dim value as String = Nothing
-```
+
 
 ## Accessing the Cell
 
@@ -131,14 +96,7 @@ reference to the workbook part by using the **[WorkbookPart](https://msdn.micros
         WorkbookPart wbPart = document.WorkbookPart;
 ```
 
-```vb
-    ' Open the spreadsheet document for read-only access.
-    Using document As SpreadsheetDocument =
-      SpreadsheetDocument.Open(fileName, False)
 
-        ' Retrieve a reference to the workbook part.
-        Dim wbPart As WorkbookPart = document.WorkbookPart
-```
 
 To find the requested cell, the code must first retrieve a reference to
 the sheet, given its name. The code must search all the sheet-type
@@ -162,17 +120,7 @@ this is to use a LINQ query, as shown in the following code example.
     }
 ```
 
-```vb
-    ' Find the sheet with the supplied name, and then use that Sheet object
-    ' to retrieve a reference to the appropriate worksheet.
-    Dim theSheet As Sheet = wbPart.Workbook.Descendants(Of Sheet)().
-        Where(Function(s) s.Name = sheetName).FirstOrDefault()
 
-    ' Throw an exception if there is no sheet.
-    If theSheet Is Nothing Then
-        Throw New ArgumentException("sheetName")
-    End If
-```
 
 Be aware that the [FirstOrDefault](https://msdn.microsoft.com/library/bb340482.aspx)
 method returns either the first matching reference (a sheet, in this
@@ -190,11 +138,7 @@ the corresponding **[WorksheetPart](https://msdn.microsoft.com/library/office/do
         (WorksheetPart)(wbPart.GetPartById(theSheet.Id));
 ```
 
-```vb
-    ' Retrieve a reference to the worksheet part.
-    Dim wsPart As WorksheetPart =
-        CType(wbPart.GetPartById(theSheet.Id), WorksheetPart)
-```
+
 
 Just as when locating the named sheet, when locating the named cell, the
 code uses the **[Descendants](https://msdn.microsoft.com/library/office/documentformat.openxml.openxmlelement.descendants.aspx)** method, searching for the first
@@ -210,12 +154,7 @@ or will contain a null reference.
         Where(c => c.CellReference == addressName).FirstOrDefault();
 ```
 
-```vb
-    ' Use its Worksheet property to get a reference to the cell 
-    ' whose address matches the address you supplied.
-    Dim theCell As Cell = wsPart.Worksheet.Descendants(Of Cell).
-        Where(Function(c) c.CellReference = addressName).FirstOrDefault
-```
+
 
 ## Retrieving the Value
 
@@ -242,13 +181,7 @@ the cell, and so the next block of code retrieves this value.
     }
 ```
 
-```vb
-    ' If the cell does not exist, return an empty string.
-    If theCell IsNot Nothing Then
-        value = theCell.InnerText
-        ' Code removed here…
-    End If
-```
+
 
 Now, the sample method must interpret the value. As it is, the code
 handles numeric and date, string, and Boolean values. You can extend the
@@ -276,20 +209,7 @@ continues by branching based on the data type.
     }
 ```
 
-```vb
-    ' If the cell represents an numeric value, you are done. 
-    ' For dates, this code returns the serialized value that 
-    ' represents the date. The code handles strings and 
-    ' Booleans individually. For shared strings, the code 
-    ' looks up the corresponding value in the shared string 
-    ' table. For Booleans, the code converts the value into 
-    ' the words TRUE or FALSE.
-    If theCell.DataType IsNot Nothing Then
-        Select Case theCell.DataType.Value
-            ' Code removed here…
-        End Select
-    End If
-```
+
 
 If the **DataType** property contains **CellValues.SharedString**, the code must retrieve a
 reference to the single **[SharedStringTablePart](https://msdn.microsoft.com/library/office/documentformat.openxml.packaging.workbookpart.sharedstringtablepart.aspx)**.
@@ -302,12 +222,7 @@ reference to the single **[SharedStringTablePart](https://msdn.microsoft.com/lib
         .FirstOrDefault();
 ```
 
-```vb
-    ' For shared strings, look up the value in the 
-    ' shared strings table.
-    Dim stringTable = wbPart.
-      GetPartsOfType(Of SharedStringTablePart).FirstOrDefault()
-```
+
 
 Next, if the string table exists (and if it does not, the workbook is
 damaged and the sample code returns the index into the string table
@@ -327,16 +242,7 @@ specified index (first converting the value property to an integer).
     }
 ```
 
-```vb
-    ' If the shared string table is missing, something
-    ' is wrong. Return the index that is in 
-    ' the cell. Otherwise, look up the correct text in 
-    ' the table.
-    If stringTable IsNot Nothing Then
-        value = stringTable.SharedStringTable.
-        ElementAt(Integer.Parse(value)).InnerText
-    End If
-```
+
 
 If the **DataType** property contains **CellValues.Boolean**, the code converts the 0 or 1
 it finds in the cell value into the appropriate text string.
@@ -354,15 +260,7 @@ it finds in the cell value into the appropriate text string.
         }
 ```
 
-```vb
-    Case CellValues.Boolean
-        Select Case value
-            Case "0"
-                value = "FALSE"
-            Case Else
-                value = "TRUE"
-        End Select
-```
+
 
 Finally, the procedure returns the variable **value**, which contains the requested information.
 
@@ -461,82 +359,7 @@ The following is the complete **GetCellValue** code sample in C\# and Visual Bas
     }
 ```
 
-```vb
-    Public Function GetCellValue(ByVal fileName As String,
-        ByVal sheetName As String,
-        ByVal addressName As String) As String
 
-        Dim value As String = Nothing
-
-        ' Open the spreadsheet document for read-only access.
-        Using document As SpreadsheetDocument =
-          SpreadsheetDocument.Open(fileName, False)
-
-            ' Retrieve a reference to the workbook part.
-            Dim wbPart As WorkbookPart = document.WorkbookPart
-
-            ' Find the sheet with the supplied name, and then use that Sheet object
-            ' to retrieve a reference to the appropriate worksheet.
-            Dim theSheet As Sheet = wbPart.Workbook.Descendants(Of Sheet)().
-                Where(Function(s) s.Name = sheetName).FirstOrDefault()
-
-            ' Throw an exception if there is no sheet.
-            If theSheet Is Nothing Then
-                Throw New ArgumentException("sheetName")
-            End If
-
-            ' Retrieve a reference to the worksheet part.
-            Dim wsPart As WorksheetPart =
-                CType(wbPart.GetPartById(theSheet.Id), WorksheetPart)
-
-            ' Use its Worksheet property to get a reference to the cell 
-            ' whose address matches the address you supplied.
-            Dim theCell As Cell = wsPart.Worksheet.Descendants(Of Cell).
-                Where(Function(c) c.CellReference = addressName).FirstOrDefault
-
-            ' If the cell does not exist, return an empty string.
-            If theCell IsNot Nothing Then
-                value = theCell.InnerText
-
-                ' If the cell represents an numeric value, you are done. 
-                ' For dates, this code returns the serialized value that 
-                ' represents the date. The code handles strings and 
-                ' Booleans individually. For shared strings, the code 
-                ' looks up the corresponding value in the shared string 
-                ' table. For Booleans, the code converts the value into 
-                ' the words TRUE or FALSE.
-                If theCell.DataType IsNot Nothing Then
-                    Select Case theCell.DataType.Value
-                        Case CellValues.SharedString
-
-                            ' For shared strings, look up the value in the 
-                            ' shared strings table.
-                            Dim stringTable = wbPart.
-                              GetPartsOfType(Of SharedStringTablePart).FirstOrDefault()
-
-                            ' If the shared string table is missing, something
-                            ' is wrong. Return the index that is in 
-                            ' the cell. Otherwise, look up the correct text in 
-                            ' the table.
-                            If stringTable IsNot Nothing Then
-                                value = stringTable.SharedStringTable.
-                                ElementAt(Integer.Parse(value)).InnerText
-                            End If
-
-                        Case CellValues.Boolean
-                            Select Case value
-                                Case "0"
-                                    value = "FALSE"
-                                Case Else
-                                    value = "TRUE"
-                            End Select
-                    End Select
-                End If
-            End If
-        End Using
-        Return value
-    End Function
-```
 
 ## See also
 

@@ -1,20 +1,4 @@
----
 
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: bb5319c8-ee99-4862-937b-94dcae8deaca
-title: 'How to: Change the print orientation of a word processing document (Open XML SDK)'
-description: 'Learn how to change the print orientation of a word processing document using the Open XML SDK.'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/28/2021
-ms.localizationpriority: medium
----
 
 # Change the print orientation of a word processing document
 
@@ -42,11 +26,7 @@ the code in this topic.
     using DocumentFormat.OpenXml.Wordprocessing;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Wordprocessing
-```
+
 
 -----------------------------------------------------------------------------
 
@@ -64,11 +44,7 @@ The following code shows the **SetPrintOrientation** method.
       string fileName, PageOrientationValues newOrientation)
 ```
 
-```vb
-    Public Sub SetPrintOrientation(
-      ByVal fileName As String, 
-      ByVal newOrientation As PageOrientationValues)
-```
+
 
 For each section in the document, if the new orientation differs from
 the section's current print orientation, the code modifies the print
@@ -88,10 +64,7 @@ following code shows an example method call.
         PageOrientationValues.Landscape);
 ```
 
-```vb
-    SetPrintOrientation("C:\Users\Public\Documents\ChangePrintOrientation.docx",
-        PageOrientationValues.Landscape)
-```
+
 
 -----------------------------------------------------------------------------
 
@@ -119,16 +92,7 @@ each section in turn.
     }
 ```
 
-```vb
-    Using document =
-        WordprocessingDocument.Open(fileName, True)
-        Dim documentChanged As Boolean = False
 
-        Dim docPart = document.MainDocumentPart
-        Dim sections = docPart.Document.Descendants(Of SectionProperties)()
-        ' Code removed here...
-    End Using
-```
 
 -----------------------------------------------------------------------------
 
@@ -149,18 +113,7 @@ The next block of code iterates through all the sections in the collection of **
     }
 ```
 
-```vb
-    For Each sectPr As SectionProperties In sections
 
-        Dim pageOrientationChanged As Boolean = False
-
-        Dim pgSz As PageSize =
-            sectPr.Descendants(Of PageSize).FirstOrDefault
-        If pgSz IsNot Nothing Then
-            ' Code removed here...
-        End If
-    Next
-```
 
 -----------------------------------------------------------------------------
 
@@ -203,22 +156,7 @@ save the document at the end.)
     }
 ```
 
-```vb
-    If pgSz.Orient Is Nothing Then
-        If newOrientation <> PageOrientationValues.Portrait Then
-            pageOrientationChanged = True
-            documentChanged = True
-            pgSz.Orient =
-                New EnumValue(Of PageOrientationValues)(newOrientation)
-        End If
-    Else
-        If pgSz.Orient.Value <> newOrientation Then
-            pgSz.Orient.Value = newOrientation
-            pageOrientationChanged = True
-            documentChanged = True
-        End If
-    End If
-```
+
 
 -----------------------------------------------------------------------------
 
@@ -243,17 +181,7 @@ in the **PageSize** element.
     }
 ```
 
-```vb
-    If pageOrientationChanged Then
-        ' Changing the orientation is not enough. You must also 
-        ' change the page size.
-        Dim width = pgSz.Width
-        Dim height = pgSz.Height
-        pgSz.Width = height
-        pgSz.Height = width
-        ' Code removed here...
-    End If
-```
+
 
 -----------------------------------------------------------------------------
 
@@ -289,23 +217,7 @@ margin settings, as shown in the following code.
     }
 ```
 
-```vb
-    Dim pgMar As PageMargin =
-      sectPr.Descendants(Of PageMargin).FirstOrDefault()
-    If pgMar IsNot Nothing Then
-        Dim top = pgMar.Top.Value
-        Dim bottom = pgMar.Bottom.Value
-        Dim left = pgMar.Left.Value
-        Dim right = pgMar.Right.Value
 
-        pgMar.Top = CType(left, Int32Value)
-        pgMar.Bottom = CType(right, Int32Value)
-        pgMar.Left = CType(System.Math.Max(0,
-            CType(bottom, Int32Value)), UInt32Value)
-        pgMar.Right = CType(System.Math.Max(0,
-            CType(top, Int32Value)), UInt32Value)
-    End If
-```
 
 -----------------------------------------------------------------------------
 
@@ -321,11 +233,7 @@ has changed. If the document has changed, the code saves it.
     }
 ```
 
-```vb
-    If documentChanged Then
-        docPart.Document.Save()
-    End If
-```
+
 
 -----------------------------------------------------------------------------
 
@@ -442,87 +350,7 @@ Basic.
     }
 ```
 
-```vb
-    ' Given a document name, set the print orientation for 
-    ' all the sections of the document.
-    Public Sub SetPrintOrientation(
-      ByVal fileName As String, ByVal newOrientation As PageOrientationValues)
-        Using document =
-            WordprocessingDocument.Open(fileName, True)
-            Dim documentChanged As Boolean = False
 
-            Dim docPart = document.MainDocumentPart
-            Dim sections = docPart.Document.Descendants(Of SectionProperties)()
-
-            For Each sectPr As SectionProperties In sections
-
-                Dim pageOrientationChanged As Boolean = False
-
-                Dim pgSz As PageSize =
-                    sectPr.Descendants(Of PageSize).FirstOrDefault
-                If pgSz IsNot Nothing Then
-                    ' No Orient property? Create it now. Otherwise, just 
-                    ' set its value. Assume that the default orientation 
-                    ' is Portrait.
-                    If pgSz.Orient Is Nothing Then
-                        ' Need to create the attribute. You do not need to 
-                        ' create the Orient property if the property does not 
-                        ' already exist and you are setting it to Portrait. 
-                        ' That is the default value.
-                        If newOrientation <> PageOrientationValues.Portrait Then
-                            pageOrientationChanged = True
-                            documentChanged = True
-                            pgSz.Orient =
-                                New EnumValue(Of PageOrientationValues)(newOrientation)
-                        End If
-                    Else
-                        ' The Orient property exists, but its value
-                        ' is different than the new value.
-                        If pgSz.Orient.Value <> newOrientation Then
-                            pgSz.Orient.Value = newOrientation
-                            pageOrientationChanged = True
-                            documentChanged = True
-                        End If
-                    End If
-
-                    If pageOrientationChanged Then
-                        ' Changing the orientation is not enough. You must also 
-                        ' change the page size.
-                        Dim width = pgSz.Width
-                        Dim height = pgSz.Height
-                        pgSz.Width = height
-                        pgSz.Height = width
-
-                        Dim pgMar As PageMargin =
-                          sectPr.Descendants(Of PageMargin).FirstOrDefault()
-                        If pgMar IsNot Nothing Then
-                            ' Rotate margins. Printer settings control how far you 
-                            ' rotate when switching to landscape mode. Not having those
-                            ' settings, this code rotates 90 degrees. You could easily
-                            ' modify this behavior, or make it a parameter for the 
-                            ' procedure.
-                            Dim top = pgMar.Top.Value
-                            Dim bottom = pgMar.Bottom.Value
-                            Dim left = pgMar.Left.Value
-                            Dim right = pgMar.Right.Value
-
-                            pgMar.Top = CType(left, Int32Value)
-                            pgMar.Bottom = CType(right, Int32Value)
-                            pgMar.Left = CType(System.Math.Max(0,
-                                CType(bottom, Int32Value)), UInt32Value)
-                            pgMar.Right = CType(System.Math.Max(0,
-                                CType(top, Int32Value)), UInt32Value)
-                        End If
-                    End If
-                End If
-            Next
-
-            If documentChanged Then
-                docPart.Document.Save()
-            End If
-        End Using
-    End Sub
-```
 
 -----------------------------------------------------------------------------
 

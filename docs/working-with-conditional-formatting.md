@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: b6f5afca-5feb-4003-b803-55dd2f9bf6d2
-title: Working with conditional formatting (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
 # Working with conditional formatting (Open XML SDK)
 
 This topic discusses the Open XML SDK 2.5 **[ConditionalFormatting](https://msdn.microsoft.com/library/office/documentformat.openxml.spreadsheet.conditionalformatting.aspx)** class and how it
@@ -77,8 +61,6 @@ applied to cells that match the criteria.
     </conditionalFormatting>
 ```
 
-© ISO/IEC29500: 2008.
-
 ### Conditional Formatting Rule Class
 
 The following information from the ISO/IEC 29500 specification
@@ -105,8 +87,6 @@ whose values are greater than 0.5. Note that in this case the content of
 
 Only rules with a type attribute value of expression support formula
 syntax.
-
-© ISO/IEC29500: 2008.
 
 Each conditional format is allowed to specify various formatting rules.
 You can apply color scale and data bar formatting at the same time for
@@ -154,8 +134,6 @@ default, 10% and 90% respectively.)
 
 The minimum difference in length (or increment amount) is 1 pixel.
 
-© ISO/IEC29500: 2008.
-
 Data bars take a single color and display it as a bar. The length of the
 bar indicates the relative height of the cell value. A data bar uses a
 separate model inside the conditional formatting rule to define its
@@ -189,8 +167,6 @@ Example:
     </colorScale>
 ```
 
-© ISO/IEC29500: 2008.
-
 Color scales provide a display that indicates the relative value between
 all cell items, similar to a data bar. A color scale uses a separate
 model inside the conditional formatting rule to define its settings. You
@@ -221,8 +197,6 @@ value is greater than or equal to the 67th percentile.
         <cfvo type="percentile" val="67"/>
     </iconSet>
 ```
-
-© ISO/IEC29500: 2008.
 
 Using icon sets you can apply different sets of icons to the cells that
 contain your data. The icon set uses a range of values to identify which

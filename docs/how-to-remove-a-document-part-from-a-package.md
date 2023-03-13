@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: b3890e64-51d1-4643-8d07-2c9d8e060000
-title: 'How to: Remove a document part from a package (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
 # Remove a document part from a package (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -28,10 +12,7 @@ this topic.
     using DocumentFormat.OpenXml.Packaging;
 ```
 
-```vb
-    Imports System
-    Imports DocumentFormat.OpenXml.Packaging
-```
+
 
 --------------------------------------------------------------------------------
 ## Packages and Document Parts
@@ -65,12 +46,7 @@ should be opened in read/write mode.
     }
 ```
 
-```vb
-    ' Open a Wordprocessing document for editing.
-    Using wordDoc As WordprocessingDocument = WordprocessingDocument.Open(document, True)
-        ' Insert other code here.
-    End Using
-```
+
 
 The **using** statement provides a recommended
 alternative to the typical .Create, .Save, .Close sequence. It ensures
@@ -145,9 +121,7 @@ introduces the settings element in a **PresentationML** package.
 > automatic tab stop increments of 0.5" using the **defaultTabStop** element, and no character level
 > white space compression using the **characterSpacingControl** element. 
 > 
-> © ISO/IEC29500: 2008.
-
-
+> 
 --------------------------------------------------------------------------------
 ## How the Sample Code Works
 After you have opened the document, in the **using** statement, as a **WordprocessingDocument** object, you create a
@@ -164,12 +138,7 @@ part is removed from the package.
     }
 ```
 
-```vb
-    Dim mainPart As MainDocumentPart = wordDoc.MainDocumentPart
-    If mainPart.DocumentSettingsPart IsNot Nothing Then
-        mainPart.DeletePart(mainPart.DocumentSettingsPart)
-    End If
-```
+
 
 --------------------------------------------------------------------------------
 ## Sample Code
@@ -182,10 +151,7 @@ this example.
     RemovePart(document);
 ```
 
-```vb
-    Dim document As String = "C:\Users\Public\Documents\MyPkg6.docx"
-    RemovePart(document)
-```
+
 > [!NOTE]
 > Before running the program on the test file, &quot;MyPkg6.docs,&quot; for example, open the file by using the Open XML SDK 2.5 Productivity Tool for Microsoft Office and examine its structure. After running the program, examine the file again, and you will notice that the **DocumentSettingsPart** part was removed.
 
@@ -206,16 +172,7 @@ Following is the complete code example in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    ' To remove a document part from a package.
-    Public Sub RemovePart(ByVal document As String)
-       Dim wordDoc As WordprocessingDocument = WordprocessingDocument.Open(document, true)
-       Dim mainPart As MainDocumentPart = wordDoc.MainDocumentPart
-       If (Not (mainPart.DocumentSettingsPart) Is Nothing) Then
-          mainPart.DeletePart(mainPart.DocumentSettingsPart)
-       End If
-    End Sub
-```
+
 
 --------------------------------------------------------------------------------
 ## See also

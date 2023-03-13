@@ -1,21 +1,4 @@
----
 
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 80cdc1e8-d023-4886-b8d6-ee26327df739
-title: 'How to: Convert a word processing document from the DOCM to the DOCX file format (Open XML SDK)'
-description: 'Learn how to convert a word processing document from the DOCM to the DOCX file format using the Open XML SDK.'
-
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/28/2021
-ms.localizationpriority: high
----
 
 # Convert a word processing document from the DOCM to the DOCX file format
 
@@ -43,11 +26,7 @@ the code in this topic.
     using DocumentFormat.OpenXml.Packaging;
 ```
 
-```vb
-    Imports System.IO
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml
-```
+
 
 ## ConvertDOCMtoDOCX Method
 
@@ -62,9 +41,7 @@ parameter that indicates the file name of the file to convert.
     public static void ConvertDOCMtoDOCX(string fileName)
 ```
 
-```vb
-    Public Sub ConvertDOCMtoDOCX(ByVal fileName As String)
-```
+
 
 The complete code listing for the method can be found in the [Sample Code](#sample-code) section.
 
@@ -78,10 +55,7 @@ file to convert. The following sample code shows an example.
     ConvertDOCMtoDOCX(filename);
 ```
 
-```vb
-    Dim filename As String = "C:\Users\Public\Documents\WithMacros.docm"
-    ConvertDOCMtoDOCX(filename)
-```
+
 
 ## Parts and the vbaProject Part
 
@@ -127,15 +101,7 @@ The code starts by opening the document by using the **Open** method and indicat
     }
 ```
 
-```vb
-    Using document As WordprocessingDocument =
-        WordprocessingDocument.Open(fileName, True)
 
-        ' Access the main document part.
-        Dim docPart = document.MainDocumentPart
-      ' Code removed here…
-    End Using
-```
 
 The sample code next verifies that the vbaProject part exists, deletes the part and saves the document. The code has no effect if the file to convert does not contain a vbaProject part. To find the part, the sample code retrieves the **VbaProjectPart** property of the document. It calls the **DeletePart** method to delete the part, and then calls the **Save** method of the document to save the changes.
 
@@ -151,17 +117,7 @@ The sample code next verifies that the vbaProject part exists, deletes the part 
     }
 ```
 
-```vb
-    ' Look for the vbaProject part. If it is there, delete it.
-    Dim vbaPart = docPart.VbaProjectPart
-    If vbaPart IsNot Nothing Then
 
-        ' Delete the vbaProject part and then save the document.
-        docPart.DeletePart(vbaPart)
-        docPart.Document.Save()
-        ' Code removed here…
-    End If
-```
 
 It is not enough to delete the part from the document. You must also convert the document type, internally. The Open XML SDK 2.5 provides a way to perform this task: You can call the document **ChangeDocumentType** method and indicate the new document type (in this case, supply the *WordProcessingDocumentType.Document* enumerated value).
 
@@ -177,15 +133,7 @@ You must also rename the file. However, you cannot do that while the file is ope
     fileChanged = true;
 ```
 
-```vb
-    ' Change the document type to 
-    ' not macro-enabled.
-    document.ChangeDocumentType(
-        WordprocessingDocumentType.Document)
 
-    ' Track that the document has been changed.
-    fileChanged = True
-```
 
 The code then renames the newly modified document. To do this, the code
 creates a new file name by changing the extension; verifies that the
@@ -211,23 +159,7 @@ old file name to the new file name.
     }
 ```
 
-```vb
-    ' If anything goes wrong in this file handling,
-    ' the code will raise an exception back to the caller.
-    If fileChanged Then
 
-        ' Create the new .docx filename.
-        Dim newFileName = Path.ChangeExtension(fileName, ".docx")
-
-        ' If it already exists, it will be deleted!
-        If File.Exists(newFileName) Then
-            File.Delete(newFileName)
-        End If
-
-        ' Rename the file.
-        File.Move(fileName, newFileName)
-    End If
-```
 
 ## Sample Code
 
@@ -284,53 +216,7 @@ Basic.
     }
 ```
 
-```vb
-    ' Given a .docm file (with macro storage), remove the VBA 
-    ' project, reset the document type, and save the document with a new name.
-    Public Sub ConvertDOCMtoDOCX(ByVal fileName As String)
-        Dim fileChanged As Boolean = False
 
-        Using document As WordprocessingDocument =
-            WordprocessingDocument.Open(fileName, True)
-
-            ' Access the main document part.
-            Dim docPart = document.MainDocumentPart
-
-            ' Look for the vbaProject part. If it is there, delete it.
-            Dim vbaPart = docPart.VbaProjectPart
-            If vbaPart IsNot Nothing Then
-
-                ' Delete the vbaProject part and then save the document.
-                docPart.DeletePart(vbaPart)
-                docPart.Document.Save()
-
-                ' Change the document type to
-                ' not macro-enabled.
-                document.ChangeDocumentType(
-                    WordprocessingDocumentType.Document)
-
-                ' Track that the document has been changed.
-                fileChanged = True
-            End If
-        End Using
-
-        ' If anything goes wrong in this file handling,
-        ' the code will raise an exception back to the caller.
-        If fileChanged Then
-
-            ' Create the new .docx filename.
-            Dim newFileName = Path.ChangeExtension(fileName, ".docx")
-
-            ' If it already exists, it will be deleted!
-            If File.Exists(newFileName) Then
-                File.Delete(newFileName)
-            End If
-
-            ' Rename the file.
-            File.Move(fileName, newFileName)
-        End If
-    End Sub
-```
 
 ## See also
 

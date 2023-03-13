@@ -1,19 +1,4 @@
----
 
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: fdb29547-c295-4e7d-9fc5-d86d8d8c2967
-title: 'How to: Add custom UI to a spreadsheet document (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 
 # Add custom UI to a spreadsheet document (Open XML SDK)
 
@@ -32,10 +17,7 @@ You must also use the following **using** directives or **Imports** statements t
     using DocumentFormat.OpenXml.Packaging;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml.Office.CustomUI
-    Imports DocumentFormat.OpenXml.Packaging
-```
+
 
 ## Creating Custom UI
 
@@ -68,32 +50,11 @@ For this demonstration, the ribbon customization includes a button that attempts
 
 4. Add code such as the following to the new module.
 
-    ```vb
-        Sub SampleMacro(button As IRibbonControl)
-            MsgBox "You Clicked?"
-        End Sub
-    ```
-
-5. Save the workbook as an Excel Macro-Enabled Workbook named AddCustomUI.xlsm.
-
-## AddCustomUI Method
-
-The **AddCustomUI** method accepts two parameters:
-
-- *filename* — A string that contains a file name that specifies the workbook to modify.
-
-- customUIContent*—A string that contains the custom content (that is, the XML markup that describes the customization).
-
-The following code shows the two parameters.
-
-```csharp
+    csharp
     static public void AddCustomUI(string fileName, string customUIContent)
 ```
 
-```vb
-    Public Sub XLAddCustomUI(ByVal fileName As String,
-                                 ByVal customUIContent As String)
-```
+
 
 ## Call the AddCustomUI Method
 
@@ -107,13 +68,7 @@ The method modifies the ribbon in an Excel workbook. To call the method, pass th
     AddCustomUI(DEMOFILE, content);
 ```
 
-```vb
-    Const SAMPLEXML As String = "AddCustomUI.xml"
-    Const DEMOFILE As String = "AddCustomUI.xlsm"
 
-    Dim content As String = System.IO.File.OpenText(SAMPLEXML).ReadToEnd()
-    AddCustomUI(DEMOFILE, content)
-```
 
 ## Interact with the Workbook
 
@@ -124,10 +79,7 @@ The sample method, **AddCustomUI**, starts by opening the requested workbook in 
         SpreadsheetDocument.Open(fileName, true))
 ```
 
-```vb
-    Using document As SpreadsheetDocument =
-        SpreadsheetDocument.Open(fileName, True)
-```
+
 
 ## Work with the Ribbon Extensibility Part
 
@@ -143,14 +95,7 @@ Next, as shown in the following code, the sample method attempts to retrieve a r
     }
 ```
 
-```vb
-    ' You can have only a single ribbon extensibility part.
-    ' If the part doesn't exist, add it.
-    Dim part = document.RibbonExtensibilityPart
-    If part Is Nothing Then
-        part = document.AddRibbonExtensibilityPart
-    End If
-```
+
 
 ## Add the Customization
 
@@ -161,10 +106,7 @@ Given a reference to the ribbon extensibility part, the following code finishes 
     part.CustomUI.Save();
 ```
 
-```vb
-    part.CustomUI = New CustomUI(customUIContent)
-    part.CustomUI.Save()
-```
+
 
 ## Sample Code
 
@@ -211,45 +153,7 @@ The following is the complete **AddCustomUI** code sample in C\# and Visual Basi
     }
 ```
 
-```vb
-    Public Sub XLAddCustomUI(ByVal fileName As String,
-                             ByVal customUIContent As String)
-        ' Add a custom UI part to the document.
-        ' Use this sample XML to test:
 
-        '<customUI xmlns="https://schemas.microsoft.com/office/2006/01/customui">
-        '    <ribbon>
-        '        <tabs>
-        '            <tab idMso="TabAddIns">
-        '                <group id="Group1" label="Group1">
-        '                    <button id="Button1" label="Button1" 
-        '                     showImage="false" onAction="SampleMacro"/>
-        '                </group>
-        '            </tab>
-        '        </tabs>
-        '    </ribbon>
-        '</customUI>
-
-        ' In the sample XLSM file, create a module and create a procedure 
-        ' named SampleMacro, using this signature:
-        ' Public Sub SampleMacro(control As IRibbonControl)
-        ' Add some code, and then save and close the XLSM file. Run this
-        ' example to add a button to the Add-Ins tab that calls the macro, 
-        ' given the XML content above in the AddCustomUI.xml file.
-
-        Using document As SpreadsheetDocument =
-            SpreadsheetDocument.Open(fileName, True)
-            ' You can have only a single ribbon extensibility part.
-            ' If the part doesn't exist, add it.
-            Dim part = document.RibbonExtensibilityPart
-            If part Is Nothing Then
-                part = document.AddRibbonExtensibilityPart
-            End If
-            part.CustomUI = New CustomUI(customUIContent)
-            part.CustomUI.Save()
-        End Using
-    End Sub
-```
 
 ## See also
 

@@ -1,20 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: c38f2c94-f0b5-4bb5-8c95-02e556d4e9f1
-title: 'Create and add a character style to a word processing document'
-description: 'Learn how to create and add a character style to a word processing document using the Open XML SDK.'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 06/28/2021
-ms.localizationpriority: medium
----
 # Create and add a character style to a word processing document
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -41,11 +24,7 @@ the code in this topic.
     using DocumentFormat.OpenXml.Wordprocessing;
 ```
 
-```vb
-    Imports DocumentFormat.OpenXml
-    Imports DocumentFormat.OpenXml.Packaging
-    Imports DocumentFormat.OpenXml.Wordprocessing
-```
+
 
 ## CreateAndAddCharacterStyle Method
 
@@ -66,10 +45,7 @@ in the user interface).
         string styleid, string stylename, string aliases="")
 ```
 
-```vb
-    Public Sub CreateAndAddCharacterStyle(ByVal styleDefinitionsPart As StyleDefinitionsPart, 
-    ByVal styleid As String, ByVal stylename As String, Optional ByVal aliases As String = "")
-```
+
 
 The complete code listing for the method can be found in the [Sample Code](#sample-code) section.
 
@@ -176,64 +152,7 @@ second run.
         rPr.RunStyle.Val = "OverdueAmountChar";
 ```
 
-```vb
-    Dim strDoc As String = "C:\Users\Public\Documents\CreateAndAddCharacterStyle.docx"
 
-    Using doc As WordprocessingDocument =
-        WordprocessingDocument.Open(strDoc, True)
-
-        ' Get the Styles part for this document.
-        Dim part As StyleDefinitionsPart =
-            doc.MainDocumentPart.StyleDefinitionsPart
-
-        ' If the Styles part does not exist, add it.
-        If part Is Nothing Then
-            part = AddStylesPartToPackage(doc)
-        End If
-
-        ' Create and add the character style with the style id, style name, and
-        ' aliases specified.
-        CreateAndAddCharacterStyle(part,
-            "OverdueAmountChar",
-            "Overdue Amount Char",
-            "Late Due, Late Amount")
-
-        ' Add a paragraph with a run with some text.
-        Dim p As New Paragraph(
-            New Run(
-                New Text("This is some text ") With { _
-                    .Space = SpaceProcessingModeValues.Preserve}))
-
-        ' Add another run with some text.
-        p.AppendChild(Of Run)(New Run(New Text("in a run ") With { _
-            .Space = SpaceProcessingModeValues.Preserve}))
-
-        ' Add another run with some text.
-        p.AppendChild(Of Run)(New Run(New Text("in a paragraph.") With { _
-            .Space = SpaceProcessingModeValues.Preserve}))
-
-        ' Add the paragraph as a child element of the w:body.
-        doc.MainDocumentPart.Document.Body.AppendChild(p)
-
-        ' Get a reference to the second run (indexed starting with 0).
-        Dim r As Run = p.Descendants(Of Run)().ElementAtOrDefault(1)
-
-        ' If the Run has no RunProperties object, create one.
-        If r.Elements(Of RunProperties)().Count() = 0 Then
-            r.PrependChild(Of RunProperties)(New RunProperties())
-        End If
-
-        ' Get a reference to the RunProperties.
-        Dim rPr As RunProperties = r.RunProperties
-
-        ' Set the character style of the run.
-        If rPr.RunStyle Is Nothing Then
-            rPr.RunStyle = New RunStyle()
-        End If
-        rPr.RunStyle.Val = "OverdueAmountChar"
-
-    End Using
-```
 
 ## Style Types
 
@@ -324,14 +243,7 @@ styles element is created and saved to the part.
         }
 ```
 
-```vb
-    ' Get access to the root element of the styles part.
-        Dim styles As Styles = styleDefinitionsPart.Styles
-        If styles Is Nothing Then
-            styleDefinitionsPart.Styles = New Styles()
-            styleDefinitionsPart.Styles.Save()
-        End If
-```
+
 
 ## Creating the Style
 
@@ -348,13 +260,7 @@ such as the [Type](https://msdn.microsoft.com/library/office/documentformat.open
     };
 ```
 
-```vb
-    ' Create a new character style and specify some of the attributes.
-    Dim style As New Style() With { _
-        .Type = StyleValues.Character, _
-        .StyleId = styleid, _
-        .CustomStyle = True}
-```
+
 
 The code results in the following XML.
 
@@ -380,17 +286,7 @@ to the style. For more information about these properties, see section
     style.Append(linkedStyle1);
 ```
 
-```vb
-    ' Create and add the child elements (properties of the style).
-    Dim aliases1 As New Aliases() With {.Val = aliases}
-    Dim styleName1 As New StyleName() With {.Val = stylename}
-    Dim linkedStyle1 As New LinkedStyle() With {.Val = "OverdueAmountPara"}
-    If aliases <> "" Then
-        style.Append(aliases1)
-    End If
-    style.Append(styleName1)
-    style.Append(linkedStyle1)
-```
+
 
 Next, the code instantiates a [StyleRunProperties](https://msdn.microsoft.com/library/office/documentformat.openxml.wordprocessing.stylerunproperties.aspx) object to create a **rPr** (Run Properties) element. You specify the
 character properties that apply to the style, such as font and color, in
@@ -421,28 +317,7 @@ to the styles root element in the styles part.
     styles.Append(style);
 ```
 
-```vb
-    ' Create the StyleRunProperties object and specify some of the run properties.
-    Dim styleRunProperties1 As New StyleRunProperties()
-    Dim bold1 As New Bold()
-    Dim color1 As New Color() With { _
-        .ThemeColor = ThemeColorValues.Accent2}
-    Dim font1 As New RunFonts() With {.Ascii = "Tahoma"}
-    Dim italic1 As New Italic()
-    ' Specify a 24 point size.
-    Dim fontSize1 As New FontSize() With {.Val = "48"}
-    styleRunProperties1.Append(font1)
-    styleRunProperties1.Append(fontSize1)
-    styleRunProperties1.Append(color1)
-    styleRunProperties1.Append(bold1)
-    styleRunProperties1.Append(italic1)
 
-    ' Add the run properties to the style.
-    style.Append(styleRunProperties1)
-
-    ' Add the style to the styles part.
-    styles.Append(style)
-```
 
 The following XML shows the final style generated by the code shown here.
 
@@ -487,21 +362,7 @@ properties' **rStyle** element.
     rPr.RunStyle.Val = "OverdueAmountChar";
 ```
 
-```vb
-    ' If the Run has no RunProperties object, create one.
-    If r.Elements(Of RunProperties)().Count() = 0 Then
-        r.PrependChild(Of RunProperties)(New RunProperties())
-    End If
 
-    ' Get a reference to the RunProperties.
-    Dim rPr As RunProperties = r.RunProperties
-
-    ' Set the character style of the run.
-    If rPr.RunStyle Is Nothing Then
-        rPr.RunStyle = New RunStyle()
-    End If
-    rPr.RunStyle.Val = "OverdueAmountChar"
-```
 
 ## Sample Code
 
@@ -565,66 +426,7 @@ The following is the complete **CreateAndAddCharacterStyle** code sample in both
     }
 ```
 
-```vb
-    ' Create a new character style with the specified style id, style name and aliases and add 
-    ' it to the specified style definitions part.
-    Public Sub CreateAndAddCharacterStyle(ByVal styleDefinitionsPart As StyleDefinitionsPart,
-        ByVal styleid As String, ByVal stylename As String, Optional ByVal aliases As String = "")
-        ' Get access to the root element of the styles part.
-        Dim styles As Styles = styleDefinitionsPart.Styles
-        If styles Is Nothing Then
-            styleDefinitionsPart.Styles = New Styles()
-            styleDefinitionsPart.Styles.Save()
-        End If
 
-        ' Create a new character style and specify some of the attributes.
-        Dim style As New Style() With { _
-            .Type = StyleValues.Character, _
-            .StyleId = styleid, _
-            .CustomStyle = True}
-
-        ' Create and add the child elements (properties of the style).
-        Dim aliases1 As New Aliases() With {.Val = aliases}
-        Dim styleName1 As New StyleName() With {.Val = stylename}
-        Dim linkedStyle1 As New LinkedStyle() With {.Val = "OverdueAmountPara"}
-        If aliases <> "" Then
-            style.Append(aliases1)
-        End If
-        style.Append(styleName1)
-        style.Append(linkedStyle1)
-
-        ' Create the StyleRunProperties object and specify some of the run properties.
-        Dim styleRunProperties1 As New StyleRunProperties()
-        Dim bold1 As New Bold()
-        Dim color1 As New Color() With { _
-            .ThemeColor = ThemeColorValues.Accent2}
-        Dim font1 As New RunFonts() With {.Ascii = "Tahoma"}
-        Dim italic1 As New Italic()
-        ' Specify a 24 point size.
-        Dim fontSize1 As New FontSize() With {.Val = "48"}
-        styleRunProperties1.Append(font1)
-        styleRunProperties1.Append(fontSize1)
-        styleRunProperties1.Append(color1)
-        styleRunProperties1.Append(bold1)
-        styleRunProperties1.Append(italic1)
-
-        ' Add the run properties to the style.
-        style.Append(styleRunProperties1)
-
-        ' Add the style to the styles part.
-        styles.Append(style)
-    End Sub
-
-    ' Add a StylesDefinitionsPart to the document.  Returns a reference to it.
-    Public Function AddStylesPartToPackage(ByVal doc As WordprocessingDocument) _
-        As StyleDefinitionsPart
-        Dim part As StyleDefinitionsPart
-        part = doc.MainDocumentPart.AddNewPart(Of StyleDefinitionsPart)()
-        Dim root As New Styles()
-        root.Save(part)
-        Return part
-    End Function
-```
 
 ## See also
 

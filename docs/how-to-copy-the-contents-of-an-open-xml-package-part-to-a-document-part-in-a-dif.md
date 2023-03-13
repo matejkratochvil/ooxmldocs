@@ -1,19 +1,4 @@
----
 
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 7dbfd93c-a9e3-4465-9b57-4a043b07b807
-title: 'Copy contents of an Open XML package part to a document part in a different package'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
 
 # Copy contents of an Open XML package part to a document part in a different package
 
@@ -30,10 +15,7 @@ this topic.
     using DocumentFormat.OpenXml.Packaging;
 ```
 
-```vb
-    Imports System.IO
-    Imports DocumentFormat.OpenXml.Packaging
-```
+
 
 --------------------------------------------------------------------------------
 ## Packages and Document Parts
@@ -68,13 +50,7 @@ order to enable editing the document.
     }
 ```
 
-```vb
-    Dim wordDoc1 As WordprocessingDocument = WordprocessingDocument.Open(fromDocument1, False)
-    Dim wordDoc2 As WordprocessingDocument = WordprocessingDocument.Open(toDocument2, True)
-    Using (wordDoc2)
-        ' Insert other code here.
-    End Using
-```
+
 
 The **using** statement provides a recommended
 alternative to the typical .Create, .Save, .Close sequence. It ensures
@@ -160,8 +136,6 @@ is stored in the ZIP item theme/theme1.xml:
 ```
 
 
-© ISO/IEC29500: 2008.
-
 
 --------------------------------------------------------------------------------
 ## How the Sample Code Works
@@ -181,14 +155,7 @@ objects, and creates variables that reference the **ThemePart** parts in each of
           ThemePart themePart2 = wordDoc2.MainDocumentPart.ThemePart;
 ```
 
-```vb
-    Public Sub CopyThemeContent(ByVal fromDocument1 As String, ByVal toDocument2 As String)
-       Dim wordDoc1 As WordprocessingDocument = WordprocessingDocument.Open(fromDocument1, False)
-       Dim wordDoc2 As WordprocessingDocument = WordprocessingDocument.Open(toDocument2, True)
-       Using (wordDoc2)
-          Dim themePart1 As ThemePart = wordDoc1.MainDocumentPart.ThemePart
-          Dim themePart2 As ThemePart = wordDoc2.MainDocumentPart.ThemePart
-```
+
 
 The code then reads the contents of the source **ThemePart** part by using a **StreamReader** object and writes to the target
 **ThemePart** part by using a **StreamWriter** object.
@@ -201,13 +168,7 @@ The code then reads the contents of the source **ThemePart** part by using a **S
     }
 ```
 
-```vb
-    Dim streamReader As StreamReader = New StreamReader(themePart1.GetStream())
-    Dim streamWriter As StreamWriter = New StreamWriter(themePart2.GetStream(FileMode.Create))
-    Using (streamWriter)
-        streamWriter.Write(streamReader.ReadToEnd)
-    End Using
-```
+
 
 --------------------------------------------------------------------------------
 ## Sample Code
@@ -222,11 +183,7 @@ following example, which copies the theme part from "MyPkg4.docx" to
     CopyThemeContent(fromDocument1, toDocument2);
 ```
 
-```vb
-    Dim fromDocument1 As String = "C:\Users\Public\Documents\MyPkg4.docx"
-    Dim toDocument2 As String = "C:\Users\Public\Documents\MyPkg3.docx"
-    CopyThemeContent(fromDocument1, toDocument2)
-```
+
 
 > [!IMPORTANT]
 > Before you run the program, make sure that the source document (MyPkg4.docx) has the theme part set; otherwise, an exception would be thrown. To add a theme to a document, open it in Microsoft Word 2013, click the **Page Layout** tab, click **Themes**, and select one of the available themes.
@@ -255,22 +212,7 @@ Following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    ' To copy contents of one package part.
-    Public Sub CopyThemeContent(ByVal fromDocument1 As String, ByVal toDocument2 As String)
-       Dim wordDoc1 As WordprocessingDocument = WordprocessingDocument.Open(fromDocument1, False)
-       Dim wordDoc2 As WordprocessingDocument = WordprocessingDocument.Open(toDocument2, True)
-       Using (wordDoc2)
-          Dim themePart1 As ThemePart = wordDoc1.MainDocumentPart.ThemePart
-          Dim themePart2 As ThemePart = wordDoc2.MainDocumentPart.ThemePart
-          Dim streamReader As StreamReader = New StreamReader(themePart1.GetStream())
-          Dim streamWriter As StreamWriter = New StreamWriter(themePart2.GetStream(FileMode.Create))
-          Using (streamWriter)
-             streamWriter.Write(streamReader.ReadToEnd)
-          End Using
-       End Using
-    End Sub
-```
+
 
 --------------------------------------------------------------------------------
 ## See also

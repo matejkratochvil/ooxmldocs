@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: fb4b293c-9a23-44b7-8af6-afe5fac6611a
-title: Working with handout master slides (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
 # Working with handout master slides (Open XML SDK)
 
 This topic discusses the Open XML SDK 2.5 for Office [HandoutMaster](https://msdn.microsoft.com/library/office/documentformat.openxml.presentation.handoutmaster.aspx) class and how it relates to the Open XML File Format PresentationML schema. For more information about the overall structure of the parts and elements that make up a PresentationML document, see [Structure of a PresentationML document (Open XML SDK)](structure-of-a-presentationml-document.md).
@@ -29,8 +13,6 @@ Within a handout master slide the cSld element specifies the common
 slide elements such as shapes and their attached text bodies. There are
 other properties within a handout master slide but cSld encompasses the
 majority of the intended purpose for a handoutMaster slide.
-
-© ISO/IEC29500: 2008.
 
 The following table lists the child elements of the \<handoutMaster\>
 element used when working with handout master slides and the Open XML
@@ -183,39 +165,7 @@ namespace.
                     return handoutMasterPart1;
         }
 ```
-```vb
-    Private Shared Function CreateHandoutMasterPart(ByVal presentationPart As PresentationPart) As HandoutMasterPart
-            Dim handoutMasterPart1 As HandoutMasterPart = presentationPart.AddNewPart(Of HandoutMasterPart)("rId3")
-            handoutMasterPart1.HandoutMaster = New HandoutMaster(New CommonSlideData(New ShapeTree(New _
-                P.NonVisualGroupShapeProperties(New P.NonVisualDrawingProperties() With { _
-             .Id = DirectCast(1UI, UInt32Value), _
-             .Name = "" _
-            }, New P.NonVisualGroupShapeDrawingProperties(), New ApplicationNonVisualDrawingProperties()), New _
-                GroupShapeProperties(New TransformGroup()), New P.Shape(New P.NonVisualShapeProperties(New P.NonVisualDrawingProperties() With { _
-             .Id = DirectCast(2UI, UInt32Value), _
-             .Name = "Title 1" _
-            }, New P.NonVisualShapeDrawingProperties(New ShapeLocks() With { _
-             .NoGrouping = True _
-            }), New ApplicationNonVisualDrawingProperties(New PlaceholderShape())), New P.ShapeProperties(), New _
-                P.TextBody(New BodyProperties(), New ListStyle(), New Paragraph(New EndParagraphRunProperties() With { _
-             .Language = "en-US" _
-            }))))), New P.ColorMap() With { _
-             .Background1 = D.ColorSchemeIndexValues.Light1, _
-             .Text1 = D.ColorSchemeIndexValues.Dark1, _
-             .Background2 = D.ColorSchemeIndexValues.Light2, _
-             .Text2 = D.ColorSchemeIndexValues.Dark2, _
-             .Accent1 = D.ColorSchemeIndexValues.Accent1, _
-             .Accent2 = D.ColorSchemeIndexValues.Accent2, _
-             .Accent3 = D.ColorSchemeIndexValues.Accent3, _
-             .Accent4 = D.ColorSchemeIndexValues.Accent4, _
-             .Accent5 = D.ColorSchemeIndexValues.Accent5, _
-             .Accent6 = D.ColorSchemeIndexValues.Accent6, _
-             .Hyperlink = D.ColorSchemeIndexValues.Hyperlink, _
-             .FollowedHyperlink = D.ColorSchemeIndexValues.FollowedHyperlink _
-            })
-            Return handoutMasterPart1
-        End Function
-```
+
 
 ## Generated PresentationML
 

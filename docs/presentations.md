@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: 0a81a7fb-c431-4f53-a199-e72eea91f360
-title: Presentations (Open XML SDK)
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: high
----
 # Presentations (Open XML SDK)
 
 This section provides how-to topics for working with presentation documents using the Open XML SDK 2.5.

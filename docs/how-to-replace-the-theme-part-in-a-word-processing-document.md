@@ -1,19 +1,3 @@
----
-
-api_name:
-- Microsoft.Office.DocumentFormat.OpenXML.Packaging
-api_type:
-- schema
-ms.assetid: cfb75725-f3a7-43c0-85f4-7bb4c3f448ca
-title: 'How to: Replace the theme part in a word processing document (Open XML SDK)'
-ms.suite: office
-
-ms.author: o365devx
-author: o365devx
-ms.topic: conceptual
-ms.date: 11/01/2017
-ms.localizationpriority: medium
----
 # Replace the theme part in a word processing document (Open XML SDK)
 
 This topic shows how to use the classes in the Open XML SDK 2.5 for
@@ -28,10 +12,7 @@ this topic.
     using DocumentFormat.OpenXml.Packaging;
 ```
 
-```vb
-    Imports System.IO
-    Imports DocumentFormat.OpenXml.Packaging
-```
+
 
 ## Packages and Document Parts
 
@@ -65,11 +46,7 @@ to **true** to enable editing the document.
     }
 ```
 
-```vb
-    Using wordDoc As WordprocessingDocument = WordprocessingDocument.Open(document, True)
-        ' Insert other code here.
-    End Using
-```
+
 
 The **using** statement provides a recommended
 alternative to the typical .Open, .Save, .Close sequence. It ensures
@@ -117,8 +94,6 @@ different objects in a presentation. end example]
 In this example, we see how a theme can affect font, colors,
 backgrounds, fills, and effects for different objects in a presentation.
 *end example*]
-
-© ISO/IEC29500: 2008.
 
 The following table lists the possible child types of the Theme class.
 
@@ -172,14 +147,7 @@ delete the old theme part.
             mainPart.DeletePart(mainPart.ThemePart);
 ```
 
-```vb
-    Public Shared Sub ReplaceTheme(ByVal document As String, ByVal themeFile As String)
-        Using wordDoc As WordprocessingDocument = WordprocessingDocument.Open(document, True)
-            Dim mainPart As MainDocumentPart = wordDoc.MainDocumentPart
 
-            ' Delete the old document part.
-            mainPart.DeletePart(mainPart.ThemePart)
-```
 You can then create add a new **ThemePart**
 object and add it to the **MainDocumentPart**
 object. Then you add content by using a **StreamReader** and **StreamWriter** objects to copy the theme from the
@@ -197,16 +165,7 @@ object. Then you add content by using a **StreamReader** and **StreamWriter** ob
     }
 ```
 
-```vb
-    ' Add a new document part and then add content.
-    Dim themePart As ThemePart = mainPart.AddNewPart(Of ThemePart)()
 
-    Using streamReader As New StreamReader(themeFile)
-    Using streamWriter As New StreamWriter(themePart.GetStream(FileMode.Create))
-        streamWriter.Write(streamReader.ReadToEnd())
-    End Using
-    End Using
-```
 
 ## Sample Code
 
@@ -225,11 +184,7 @@ you can use the following call example to copy the theme from the file
     ReplaceTheme(document, themeFile);
 ```
 
-```vb
-    Dim document As String = "C:\Users\Public\Documents\\MyPkg7.docx"
-    Dim themeFile As String = "C:\Users\Public\Documents\Theme1.xml"
-    ReplaceTheme(document, themeFile)
-```
+
 
 After you run the program open the Word file and notice the change in
 font.
@@ -261,29 +216,7 @@ Following is the complete sample code in both C\# and Visual Basic.
     }
 ```
 
-```vb
-    ' This method can be used to replace a document part in a package.
-    Public Sub ReplaceTheme(ByVal document As String, ByVal themeFile As String)
-        Using wordDoc As WordprocessingDocument = _
-            WordprocessingDocument.Open(document, True)
-            Dim mainPart As MainDocumentPart = wordDoc.MainDocumentPart
-            
-            ' Delete the old document part.
-            mainPart.DeletePart(mainPart.ThemePart)
-            
-            ' Add a new document part and then add content.
-            Dim themePart As ThemePart = mainPart.AddNewPart(Of ThemePart)()
-            
-            Using streamReader As New StreamReader(themeFile)
-                Using streamWriter As _
-                    New StreamWriter(themePart.GetStream(FileMode.Create))
-                    
-                    streamWriter.Write(streamReader.ReadToEnd())
-                End Using
-            End Using
-        End Using
-    End Sub
-```
+
 
 ## See also
 
